@@ -779,11 +779,15 @@
 	};
 	
 	var getRequestDataEmail = function getRequestDataEmail(userLogin, userPassword) {
-	  var dataApi = 'email=' + userLogin + '&deviceToken=-&password=' + userPassword;
+	  // let dataApi = `email=${userLogin}&deviceToken=-&password=${userPassword}`;
+	  var postData = new FormData();
+	  postData.append('email', userLogin);
+	  postData.append('deviceToken', '-');
+	  postData.append('password', userPassword);
 	  return {
 	    url: window.appSettings.loginUrlApi.email,
 	    metod: 'POST',
-	    data: dataApi,
+	    data: postData,
 	    callbackSuccess: callbackXhrSuccess,
 	    callbackError: callbackXhrError
 	  };
