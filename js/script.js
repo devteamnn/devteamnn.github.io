@@ -904,18 +904,28 @@
 	            document.dispatchEvent(new Event('authError'));
 	          }
 	        } catch (error) {
-	          requestParameters.callbackError(getError(ErrorAttr.MESSADGE.JSON_ERR, 26, error));
+	          _tools2.default.informationtModal = {
+	            title: 'Что-то пошло не так...',
+	            message: 'Ошибка парсинга JSON'
+	          };
 	        }
 	
 	        requestParameters.callbackSuccess(response);
 	      } else {
-	        requestParameters.callbackError(getError(ErrorAttr.MESSADGE.LOAD_ERR + ' ' + xhr.statusText, 35, ''));
+	        if (requestParameters.callbackError && typeof requestParameters.callbackError === 'function') {
+	          requestParameters.callbackError(xhr);
+	        } else {
+	          _tools2.default.informationtModal = {
+	            title: 'Что-то пошло не так...',
+	            message: 'Ошибка связи с сервером'
+	          };
+	        }
 	      }
 	    });
 	
 	    xhr.addEventListener('error', function () {
 	      if (requestParameters.callbackError && typeof requestParameters.callbackError === 'function') {
-	        requestParameters.callbackError(getError(ErrorAttr.MESSADGE.CONNECT_ERR + ' ' + xhr.statusText, 42, ''));
+	        requestParameters.callbackError(xhr);
 	      } else {
 	        _tools2.default.informationtModal = {
 	          title: '400',
@@ -926,7 +936,7 @@
 	
 	    xhr.addEventListener('timeout', function () {
 	      if (requestParameters.callbackError && typeof requestParameters.callbackError === 'function') {
-	        requestParameters.callbackError(getError(ErrorAttr.MESSADGE.CONNECT_ERR + ' (' + xhr.timeout + 'ms.)', 50, ''));
+	        requestParameters.callbackError(xhr);
 	      } else {
 	        _tools2.default.informationtModal = {
 	          title: '400',
@@ -937,11 +947,7 @@
 	
 	    xhr.timeout = window.appSettings.xhrSettings.timeout;
 	    xhr.open(requestParameters.metod, window.appSettings.xhrSettings.urlApi + requestParameters.url, true);
-	    xhr.setRequestHeader('Content-Type', window.appSettings.xhrSettings.contentType);
-	
-	    if (requestParameters.metod === 'GET') {
-	      requestParameters.data = '';
-	    }
+	    // xhr.setRequestHeader('Content-Type', window.appSettings.xhrSettings.contentType);
 	
 	    xhr.send(requestParameters.data);
 	  }
@@ -5058,7 +5064,7 @@
 	var elSaveValues = void 0;
 	
 	var showAlert = function showAlert(el) {
-	  if (el.dataset.valid) {
+	  if (el.dataset.valid && el.dataset.valid !== 'none') {
 	    el.classList.add('border');
 	    el.classList.add('border-danger');
 	    form.querySelector('*[data-validLabel="' + el.dataset.validlabelname + '"]').innerHTML = message[el.dataset.valid];
@@ -5066,7 +5072,7 @@
 	};
 	
 	var hideAlert = function hideAlert(el) {
-	  if (el.dataset.valid) {
+	  if (el.dataset.valid && el.dataset.valid !== 'none') {
 	    el.classList.remove('border');
 	    el.classList.remove('border-danger');
 	    form.querySelector('*[data-validLabel="' + el.dataset.validlabelname + '"]').innerHTML = '';
@@ -5091,9 +5097,12 @@
 	  modal.removeEventListener('click', modalClickHandler);
 	  form.removeEventListener('submit', formSubmitHandler);
 	  form.removeEventListener('input', formInputHandler);
-	  form.querySelectorAll('*[data-cancel]').forEach(function (el) {
-	    el.removeEventListener('click', modalClickHandler);
+	
+	  modal.querySelectorAll('*[data-cancel]').forEach(function (el) {
+	    el.removeEventListener('click', cancelClickHandler);
 	  });
+	
+	  modal.removeEventListener('keydown', modalKeyDownHandler);
 	};
 	
 	var formReset = function formReset() {
@@ -5115,9 +5124,11 @@
 	  var elements = form.querySelectorAll('*[data-valid]');
 	
 	  elements.forEach(function (el) {
-	    if (!pattern[el.dataset.valid].test(el.value)) {
-	      valid = false;
-	      showAlert(el);
+	    if (el.dataset.valid !== 'none') {
+	      if (!pattern[el.dataset.valid].test(el.value)) {
+	        valid = false;
+	        showAlert(el);
+	      }
 	    }
 	  });
 	
@@ -5175,13 +5186,18 @@
 	  }
 	};
 	
+	var setSettingsVar = function setSettingsVar() {
+	  pattern = window.appSettings[form.dataset.formname].validPatterns;
+	  message = window.appSettings[form.dataset.formname].validMessage;
+	};
+	
 	var addHandlersFunc = function addHandlersFunc(remoteModal, remoteSubmitCallback, remoteValidCallback) {
 	  modal = remoteModal;
 	  form = modal.querySelector('*[data-formName]');
 	  submitCallback = remoteSubmitCallback;
 	  validCallback = remoteValidCallback;
-	  pattern = window.appSettings[form.dataset.formname].validPatterns;
-	  message = window.appSettings[form.dataset.formname].validMessage;
+	
+	  setSettingsVar();
 	
 	  butSubmit = form.querySelector('button[type="submit"]');
 	  butCancel = form.querySelector('*[data-butCancel]');
@@ -5189,7 +5205,8 @@
 	
 	  elSaveValues = [];
 	
-	  form.querySelectorAll('*[data-valid]').forEach(function (el) {
+	  var elements = form.querySelectorAll('*[data-valid]');
+	  elements.forEach(function (el) {
 	    elSaveValues.push(el.value);
 	  });
 	
@@ -5206,6 +5223,7 @@
 	};
 	
 	var valEl = function valEl(el) {
+	
 	  if (pattern[el.dataset.valid].test(el.value)) {
 	    return true;
 	  }
@@ -5490,15 +5508,6 @@
 	  // saveForm();
 	  _catalogGroupsGoodsGetKeywords2.default.getKeywords(goodTags);
 	
-	  /*
-	  goodsKeywords.innerHTML = '';
-	  if (goodTags.length) {
-	    goodTags.forEach((item) => keywordsUniversal.getDataAndDraw(goodsKeywords, onGoodKeywordClick, item));
-	  } else {
-	    goodsKeywords.innerHTML = 'Ключевых слов нет';
-	  }
-	  */
-	
 	  if (_storage2.default.isGoodCardEdit === 'true') {
 	    restoreForm();
 	  }
@@ -5515,59 +5524,6 @@
 	});
 	
 	_catalogGroupsGoodsGetKeywords2.default.getKeywords(goodTags);
-	
-	/*
-	const onGoodKeywordClick = (evt) => {
-	  auth.isGoodCardEdit = true;
-	  saveForm();
-	  const returnHandler = (e) => {
-	    getGood();
-	    $('#list-groups-list').tab('show');
-	    $('#goods-card').modal('show');
-	    e.target.removeEventListener('click', returnHandler);
-	  };
-	  referenceKeywords.showKeywordEdit(evt, returnHandler);
-	  $('#goods-card').modal('hide');
-	  $('#list-keywords-list').tab('show');
-	};
-	*/
-	
-	// обработчик клика по ключевому слову (пока внутри карточки связей "товар-слово")
-	/*
-	const onKeywordClick = (evt) => {
-	  let clickedKeywordNode = evt.target;
-	  const onSuccessKeywordsCompare = (keywordNode) => clickedKeywordNode.classList.toggle('keyword__mute');
-	  let xhrType = (goodTags.every((tagItem) => (tagItem.id !== clickedKeywordNode.dataset.keywordId))) ? 'POST' : 'DELETE';
-	  xhr.request = {
-	    metod: xhrType,
-	    url: `lopos_directory/${auth.data.directory}/operator/1/business/${auth.data.currentBusiness}/tag/${clickedKeywordNode.dataset.keywordId}/compare_meta`,
-	    data: `good=${auth.currentGoodId}&token=${auth.data.token}`,
-	    callbackSuccess: onSuccessKeywordsCompare,
-	  };
-	};
-	*/
-	
-	// установка прозрачности
-	/*
-	const keywordModificator = (keywordId, keywordNode) => {
-	  if (goodTags.every((tagItem) => (tagItem.id !== keywordId))) {
-	    keywordNode.classList.add('keyword__mute');
-	  }
-	};
-	*/
-	/*
-	$(goodsCardKeywordsModal).on('shown.bs.modal', () => {
-	  auth.isGoodCardEdit = true;
-	  saveForm();
-	  keywordsUniversal.downloadAndDraw(goodsCardKeywordsBody, onKeywordClick, keywordModificator);
-	  $(goodsCard).modal('hide');
-	  goodFormEdit.removeHandlers();
-	});
-	
-	$(goodsCardKeywordsModal).on('hidden.bs.modal', () => {
-	  getGood();
-	});
-	*/
 	
 	goodsStock.addEventListener('change', function (evt) {
 	  _storage2.default.currentStockId = Number(evt.target.id.split('-')[1]);
@@ -5930,6 +5886,8 @@
 	var barcode = void 0;
 	var priceBlock = void 0;
 	
+	var inputInitValues = void 0;
+	
 	var initVar = function initVar(remModal) {
 	  modal = remModal;
 	  form = modal.querySelector('#goods-card-form');
@@ -5942,25 +5900,82 @@
 	  sell = form.querySelector('#goods-card-price-sell');
 	  percent = form.querySelector('#goods-card-price-extra');
 	  barcode = form.querySelector('#goods-card-barcode');
+	  barcode = form.querySelector('#goods-card-barcode');
 	
 	  appUrl1 = window.appSettings[form.dataset.formname].UrlApi1;
 	  appUrl2 = window.appSettings[form.dataset.formname].UrlApi2;
 	  appUrl3 = window.appSettings[form.dataset.formname].UrlApi3;
-	  messages = window.appSettings[form.dataset.formname].message;
+	  messages = window.appSettings[form.dataset.formname].messages;
+	};
+	
+	var callbackXhrError = function callbackXhrError(xhr) {
+	
+	  $('#goods-card').modal('hide');
+	  _formTools2.default.reset();
+	  _catalogGroups2.default.redrawGoods();
+	
+	  console.dir(xhr);
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'Error',
+	    'message': xhr.response
+	  };
+	};
+	
+	var submitForm2 = function submitForm2() {
+	  var stor = _storage2.default.data;
+	  var postData = 'token=' + stor.token + '&name=' + name.value + '&description=' + describe.value + '&group=' + groupId.value + '&barcode=' + barcode.value;
+	  var urlApp = appUrl1.replace('{{dir}}', stor.directory);
+	  urlApp = urlApp.replace('{{oper}}', stor.operatorId);
+	  urlApp = urlApp.replace('{{busId}}', stor.currentBusiness);
+	  urlApp = urlApp.replace('{{goodId}}', _storage2.default.currentGoodId);
+	
+	  _formTools2.default.submit({
+	    url: urlApp,
+	    metod: 'PUT',
+	    data: postData,
+	    callbackSuccess: callbackXhrSuccess2,
+	    callbackError: callbackXhrError
+	  });
+	};
+	
+	var submitImg = function submitImg() {
+	  var stor = _storage2.default.data;
+	  var postData = new FormData();
+	  postData.append('token', stor.token);
+	  postData.append('good', _storage2.default.currentGoodId);
+	  postData.append('file', img.files[0]);
+	
+	  var urlApp = appUrl3.replace('{{dir}}', stor.directory);
+	
+	  _formTools2.default.submit({
+	    url: urlApp,
+	    metod: 'POST',
+	    data: postData,
+	    callbackSuccess: callbackXhrImgLoadSuccess,
+	    callbackError: callbackXhrError
+	  });
 	};
 	
 	var callbackXhrSuccess = function callbackXhrSuccess(response) {
 	  console.log('callbackXhr1');
 	  console.dir(response);
 	
-	  _formTools2.default.reset();
-	  $('#goods-card').modal('hide');
-	
 	  switch (response.status) {
 	    case 200:
-	      _catalogGroups2.default.redrawGoods();
+	
+	      if (name.value !== inputInitValues[0] || describe.value !== inputInitValues[1] || barcode.value !== inputInitValues[2] || groupId.value !== inputInitValues[3]) {
+	        submitForm2();
+	      } else if (img.files.length !== 0) {
+	        submitImg();
+	      } else {
+	        $('#goods-card').modal('hide');
+	        _formTools2.default.reset();
+	        _catalogGroups2.default.redrawGoods();
+	      }
 	      break;
 	    case 400:
+	      _formTools2.default.reset();
 	      _tools2.default.informationtModal = {
 	        'title': 'Error',
 	        'messages': messages.mes400
@@ -5979,12 +5994,15 @@
 	  console.log('callbackXhr2');
 	  console.dir(response);
 	
-	  _formTools2.default.reset();
-	  $(modal).modal('hide');
-	
 	  switch (response.status) {
 	    case 200:
-	      _catalogGroups2.default.redrawGoods();
+	      if (img.files.length !== 0) {
+	        submitImg();
+	      } else {
+	        _formTools2.default.reset();
+	        $('#goods-card').modal('hide');
+	        _catalogGroups2.default.redrawGoods();
+	      }
 	      break;
 	    case 400:
 	      _tools2.default.informationtModal = {
@@ -6002,12 +6020,17 @@
 	};
 	
 	var callbackXhrImgLoadSuccess = function callbackXhrImgLoadSuccess(response) {
-	  console.log('callbackXhr2');
+	  console.log('callbackImg');
 	  console.dir(response);
 	
 	  switch (response.status) {
 	    case 200:
-	      console.log('img load - ok');break;
+	      console.log('img load - ok');
+	
+	      _formTools2.default.reset();
+	      $('#goods-card').modal('hide');
+	      _catalogGroups2.default.redrawGoods();
+	      break;
 	    case 400:
 	      _tools2.default.informationtModal = {
 	        'title': 'Error',
@@ -6026,21 +6049,8 @@
 	var submitForm = function submitForm() {
 	  var stor = _storage2.default.data;
 	
-	  var postData = 'token=' + stor.token + '&name=' + name.value + '&description=' + describe.value + '&group=' + groupId.value + '&barcode=' + barcode.value;
-	  var urlApp = appUrl1.replace('{{dir}}', stor.directory);
-	  urlApp = urlApp.replace('{{oper}}', stor.operatorId);
-	  urlApp = urlApp.replace('{{busId}}', stor.currentBusiness);
-	  urlApp = urlApp.replace('{{goodId}}', _storage2.default.currentGoodId);
-	
-	  _formTools2.default.submit({
-	    url: urlApp,
-	    metod: 'PUT',
-	    data: postData,
-	    callbackSuccess: callbackXhrSuccess
-	  });
-	
-	  postData = 'token=' + stor.token + '&purchase_price=' + purchase.value + '&selling_price=' + sell.value;
-	  urlApp = appUrl2.replace('{{dir}}', stor.directory);
+	  var postData = 'token=' + stor.token + '&purchase_price=' + purchase.value + '&selling_price=' + sell.value;
+	  var urlApp = appUrl2.replace('{{dir}}', stor.directory);
 	  urlApp = urlApp.replace('{{oper}}', stor.operatorId);
 	  urlApp = urlApp.replace('{{busId}}', stor.currentBusiness);
 	  urlApp = urlApp.replace('{{goodId}}', _storage2.default.currentGoodId);
@@ -6049,7 +6059,8 @@
 	    url: urlApp,
 	    metod: 'POST',
 	    data: postData,
-	    callbackSuccess: callbackXhrSuccess2
+	    callbackSuccess: callbackXhrSuccess,
+	    callbackError: callbackXhrError
 	  });
 	};
 	
@@ -6067,35 +6078,21 @@
 	  return true;
 	};
 	
-	var imgChangeHandler = function imgChangeHandler(evt) {
-	  var stor = _storage2.default.data;
-	
-	  var postData = new FormData();
-	  postData.append('token', stor.token);
-	  postData.append('good', _storage2.default.currentGoodId);
-	  postData.append('file', img.files[0]);
-	  var urlApp = appUrl3.replace('{{dir}}', stor.directory);
-	
-	  var data = {
-	    url: urlApp,
-	    metod: 'POST',
-	    data: postData,
-	    callbackSuccess: callbackXhrImgLoadSuccess
-	  };
-	
-	  console.dir(data);
-	  _formTools2.default.submit(data);
-	};
-	
 	exports.default = {
 	  start: function start(remModal) {
 	    console.log('Card-Edit-START!');
 	    initVar(remModal);
 	    percent.innerHTML = calcPr();
+	
+	    inputInitValues = [];
+	    inputInitValues[0] = name.value;
+	    inputInitValues[1] = describe.value;
+	    inputInitValues[2] = barcode.value;
+	    inputInitValues[3] = groupId.value;
+	
 	    _formTools2.default.work(modal, submitForm);
 	
 	    priceBlock.addEventListener('change', calcPrice);
-	    img.addEventListener('change', imgChangeHandler);
 	  },
 	  stop: function stop() {
 	    _formTools2.default.reset();
@@ -6762,18 +6759,9 @@
 	
 	cardResourcesDeleteBtn.addEventListener('click', onCardResourcesDeleteBtnClick);
 	
-	// const setRequestToAddCard = (name) => {
-	//   xhr.request = {
-	//     metod: 'POST',
-	//     url: `lopos_directory/${auth.data.directory}/operator/1/business/${auth.data.currentBusiness}/nomenclature_card`,
-	//     data: `name=${name}&token=${auth.data.token}`,
-	//     callbackSuccess: getCards,
-	//   };
-	// };
-	
 	var setupUniversalAdd = function setupUniversalAdd() {
 	  _tools2.default.runUniversalAdd = {
-	    title: 'Создание карточки (БЕЗ ВАЛИДАЦИИ)',
+	    title: 'Создание карточки',
 	    inputLabel: 'Название',
 	    inputPlaceholder: 'введите название',
 	    submitBtnName: 'Создать'
@@ -6782,21 +6770,9 @@
 	  _catalog__cardsAddEdit2.default.start(universalAdd);
 	};
 	
-	// const setRequestToAddEditCard = (name) => {
-	//   xhr.request = {
-	//     metod: 'PUT',
-	//     url: `lopos_directory/${auth.data.directory}/operator/1/business/${auth.data.currentBusiness}/nomenclature_card/${auth.currentCardId}`,
-	//     data: `name=${name}&token=${auth.data.token}`,
-	//     callbackSuccess: () => {
-	//       cardName.innerHTML = name;
-	//       auth.currentCardName = name;
-	//     },
-	//   };
-	// };
-	
 	var setupUniversalAddEdit = function setupUniversalAddEdit() {
 	  _tools2.default.runUniversalAdd = {
-	    title: 'Редактирование карточки (БЕЗ ВАЛИДАЦИИ)',
+	    title: 'Редактирование карточки',
 	    inputLabel: 'Название',
 	    inputPlaceholder: 'введите название',
 	    inputValue: _storage2.default.currentCardName,
@@ -6815,7 +6791,7 @@
 	  },
 	
 	
-	  redraw: onListCardBodyClick,
+	  redraw: getCards,
 	
 	  stop: function stop() {
 	    _catalogCards2.default.cleanContainer();
@@ -6896,13 +6872,15 @@
 	var messages = void 0;
 	
 	var form = void 0;
-	var name = void 0;
+	var field1 = void 0;
 	var modal = void 0;
 	
 	var initVar = function initVar(remModal) {
 	  modal = remModal;
 	  form = modal.querySelector('*[data-formName]');
-	  name = form.querySelector('*[data-valid="name"]');
+	
+	  form.dataset.formname = 'nomenclatureAddEdit';
+	  field1 = form.querySelector('*[data-valid="field1"]');
 	
 	  appUrlAdd = window.appSettings[form.dataset.formname].UrlApiAdd;
 	  appUrlEdit = window.appSettings[form.dataset.formname].UrlApiEdit;
@@ -6934,7 +6912,7 @@
 	var submitFormAdd = function submitFormAdd() {
 	  var stor = _storage2.default.data;
 	
-	  var postData = 'name=' + name.value + '&token=' + stor.token;
+	  var postData = 'name=' + field1.value + '&token=' + stor.token;
 	  var urlApp = appUrlAdd.replace('{{dir}}', stor.directory);
 	  urlApp = urlApp.replace('{{oper}}', stor.operatorId);
 	  urlApp = urlApp.replace('{{busId}}', stor.currentBusiness);
@@ -6950,7 +6928,7 @@
 	var submitFormEdit = function submitFormEdit() {
 	  var stor = _storage2.default.data;
 	
-	  var postData = 'name=' + name.value + '&token=' + stor.token;
+	  var postData = 'name=' + field1.value + '&token=' + stor.token;
 	  var urlApp = appUrlEdit.replace('{{dir}}', stor.directory);
 	  urlApp = urlApp.replace('{{oper}}', stor.operatorId);
 	  urlApp = urlApp.replace('{{busId}}', stor.currentBusiness);
@@ -7110,7 +7088,11 @@
 	
 	var _universalKeywords2 = _interopRequireDefault(_universalKeywords);
 	
-	var _catalog__searchBarcode = __webpack_require__(54);
+	var _singleValidation = __webpack_require__(54);
+	
+	var _singleValidation2 = _interopRequireDefault(_singleValidation);
+	
+	var _catalog__searchBarcode = __webpack_require__(55);
 	
 	var _catalog__searchBarcode2 = _interopRequireDefault(_catalog__searchBarcode);
 	
@@ -7152,6 +7134,7 @@
 	};
 	
 	var makeSearch = function makeSearch() {
+	  // ЗДЕСЬ СНИМАЕМ (здесь отрисованы результаты поиска, т.е. он прошел успешно)
 	  var selectedData = [];
 	  fullSearch.data.forEach(function (item) {
 	    if (item.name.toLowerCase().indexOf(listSearchInput.value.toLowerCase()) !== -1) {
@@ -7165,8 +7148,13 @@
 	var onlistSearchFormSubmit = function onlistSearchFormSubmit(evt) {
 	  evt.preventDefault();
 	  listSearchBody.innerHTML = '';
+	  // Здесь стартуем (пользователь ввел данные и нажал энтер, или кликнул на поиск)
+	  // validity.start(listSearchForm);
+	  // validity.valid(listSearchInput);
 	  if (listSearchInput.value) {
-	    makeSearch();
+	    if (_singleValidation2.default.valid(listSearchInput)) {
+	      makeSearch();
+	    }
 	  } else {
 	    listSearchBody.innerHTML = 'Ну скажите хоть что-нибудь...';
 	  }
@@ -7289,6 +7277,72 @@
 
 /***/ }),
 /* 54 */
+/***/ (function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	// valisettings
+	
+	var formInpitHandler = function formInpitHandler(evt) {
+	  var el = evt.target;
+	
+	  el.classList.remove('border');
+	  el.classList.remove('border-danger');
+	
+	  var parent = el.parentNode;
+	
+	  while (parent.tagName !== 'FORM') {
+	    parent = parent.parentNode;
+	  }
+	
+	  var span = parent.querySelector('*[data-validLabel=' + el.dataset.validlabelname + ']');
+	  span.innerHTML = '';
+	
+	  parent.querySelector('button[type="submit"]').disabled = false;
+	
+	  el.removeEventListener('input', formInpitHandler);
+	
+	  console.log('HANDLER DEL');
+	};
+	
+	var inputValid = function inputValid(el, variable) {
+	  var pattern = window.appSettings[el.dataset.valisettings].validPatterns;
+	  var message = window.appSettings[el.dataset.valisettings].validMessage;
+	
+	  if (!pattern[el.dataset.valid].test(el.value)) {
+	    el.addEventListener('input', formInpitHandler);
+	
+	    console.log('HANDLER ADD');
+	
+	    el.classList.add('border');
+	    el.classList.add('border-danger');
+	
+	    var parent = el.parentNode;
+	
+	    while (parent.tagName !== 'FORM') {
+	      parent = parent.parentNode;
+	    }
+	
+	    var span = parent.querySelector('*[data-validLabel=' + el.dataset.validlabelname + ']');
+	    span.innerHTML = message[el.dataset.valid];
+	
+	    parent.querySelector('button[type="submit"]').disabled = true;
+	
+	    return false;
+	  }
+	
+	  return true;
+	};
+	
+	exports.default = {
+	  valid: inputValid
+	};
+
+/***/ }),
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7297,9 +7351,82 @@
 	  value: true
 	});
 	
-	var _xhr = __webpack_require__(5);
+	var _tools = __webpack_require__(6);
 	
-	var _xhr2 = _interopRequireDefault(_xhr);
+	var _tools2 = _interopRequireDefault(_tools);
+	
+	var _catalog__searchBarcodeValid = __webpack_require__(56);
+	
+	var _catalog__searchBarcodeValid2 = _interopRequireDefault(_catalog__searchBarcodeValid);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	// import goodsCard from './catalog-groups-goods.js';
+	// import search from './catalog__search.js';
+	
+	// const listSearchBody = document.querySelector('#list-search-card-body');
+	// import xhr from '../tools/xhr.js';
+	// import auth from '../tools/storage.js';
+	var listSearchInput = document.querySelector('#list-search-input');
+	var listSearchBarcodeBtn = document.querySelector('#list-search-card-barcode-btn');
+	var universalAddModal = document.querySelector('#universal-add');
+	
+	// const loaderSpinnerId = 'loader-cards';
+	// const loaderSpinnerMessage = 'Загрузка';
+	// const loaderSpinnerMarkup = toolsMarkup.getLoadSpinner(loaderSpinnerId, loaderSpinnerMessage);
+	
+	// поиск по штрихкоду
+	// const onBarcodeSuccessLoad = (barcodeResult) => {
+	//   document.querySelector(`#${loaderSpinnerId}`).remove();
+	
+	//   // чОрное колдовство с автооткрытием карточки при одном найденном варианте
+	//   $('#universal-add').on('hidden.bs.modal', function (e) {
+	//     if (barcodeResult.data.length === 1) {
+	//       auth.currentGoodId = barcodeResult.data[0].id;
+	//       goodsCard.fill();
+	//       barcodeResult.data = 0;
+	//     } else if (barcodeResult.data.length > 1) {
+	//       search.drawResult(barcodeResult.data);
+	//     }
+	//   });
+	// };
+	
+	// const setRequestToFindBarcode = (barcode) => {
+	//   // listSearchBody.innerHTML = loaderSpinnerMarkup;
+	//   xhr.request = {
+	//     metod: 'POST',
+	//     url: `lopos_directory/${auth.data.directory}/operator/1/business/${auth.data.currentBusiness}/good_search`,
+	//     data: `token=${auth.data.token}&barcode=${barcode}`,
+	//     // callbackSuccess: onBarcodeSuccessLoad,
+	//   };
+	// };
+	var onListSearchBarcodeBtn = function onListSearchBarcodeBtn() {
+	  listSearchInput.value = '';
+	  _tools2.default.runUniversalAdd = {
+	    title: 'Поиск по штрихкоду',
+	    inputLabel: 'Штрихкод',
+	    inputPlaceholder: 'введите штрихкод',
+	    submitBtnName: 'Поиск'
+	    // submitCallback: setRequestToFindBarcode
+	  };
+	  _catalog__searchBarcodeValid2.default.start(universalAddModal);
+	};
+	
+	exports.default = {
+	  start: function start() {
+	    listSearchBarcodeBtn.addEventListener('click', onListSearchBarcodeBtn);
+	  }
+	};
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	
 	var _storage = __webpack_require__(1);
 	
@@ -7308,6 +7435,10 @@
 	var _tools = __webpack_require__(6);
 	
 	var _tools2 = _interopRequireDefault(_tools);
+	
+	var _formTools = __webpack_require__(38);
+	
+	var _formTools2 = _interopRequireDefault(_formTools);
 	
 	var _catalogGroupsGoods = __webpack_require__(41);
 	
@@ -7319,53 +7450,82 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var listSearchBody = document.querySelector('#list-search-card-body');
-	var listSearchInput = document.querySelector('#list-search-input');
-	var listSearchBarcodeBtn = document.querySelector('#list-search-card-barcode-btn');
+	var appUrl = void 0;
+	var messages = void 0;
 	
-	var loaderSpinnerId = 'loader-cards';
-	var loaderSpinnerMessage = 'Загрузка';
-	var loaderSpinnerMarkup = _tools2.default.getLoadSpinner(loaderSpinnerId, loaderSpinnerMessage);
+	var form = void 0;
+	var field1 = void 0;
+	var modal = void 0;
 	
-	// поиск по штрихкоду
-	var onBarcodeSuccessLoad = function onBarcodeSuccessLoad(barcodeResult) {
-	  document.querySelector('#' + loaderSpinnerId).remove();
+	var initVar = function initVar(remModal) {
+	  modal = remModal;
+	  form = modal.querySelector('*[data-formName]');
 	
-	  // чОрное колдовство с автооткрытием карточки при одном найденном варианте
-	  $('#universal-add').on('hidden.bs.modal', function (e) {
-	    if (barcodeResult.data.length === 1) {
-	      _storage2.default.currentGoodId = barcodeResult.data[0].id;
-	      _catalogGroupsGoods2.default.fill();
-	      barcodeResult.data = 0;
-	    } else if (barcodeResult.data.length > 1) {
-	      _catalog__search2.default.drawResult(barcodeResult.data);
-	    }
+	  form.dataset.formname = 'searchBarcode';
+	  field1 = form.querySelector('*[data-valid="field1"]');
+	
+	  appUrl = window.appSettings[form.dataset.formname].UrlApi;
+	  messages = window.appSettings[form.dataset.formname].messages;
+	};
+	
+	var callbackXhrSuccess = function callbackXhrSuccess(response) {
+	  switch (response.status) {
+	    case 200:
+	      $(modal).modal('hide');
+	      _formTools2.default.reset();
+	
+	      // чОрное колдовство с автооткрытием карточки при одном найденном варианте
+	      if (response.data.length === 1) {
+	        _storage2.default.currentGoodId = response.data[0].id;
+	        _catalogGroupsGoods2.default.fill();
+	        response.data = 0;
+	      } else if (response.data.length > 1) {
+	        _catalog__search2.default.drawResult(response.data);
+	      }
+	
+	      break;
+	    case 400:
+	      $(modal).modal('hide');
+	      _formTools2.default.reset();
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'message': messages.mes400
+	      };
+	      break;
+	    case 271:
+	      $(modal).modal('hide');
+	      _formTools2.default.reset();
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'message': response.message
+	      };
+	      break;
+	  }
+	};
+	
+	var submitFormAdd = function submitFormAdd() {
+	  var stor = _storage2.default.data;
+	
+	  var postData = 'barcode=' + field1.value + '&token=' + stor.token;
+	  var urlApp = appUrl.replace('{{dir}}', stor.directory);
+	  urlApp = urlApp.replace('{{oper}}', stor.operatorId);
+	  urlApp = urlApp.replace('{{busId}}', stor.currentBusiness);
+	
+	  _formTools2.default.submit({
+	    url: urlApp,
+	    metod: 'POST',
+	    data: postData,
+	    callbackSuccess: callbackXhrSuccess
 	  });
 	};
 	
-	var setRequestToFindBarcode = function setRequestToFindBarcode(barcode) {
-	  listSearchBody.innerHTML = loaderSpinnerMarkup;
-	  _xhr2.default.request = {
-	    metod: 'POST',
-	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/1/business/' + _storage2.default.data.currentBusiness + '/good_search',
-	    data: 'token=' + _storage2.default.data.token + '&barcode=' + barcode,
-	    callbackSuccess: onBarcodeSuccessLoad
-	  };
-	};
-	var onListSearchBarcodeBtn = function onListSearchBarcodeBtn() {
-	  listSearchInput.value = '';
-	  _tools2.default.runUniversalAdd = {
-	    title: 'Поиск по штрихкоду',
-	    inputLabel: 'Штрихкод',
-	    inputPlaceholder: 'введите штрихкод',
-	    submitBtnName: 'Поиск',
-	    submitCallback: setRequestToFindBarcode
-	  };
-	};
-	
 	exports.default = {
-	  start: function start() {
-	    listSearchBarcodeBtn.addEventListener('click', onListSearchBarcodeBtn);
+	  start: function start(remModal) {
+	    initVar(remModal);
+	    _formTools2.default.work(modal, submitFormAdd);
+	  },
+	  stop: function stop() {
+	    _formTools2.default.reset();
 	  }
 	};
 
