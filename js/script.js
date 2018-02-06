@@ -491,7 +491,6 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var sectionLoginFormMain = document.querySelector('#sectionLoginFormMain');
-	var globalAlert = document.querySelector('#globalAlert');
 	
 	var inputFields = {
 	  'loginLogin': sectionLoginFormMain.querySelector('#loginInputLogin'),
@@ -531,22 +530,6 @@
 	  'forgotButtonSubmit': sectionLoginFormMain.querySelector('#forgotButtonSubmit')
 	};
 	
-	var setGlobalAlert = function setGlobalAlert(msg, type) {
-	  var msgType = void 0;
-	  var msgClass = void 0;
-	  if (type === 'error') {
-	    msgType = 'ОШИБКА! ';
-	    msgClass = 'alert-danger';
-	  }
-	
-	  if (type === 'message') {
-	    msgType = 'СООБЩЕНИЕ! ';
-	    msgClass = 'alert-success';
-	  }
-	
-	  globalAlert.innerHTML = globalAlert.innerHTML + ('<div id="globalAlert" class="alert ' + msgClass + ' fade show" role="alert">\n      <strong>' + msgType + ' </strong> ' + msg + '\n      <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n        <span aria-hidden="true">&times;</span>\n      </button>\n    </div>');
-	};
-	
 	var resetErrors = function resetErrors() {
 	  var errObj = Object.keys(inputFieldsErrors);
 	  var inObg = Object.keys(inputFields);
@@ -573,7 +556,8 @@
 	});
 	
 	var formInit = function formInit() {
-	  globalAlert.innerHTML = '';
+	  _captcha2.default.init();
+	  // globalAlert.innerHTML = '';
 	  resetErrors();
 	  _form_confirm_email2.default.reset();
 	  _form_register2.default.reset();
@@ -584,8 +568,6 @@
 	  _form_forgot2.default.hide();
 	  _form_login2.default.show();
 	};
-	
-	_captcha2.default.init();
 	
 	exports.default = {
 	
@@ -608,10 +590,6 @@
 	    inputFields[target].classList.add('border');
 	    inputFields[target].classList.add('border-danger');
 	  },
-	
-	
-	  setAlert: setGlobalAlert,
-	
 	  showProgress: function showProgress(button, progress) {
 	    progressBar[progress].classList.remove('invisible');
 	    if (button) {
@@ -751,6 +729,10 @@
 	
 	var _main_login_window2 = _interopRequireDefault(_main_login_window);
 	
+	var _tools = __webpack_require__(6);
+	
+	var _tools2 = _interopRequireDefault(_tools);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var validId = window.appSettings.loginValid.id;
@@ -763,31 +745,43 @@
 	
 	  if (response.status === 200) {
 	    if (response.data.status === '0') {
-	      _main_login_window2.default.setAlert(window.appSettings.messages.responseStatus.res0, 'message');
+	
+	      _tools2.default.informationtModal = {
+	        'title': 'ОШИБКА: ',
+	        'message': window.appSettings.messages.responseStatus.res0
+	      };
 	    } else {
 	      _storage2.default.data = response.data;
 	      document.dispatchEvent(new Event('loginSuccess'));
 	    }
 	  } else {
-	    _main_login_window2.default.setAlert(response.message, 'error');
+	    _tools2.default.informationtModal = {
+	      'title': 'ОШИБКА: ',
+	      'message': response.message
+	    };
 	  }
 	};
 	
 	var callbackXhrError = function callbackXhrError(response) {
 	  _main_login_window2.default.hideProgress('loginButtonSubmit', 'loginProgress');
-	  _main_login_window2.default.setAlert(window.appSettings.messages.xhrError, 'error');
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'ОШИБКА: ',
+	    'message': window.appSettings.messages.xhrError
+	  };
 	};
 	
 	var getRequestDataEmail = function getRequestDataEmail(userLogin, userPassword) {
 	  // let dataApi = `email=${userLogin}&deviceToken=-&password=${userPassword}`;
-	  var postData = new FormData();
-	  postData.append('email', userLogin);
-	  postData.append('deviceToken', '-');
-	  postData.append('password', userPassword);
+	  var requestData = new FormData();
+	  requestData.append('email', userLogin);
+	  requestData.append('deviceToken', '-');
+	  requestData.append('password', userPassword);
+	
 	  return {
 	    url: window.appSettings.loginUrlApi.email,
 	    metod: 'POST',
-	    data: postData,
+	    data: requestData,
 	    callbackSuccess: callbackXhrSuccess,
 	    callbackError: callbackXhrError
 	  };
@@ -799,12 +793,16 @@
 	  var operator = userLogin.substr(8);
 	
 	  var urlApi = window.appSettings.loginUrlApi.id.replace('{{dir}}', folder);
-	  var dataApi = 'operator=' + operator + '&deviceToken=-&password=' + userPassword;
+	  // let dataApi = `operator=${operator}&deviceToken=-&password=${userPassword}`;
+	  var requestData = new FormData();
+	  requestData.append('operator', operator);
+	  requestData.append('deviceToken', '-');
+	  requestData.append('password', userPassword);
 	
 	  return {
 	    url: urlApi,
 	    metod: 'POST',
-	    data: dataApi,
+	    data: requestData,
 	    callbackSuccess: callbackXhrSuccess,
 	    callbackError: window.callbackXhrError
 	  };
@@ -972,9 +970,9 @@
 	var modalActionRequestMessage = modalActionRequest.querySelector('#modal-action-request-message');
 	var modalActionRequestSubmit = modalActionRequest.querySelector('#modal-action-request-submit');
 	
-	var modalInformation = document.querySelector('#modal-information');
-	var modalInformationTitle = modalInformation.querySelector('#modal-information-title');
-	var modalInformationMessage = modalInformation.querySelector('#modal-information-message');
+	// const modalInformation = document.querySelector('#modal-information');
+	// const modalInformationTitle = modalInformation.querySelector('#modal-information-title');
+	// const modalInformationMessage = modalInformation.querySelector('#modal-information-message');
 	
 	var modalUniversalAdd = document.querySelector('#universal-add');
 	var modalUniversalAddLabel = document.querySelector('#universal-add-label');
@@ -982,6 +980,8 @@
 	var modalUniversalAddName = document.querySelector('#universal-add-name');
 	var modalUniversalAddNameLabel = document.querySelector('#universal-add-name-label');
 	var modalUniversalAddSubmit = document.querySelector('#universal-add-submit');
+	
+	var alertBlock = document.querySelector('#alertBlock');
 	
 	exports.default = {
 	  getWaitSpinner: function getWaitSpinner(id, message) {
@@ -1008,10 +1008,17 @@
 	    modalActionRequestSubmit.addEventListener('click', requestHandler);
 	  },
 	
+	  // set informationtModal(setup) {
+	  //   $(modalInformation).modal('show');
+	  //   modalInformationTitle.innerHTML = setup.title;
+	  //   modalInformationMessage.innerHTML = setup.message;
+	  // },
+	
 	  set informationtModal(setup) {
-	    $(modalInformation).modal('show');
-	    modalInformationTitle.innerHTML = setup.title;
-	    modalInformationMessage.innerHTML = setup.message;
+	
+	    var type = setup.mess ? 'alert-success' : 'alert-danger';
+	
+	    alertBlock.innerHTML = alertBlock.innerHTML + ('<div id="alert" class="alert ' + type + ' fade show" role="alert">\n        <strong>' + setup.title + ' </strong> ' + setup.message + '\n        <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n          <span aria-hidden="true">&times;</span>\n        </button>\n      </div>');
 	  },
 	
 	  set informationModalLight(setup) {},
@@ -1033,7 +1040,6 @@
 	    modalUniversalAddName.setAttribute('placeholder', setup.inputPlaceholder);
 	    modalUniversalAddName.value = setup.inputValue ? setup.inputValue : '';
 	    modalUniversalAddSubmit.innerHTML = setup.submitBtnName;
-	    // modalUniversalAddForm.addEventListener('submit', requestHandler);
 	  }
 	
 	};
@@ -1064,15 +1070,19 @@
 	
 	var _form_forgot2 = _interopRequireDefault(_form_forgot);
 	
-	var _main_login_window = __webpack_require__(2);
+	var _tools = __webpack_require__(6);
 	
-	var _main_login_window2 = _interopRequireDefault(_main_login_window);
+	var _tools2 = _interopRequireDefault(_tools);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var captchaErrorCallback = function captchaErrorCallback(response) {
 	  window.captchaErr = true;
-	  _main_login_window2.default.setAlert(window.appSettings.messages.captchaError, 'error');
+	
+	  _tools2.default.informationtModal = {
+	    title: 'ОШИБКА: ',
+	    message: window.appSettings.messages.captchaError
+	  };
 	};
 	
 	exports.default = {
@@ -1311,7 +1321,14 @@
 	};
 	
 	var getRequestData = function getRequestData(name, email, password) {
-	  var requestData = 'email=' + email + '&phone=&password=' + password + '&nickname=' + name + '&prefer_language=ru';
+	  // let requestData = `email=${email}&phone=&password=${password}&nickname=${name}&prefer_language=ru`;
+	  var requestData = new FormData();
+	  requestData.append('email', email);
+	  requestData.append('phone', '');
+	  requestData.append('password', password);
+	  requestData.append('nickname', name);
+	  requestData.append('prefer_language', 'ru');
+	
 	  return {
 	    url: regUrlApi,
 	    metod: 'POST',
@@ -1442,6 +1459,10 @@
 	
 	var _main_login_window2 = _interopRequireDefault(_main_login_window);
 	
+	var _tools = __webpack_require__(6);
+	
+	var _tools2 = _interopRequireDefault(_tools);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var kodVal = window.appSettings.confirmEmailKodValid;
@@ -1452,19 +1473,31 @@
 	
 	  if (response.status === 200) {
 	    if (response.data.status === '0') {
-	      _main_login_window2.default.setAlert(window.appSettings.messages.responseStatus.res0, 'message');
+	
+	      _tools2.default.informationtModal = {
+	        'title': 'ОШИБКА: ',
+	        'message': window.appSettings.messages.responseStatus.res0
+	      };
 	    } else {
 	      _storage2.default.data = response.data;
 	      document.dispatchEvent(new Event('loginSuccess'));
 	    }
 	  } else {
-	    _main_login_window2.default.setAlert(response.message, 'error');
+	
+	    _tools2.default.informationtModal = {
+	      'title': 'ОШИБКА: ',
+	      'message': response.message
+	    };
 	  }
 	};
 	
 	var callbackXhrError = function callbackXhrError(response) {
 	  _main_login_window2.default.hideProgress('emailConfirmButtonSubmit', 'confirmProgress');
-	  _main_login_window2.default.setAlert(window.appSettings.messages.xhrError, 'error');
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'ОШИБКА: ',
+	    'message': window.appSettings.messages.xhrError
+	  };
 	};
 	
 	var validateForm = function validateForm(kod) {
@@ -1478,7 +1511,11 @@
 	
 	var getRequestData = function getRequestData(kod, email) {
 	
-	  var requestData = 'email=' + email + '&validate_code=' + kod + '&preferable_language=ru';
+	  // let requestData = `email=${email}&validate_code=${kod}&preferable_language=ru`;
+	  var requestData = new FormData();
+	  requestData.append('email', email);
+	  requestData.append('validate_code', kod);
+	  requestData.append('preferable_language', 'ru');
 	  return {
 	    url: urlApi,
 	    metod: 'POST',
@@ -1605,6 +1642,10 @@
 	
 	var _main_login_window2 = _interopRequireDefault(_main_login_window);
 	
+	var _tools = __webpack_require__(6);
+	
+	var _tools2 = _interopRequireDefault(_tools);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var emailVal = window.appSettings.forgotEmailValid;
@@ -1614,15 +1655,27 @@
 	  _main_login_window2.default.hideProgress('forgotButtonSubmit', 'forgotProgress');
 	
 	  if (response.status === 400) {
-	    _main_login_window2.default.setAlert(response.message, 'message');
+	
+	    _tools2.default.informationtModal = {
+	      'title': 'ОШИБКА: ',
+	      'message': response.message
+	    };
 	  } else {
-	    _main_login_window2.default.setAlert(response.message, 'error');
+	    // зеленое сообщение
+	    _tools2.default.informationtModal = {
+	      'title': 'УСПЕХ: ',
+	      'message': response.message
+	    };
 	  }
 	};
 	
 	var callbackXhrError = function callbackXhrError(response) {
 	  _main_login_window2.default.hideProgress('forgotButtonSubmit', 'forgotProgress');
-	  _main_login_window2.default.setAlert(window.appSettings.messages.xhrError, 'error');
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'ОШИБКА: ',
+	    'message': window.appSettings.messages.xhrError
+	  };
 	};
 	
 	var validateForm = function validateForm(email) {
@@ -1636,7 +1689,9 @@
 	
 	var getRequestData = function getRequestData(email) {
 	
-	  var requestData = 'email=' + email;
+	  var requestData = new FormData();
+	  requestData.append('email', email);
+	
 	  return {
 	    url: urlApi,
 	    metod: 'POST',
@@ -4951,7 +5006,7 @@
 	  name = form.querySelector('*[data-valid="name"]');
 	
 	  appUrl = window.appSettings[form.dataset.formname].UrlApi;
-	  messages = window.appSettings[form.dataset.formname].message;
+	  messages = window.appSettings[form.dataset.formname].messages;
 	};
 	
 	var callbackXhrSuccess = function callbackXhrSuccess(response) {
@@ -4976,6 +5031,17 @@
 	  }
 	};
 	
+	var callbackXhrError = function callbackXhrError(xhr) {
+	
+	  $(modal).modal('hide');
+	  _formTools2.default.reset();
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'ОШИБКА СВЯЗИ',
+	    'message': '\u041E\u0448\u0438\u0431\u043A\u0430 ' + xhr.status + ': ' + xhr.statusText
+	  };
+	};
+	
 	var submitForm = function submitForm() {
 	  var stor = _storage2.default.data;
 	
@@ -4988,7 +5054,8 @@
 	    url: urlApp,
 	    metod: 'POST',
 	    data: postData,
-	    callbackSuccess: callbackXhrSuccess
+	    callbackSuccess: callbackXhrSuccess,
+	    callbackError: callbackXhrError
 	  });
 	};
 	
@@ -5139,16 +5206,11 @@
 	  return valid && otherValid;
 	};
 	
-	var formIsChange = function formIsChange() {
-	  var change = false;
-	
-	  form.querySelectorAll('*[data-valid]').forEach(function (el, index) {
-	    if (el.value !== elSaveValues[index]) {
-	      change = true;
-	    }
-	  });
-	
-	  return change;
+	var elementIsChange = function elementIsChange(el, index) {
+	  if (el.value !== elSaveValues[index]) {
+	    return true;
+	  }
+	  return false;
 	};
 	
 	var formSubmitHandler = function formSubmitHandler(evt) {
@@ -5165,12 +5227,42 @@
 	};
 	
 	var formInputHandler = function formInputHandler(evt) {
-	  hideAlert(evt.target);
+	  if (evt.target.tagName === 'INPUT' && evt.target.type !== 'file') {
+	    hideAlert(evt.target);
 	
-	  if (formIsChange()) {
-	    butSubmit.disabled = false;
-	  } else {
-	    butSubmit.disabled = true;
+	    var change = false;
+	
+	    form.querySelectorAll('*[data-valid]').forEach(function (el, index) {
+	      if (elementIsChange(el, index)) {
+	        change = true;
+	      }
+	    });
+	
+	    if (change) {
+	      butSubmit.disabled = false;
+	    } else {
+	      butSubmit.disabled = true;
+	    }
+	  }
+	};
+	
+	var formChangeHandler = function formChangeHandler(evt) {
+	  if (evt.target.tagName === 'INPUT' && evt.target.type === 'file') {
+	    hideAlert(evt.target);
+	
+	    var change = false;
+	
+	    form.querySelectorAll('*[data-valid]').forEach(function (el, index) {
+	      if (elementIsChange(el, index)) {
+	        change = true;
+	      }
+	    });
+	
+	    if (change) {
+	      butSubmit.disabled = false;
+	    } else {
+	      butSubmit.disabled = true;
+	    }
 	  }
 	};
 	
@@ -5216,6 +5308,7 @@
 	
 	  form.addEventListener('submit', formSubmitHandler);
 	  form.addEventListener('input', formInputHandler);
+	  form.addEventListener('change', formChangeHandler);
 	  modal.querySelectorAll('*[data-cancel]').forEach(function (el) {
 	    el.addEventListener('click', cancelClickHandler);
 	  });
@@ -5325,7 +5418,7 @@
 	  name = form.querySelector('*[data-valid="name"]');
 	
 	  appUrl = window.appSettings[form.dataset.formname].UrlApi;
-	  messages = window.appSettings[form.dataset.formname].message;
+	  messages = window.appSettings[form.dataset.formname].messages;
 	};
 	
 	var callbackXhrSuccess = function callbackXhrSuccess(response) {
@@ -5350,6 +5443,17 @@
 	  }
 	};
 	
+	var callbackXhrError = function callbackXhrError(xhr) {
+	
+	  $(modal).modal('hide');
+	  _formTools2.default.reset();
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'ОШИБКА СВЯЗИ',
+	    'message': '\u041E\u0448\u0438\u0431\u043A\u0430 ' + xhr.status + ': ' + xhr.statusText
+	  };
+	};
+	
 	var submitForm = function submitForm() {
 	  var stor = _storage2.default.data;
 	
@@ -5363,7 +5467,8 @@
 	    url: urlApp,
 	    metod: 'PUT',
 	    data: postData,
-	    callbackSuccess: callbackXhrSuccess
+	    callbackSuccess: callbackXhrSuccess,
+	    callbackError: callbackXhrError
 	  });
 	};
 	
@@ -5698,7 +5803,7 @@
 	  amount = form.querySelector('*[data-valid="amount"]');
 	
 	  appUrl = window.appSettings[form.dataset.formname].UrlApi;
-	  messages = window.appSettings[form.dataset.formname].message;
+	  messages = window.appSettings[form.dataset.formname].messages;
 	};
 	
 	var callbackXhrSuccess = function callbackXhrSuccess(response) {
@@ -5721,6 +5826,17 @@
 	  }
 	};
 	
+	var callbackXhrError = function callbackXhrError(xhr) {
+	
+	  $(modal).modal('hide');
+	  _formTools2.default.reset();
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'ОШИБКА СВЯЗИ',
+	    'message': '\u041E\u0448\u0438\u0431\u043A\u0430 ' + xhr.status + ': ' + xhr.statusText
+	  };
+	};
+	
 	var submitForm = function submitForm() {
 	  var stor = _storage2.default.data;
 	  var value = amount.value * Number(_storage2.default.expressOperationType);
@@ -5736,7 +5852,8 @@
 	    url: urlApp,
 	    metod: 'POST',
 	    data: postData,
-	    callbackSuccess: callbackXhrSuccess
+	    callbackSuccess: callbackXhrSuccess,
+	    callbackError: callbackXhrError
 	  });
 	};
 	
@@ -5787,7 +5904,7 @@
 	  amount = form.querySelector('*[data-valid="amount"]');
 	
 	  appUrl = window.appSettings[form.dataset.formname].UrlApi;
-	  messages = window.appSettings[form.dataset.formname].message;
+	  messages = window.appSettings[form.dataset.formname].messages;
 	};
 	
 	var callbackXhrSuccess = function callbackXhrSuccess(response) {
@@ -5810,6 +5927,17 @@
 	  }
 	};
 	
+	var callbackXhrError = function callbackXhrError(xhr) {
+	
+	  $(modal).modal('hide');
+	  _formTools2.default.reset();
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'ОШИБКА СВЯЗИ',
+	    'message': '\u041E\u0448\u0438\u0431\u043A\u0430 ' + xhr.status + ': ' + xhr.statusText
+	  };
+	};
+	
 	var submitForm = function submitForm() {
 	  var stor = _storage2.default.data;
 	  var value = amount.value;
@@ -5825,7 +5953,8 @@
 	    url: urlApp,
 	    metod: 'POST',
 	    data: postData,
-	    callbackSuccess: callbackXhrSuccess
+	    callbackSuccess: callbackXhrSuccess,
+	    callbackError: callbackXhrError
 	  });
 	};
 	
@@ -5914,15 +6043,13 @@
 	
 	var callbackXhrError = function callbackXhrError(xhr) {
 	
-	  $('#goods-card').modal('hide');
+	  $(modal).modal('hide');
 	  _formTools2.default.reset();
 	  _catalogGroups2.default.redrawGoods();
 	
-	  console.dir(xhr);
-	
 	  _tools2.default.informationtModal = {
-	    'title': 'Error',
-	    'message': xhr.response
+	    'title': 'ОШИБКА СВЯЗИ',
+	    'message': '\u041E\u0448\u0438\u0431\u043A\u0430 ' + xhr.status + ': ' + xhr.statusText
 	  };
 	};
 	
@@ -6119,7 +6246,13 @@
 	
 	  // рассчитывает процент по стоимости и цене
 	  calcPercent: function calcPercent(purchase, price) {
-	    return ((price - purchase) * 100 / purchase).toFixed(2);
+	    var precent = ((price - purchase) * 100 / purchase).toFixed(2);
+	
+	    if (!isFinite(precent)) {
+	      return 0;
+	    }
+	
+	    return precent;
 	  },
 	
 	  // рассчитывает цену по стоимости и проценту
@@ -6397,6 +6530,17 @@
 	  }
 	};
 	
+	var callbackXhrError = function callbackXhrError(xhr) {
+	
+	  $(modal).modal('hide');
+	  _formTools2.default.reset();
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'ОШИБКА СВЯЗИ',
+	    'message': '\u041E\u0448\u0438\u0431\u043A\u0430 ' + xhr.status + ': ' + xhr.statusText
+	  };
+	};
+	
 	var submitForm = function submitForm() {
 	  var stor = _storage2.default.data;
 	  var groupId = _storage2.default.currentGroupId;
@@ -6410,7 +6554,8 @@
 	    url: urlApp,
 	    metod: 'POST',
 	    data: postData,
-	    callbackSuccess: callbackXhrSuccess
+	    callbackSuccess: callbackXhrSuccess,
+	    callbackError: callbackXhrError
 	  });
 	};
 	
@@ -6888,7 +7033,7 @@
 	
 	  appUrlAdd = window.appSettings[form.dataset.formname].UrlApiAdd;
 	  appUrlEdit = window.appSettings[form.dataset.formname].UrlApiEdit;
-	  messages = window.appSettings[form.dataset.formname].message;
+	  messages = window.appSettings[form.dataset.formname].messages;
 	};
 	
 	var callbackXhrSuccess = function callbackXhrSuccess(response) {
@@ -6913,6 +7058,17 @@
 	  }
 	};
 	
+	var callbackXhrError = function callbackXhrError(xhr) {
+	
+	  $(modal).modal('hide');
+	  _formTools2.default.reset();
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'ОШИБКА СВЯЗИ',
+	    'message': '\u041E\u0448\u0438\u0431\u043A\u0430 ' + xhr.status + ': ' + xhr.statusText
+	  };
+	};
+	
 	var submitFormAdd = function submitFormAdd() {
 	  var stor = _storage2.default.data;
 	
@@ -6925,7 +7081,8 @@
 	    url: urlApp,
 	    metod: 'POST',
 	    data: postData,
-	    callbackSuccess: callbackXhrSuccess
+	    callbackSuccess: callbackXhrSuccess,
+	    callbackError: callbackXhrError
 	  });
 	};
 	
@@ -7027,6 +7184,17 @@
 	  }
 	};
 	
+	var callbackXhrError = function callbackXhrError(xhr) {
+	
+	  $(modal).modal('hide');
+	  _formTools2.default.reset();
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'ОШИБКА СВЯЗИ',
+	    'message': '\u041E\u0448\u0438\u0431\u043A\u0430 ' + xhr.status + ': ' + xhr.statusText
+	  };
+	};
+	
 	var submitForm = function submitForm() {
 	  var stor = _storage2.default.data;
 	
@@ -7040,7 +7208,8 @@
 	    url: urlApp,
 	    metod: 'PUT',
 	    data: postData,
-	    callbackSuccess: callbackXhrSuccess
+	    callbackSuccess: callbackXhrSuccess,
+	    callbackError: callbackXhrError
 	  });
 	};
 	
@@ -7507,6 +7676,17 @@
 	  }
 	};
 	
+	var callbackXhrError = function callbackXhrError(xhr) {
+	
+	  $(modal).modal('hide');
+	  _formTools2.default.reset();
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'ОШИБКА СВЯЗИ',
+	    'message': '\u041E\u0448\u0438\u0431\u043A\u0430 ' + xhr.status + ': ' + xhr.statusText
+	  };
+	};
+	
 	var submitFormAdd = function submitFormAdd() {
 	  var stor = _storage2.default.data;
 	
@@ -7519,7 +7699,8 @@
 	    url: urlApp,
 	    metod: 'POST',
 	    data: postData,
-	    callbackSuccess: callbackXhrSuccess
+	    callbackSuccess: callbackXhrSuccess,
+	    callbackError: callbackXhrError
 	  });
 	};
 	
