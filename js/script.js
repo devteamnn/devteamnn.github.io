@@ -124,7 +124,7 @@
 	// import cardsResourcesButton from './buttons/catalog__cards--add-resource.js';
 	
 	// import goodsButtonFormEdit from './buttons/catalog-groups-goods-edit.js';
-	console.log('ver: 3D1');
+	console.log('ver: 3D2');
 	console.log('ver: 3A4');
 	
 	var exit = document.querySelector('#profile-exit');
