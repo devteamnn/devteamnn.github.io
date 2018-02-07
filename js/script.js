@@ -5227,7 +5227,7 @@
 	};
 	
 	var formInputHandler = function formInputHandler(evt) {
-	  if (evt.target.tagName === 'INPUT' && evt.target.type !== 'file') {
+	  if (evt.target.type !== 'file') {
 	    hideAlert(evt.target);
 	
 	    var change = false;
