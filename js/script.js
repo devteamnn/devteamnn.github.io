@@ -8510,12 +8510,12 @@
 	    if (_storage2.default.operationTradeType !== '7') {
 	      tbodyNode = tbodyNodeTrade;
 	      tfootNodeTrade.innerHTML = '';
+	      priceNode.innerHTML = '0';
 	    } else {
 	      tbodyNode = tbodyNodeInventory;
 	    }
 	
 	    tbodyNode.innerHTML = '';
-	    priceNode.innerHTML = '0';
 	  },
 	  setKontragentList: function setKontragentList(kontragents) {
 	    var kontragentsList = _storage2.default.operationTradeType === '7' ? kontragentsListInventory : kontragentsListTrade;
@@ -9049,7 +9049,7 @@
 	
 	  document.querySelector('#list-inventory-list').addEventListener('click', function () {
 	    _storage2.default.operationTradeType = 7;
-	    // rightColumn.clear();
+	    _operationsRightColumn2.default.clear();
 	    _operationsServerTools2.default.getDataFromServer(_storage2.default.data.currentStock, getDataCallback);
 	  });
 	
@@ -9112,9 +9112,17 @@
 	
 	    if (!elName) {
 	      _operationsLeftColumn2.default.drawHeader('find', clichButtonBackCallback);
-	      _operationsLeftColumn2.default.message('Группа не найдена!');
+	      switch (_storage2.default.operationTradeCurrentOpen) {
+	        case 'groups':
+	          _operationsLeftColumn2.default.message('Группа не найдена!');
+	          break;
+	        case 'goods':
+	          _operationsLeftColumn2.default.message('Товар не найден!');
+	          break;
+	      }
 	      return false;
 	    }
+	
 	    var callback = void 0;
 	
 	    switch (_storage2.default.operationTradeCurrentOpen) {
