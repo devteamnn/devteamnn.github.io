@@ -7520,19 +7520,21 @@
 	      }
 	    }
 	
-	    var perm = _tools2.default.serachElements({
-	      'array': dataStore.property_list,
-	      'el': '11',
-	      'strict': true
-	    });
+	    if (dataStore.property_list) {
+	      var perm = _tools2.default.serachElements({
+	        'array': dataStore.property_list,
+	        'el': '11',
+	        'strict': true
+	      });
 	
-	    if (perm !== 'none') {
-	      if (value > count) {
-	        _tools4.default.informationtModal = {
-	          'title': 'ОШИБКА',
-	          'message': '\u0422\u043E\u0432\u0430\u0440\u0430 "' + _storage2.default.operationTradeCurrentGoodName + '"" \u043D\u0435\u0442 \u043D\u0430 \u0441\u043A\u043B\u0430\u0434\u0435!'
-	        };
-	        return false;
+	      if (perm !== 'none') {
+	        if (value > count) {
+	          _tools4.default.informationtModal = {
+	            'title': 'ОШИБКА',
+	            'message': '\u0422\u043E\u0432\u0430\u0440\u0430 "' + _storage2.default.operationTradeCurrentGoodName + '"" \u043D\u0435\u0442 \u043D\u0430 \u0441\u043A\u043B\u0430\u0434\u0435!'
+	          };
+	          return false;
+	        }
 	      }
 	    }
 	  }
@@ -7651,19 +7653,21 @@
 	  var goodCount = nomCard[nomIndex].count;
 	  var oldCount = goodIndex !== 'none' ? dataGoods[goodIndex].count : nomCard[nomIndex].oldCount;
 	
-	  if (_storage2.default.operationTradeType !== '0') {
-	    var perm = _tools2.default.serachElements({
-	      'array': dataStore.property_list,
-	      'el': '11',
-	      'strict': true
-	    });
-	    if (perm !== 'none' && oldCount && oldCount !== 'none') {
-	      if (value - Number(nomCard[nomIndex].count) > oldCount) {
-	        _tools4.default.informationtModal = {
-	          'title': 'ОШИБКА',
-	          'message': '\u0422\u043E\u0432\u0430\u0440\u0430 "' + _storage2.default.operationTradeCurrentGoodName + '"" \u043D\u0435\u0442 \u043D\u0430 \u0441\u043A\u043B\u0430\u0434\u0435!'
-	        };
-	        return false;
+	  if (dataStore.property_list) {
+	    if (_storage2.default.operationTradeType !== '0') {
+	      var perm = _tools2.default.serachElements({
+	        'array': dataStore.property_list,
+	        'el': '11',
+	        'strict': true
+	      });
+	      if (perm !== 'none' && oldCount && oldCount !== 'none') {
+	        if (value - Number(nomCard[nomIndex].count) > oldCount) {
+	          _tools4.default.informationtModal = {
+	            'title': 'ОШИБКА',
+	            'message': '\u0422\u043E\u0432\u0430\u0440\u0430 "' + _storage2.default.operationTradeCurrentGoodName + '"" \u043D\u0435\u0442 \u043D\u0430 \u0441\u043A\u043B\u0430\u0434\u0435!'
+	          };
+	          return false;
+	        }
 	      }
 	    }
 	  }
@@ -7796,10 +7800,6 @@
 	    init(1);
 	  });
 	
-	  // document.querySelector('#list-inventory-list').addEventListener('click', () => {
-	  //   init(7);
-	  // });
-	
 	  document.querySelector('#operations-trade-discountBtn').addEventListener('click', function () {
 	    _operations__tradeDiscount2.default.show(discountCallback, dataStore.discount_max);
 	  });
@@ -7810,9 +7810,10 @@
 	  });
 	
 	  tradeForm.stock.addEventListener('change', function () {
-	    _storage2.default.operationTradeDiscount = 0;
-	    _operationsLeftColumn2.default.drawGroups(dataStore.all_groups, clickGroupsCallback, clichButtonBackCallback);
+	    // stor.operationTradeDiscount = 0;
+	    // operationsTradeLeft.drawGroups(dataStore.all_groups, clickGroupsCallback, clichButtonBackCallback);
 	    _operationsRightColumn2.default.clear();
+	    init(_storage2.default.operationTradeType);
 	  });
 	
 	  tradeForm.addEventListener('submit', function (evt) {
@@ -7836,6 +7837,7 @@
 	    });
 	
 	    if (dataFind === 'none') {
+	      _operationsLeftColumn2.default.drawHeader('find', clichButtonBackCallback);
 	      _operationsLeftColumn2.default.message('Товар не найден!');
 	      return false;
 	    }
@@ -8158,7 +8160,8 @@
 	  var tbody = document.createElement('tbody');
 	
 	  goods.forEach(function (good, index) {
-	    var count = good.count || good.count === 0 ? good.count : '';
+	    // let count = (good.count || good.count === 0) ? good.count : '';
+	    var count = Number(good.count) ? good.count : '';
 	
 	    var tr = document.createElement('tr');
 	    tr.scope = 'row';
@@ -8210,7 +8213,8 @@
 	  var tbody = document.createElement('tbody');
 	
 	  goods.forEach(function (good, index) {
-	    var count = good.count || good.count === 0 ? good.count : '';
+	    // let count = (good.count || good.count === 0) ? good.count : '';
+	    var count = Number(good.count) ? good.count : '';
 	
 	    var tr = document.createElement('tr');
 	    tr.scope = 'row';
@@ -8582,6 +8586,7 @@
 	    header.innerHTML = _operation__trade2.default.header(head, img);
 	  },
 	  setStocksList: function setStocksList(stocks) {
+	    var data = _storage2.default.data;
 	
 	    var fragment = document.createDocumentFragment();
 	
@@ -8589,6 +8594,10 @@
 	      var option = document.createElement('option');
 	      option.value = el.id;
 	      option.innerHTML = el.name;
+	
+	      if (el.id === data.currentStock) {
+	        option.selected = true;
+	      }
 	
 	      fragment.appendChild(option);
 	    });
@@ -8853,31 +8862,34 @@
 	  var nomIndex = searchGoodById(nomCard, goodId);
 	
 	  if (!barcode) {
-	    var count = void 0;
+	    // let count;
 	
-	    if (goodIndex !== 'none') {
-	      count = currGoods[goodIndex].count;
-	    } else {
-	      if (nomIndex !== 'none') {
-	        count = nomCard[nomIndex].oldCount;
-	      } else {
-	        console.log('что-то пошло не так....');
-	      }
-	    }
+	    // if (goodIndex !== 'none') {
+	    //   count = currGoods[goodIndex].count;
+	    // } else {
+	    //   if (nomIndex !== 'none') {
+	    //     count = nomCard[nomIndex].oldCount;
+	    //   } else {
+	    //     console.log('что-то пошло не так....');
+	    //   }
 	
-	    var perm = _tools2.default.serachElements({
-	      'array': dataStore.property_list,
-	      'el': '11',
-	      'strict': true
-	    });
+	    // }
 	
-	    if (perm !== 'none') {
-	      if (value > count) {
-	        _tools4.default.informationtModal = {
-	          'title': 'ОШИБКА',
-	          'message': '\u0422\u043E\u0432\u0430\u0440\u0430 "' + _storage2.default.operationTradeCurrentGoodName + '"" \u043D\u0435\u0442 \u043D\u0430 \u0441\u043A\u043B\u0430\u0434\u0435!'
-	        };
-	        return false;
+	    if (dataStore.property_list) {
+	      var perm = _tools2.default.serachElements({
+	        'array': dataStore.property_list,
+	        'el': '11',
+	        'strict': true
+	      });
+	
+	      if (perm !== 'none') {
+	        if (value <= 0) {
+	          _tools4.default.informationtModal = {
+	            'title': 'ОШИБКА',
+	            'message': 'Запрещены отрицательные остатки'
+	          };
+	          return false;
+	        }
 	      }
 	    }
 	  }
@@ -8929,18 +8941,20 @@
 	  var oldCount = goodIndex !== 'none' ? dataGoods[goodIndex].count : nomCard[nomIndex].oldCount;
 	
 	  if (_storage2.default.operationTradeType !== '0') {
-	    var perm = _tools2.default.serachElements({
-	      'array': dataStore.property_list,
-	      'el': '11',
-	      'strict': true
-	    });
-	    if (perm !== 'none' && oldCount !== 'none') {
-	      if (value - Number(nomCard[nomIndex].count) > oldCount) {
-	        _tools4.default.informationtModal = {
-	          'title': 'ОШИБКА',
-	          'message': '\u0422\u043E\u0432\u0430\u0440\u0430 "' + _storage2.default.operationTradeCurrentGoodName + '"" \u043D\u0435\u0442 \u043D\u0430 \u0441\u043A\u043B\u0430\u0434\u0435!'
-	        };
-	        return false;
+	    if (dataStore.property_list) {
+	      var perm = _tools2.default.serachElements({
+	        'array': dataStore.property_list,
+	        'el': '11',
+	        'strict': true
+	      });
+	      if (perm !== 'none' && oldCount !== 'none') {
+	        if (value - Number(nomCard[nomIndex].count) > oldCount) {
+	          _tools4.default.informationtModal = {
+	            'title': 'ОШИБКА',
+	            'message': '\u0422\u043E\u0432\u0430\u0440\u0430 "' + _storage2.default.operationTradeCurrentGoodName + '"" \u043D\u0435\u0442 \u043D\u0430 \u0441\u043A\u043B\u0430\u0434\u0435!'
+	          };
+	          return false;
+	        }
 	      }
 	    }
 	  }
@@ -9086,6 +9100,7 @@
 	    });
 	
 	    if (dataFind === 'none') {
+	      _operationsLeftColumn2.default.drawHeader('find', clichButtonBackCallback);
 	      _operationsLeftColumn2.default.message('Товар не найден!');
 	      return false;
 	    }
