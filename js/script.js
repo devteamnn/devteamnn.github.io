@@ -7527,7 +7527,7 @@
 	        'strict': true
 	      });
 	
-	      if (perm !== 'none') {
+	      if (perm === 'none') {
 	        if (value > count) {
 	          _tools4.default.informationtModal = {
 	            'title': 'ОШИБКА',
@@ -7535,6 +7535,14 @@
 	          };
 	          return false;
 	        }
+	      }
+	    } else {
+	      if (value > count) {
+	        _tools4.default.informationtModal = {
+	          'title': 'ОШИБКА',
+	          'message': '\u0422\u043E\u0432\u0430\u0440\u0430 "' + _storage2.default.operationTradeCurrentGoodName + '"" \u043D\u0435\u0442 \u043D\u0430 \u0441\u043A\u043B\u0430\u0434\u0435!'
+	        };
+	        return false;
 	      }
 	    }
 	  }
@@ -7660,7 +7668,7 @@
 	        'el': '11',
 	        'strict': true
 	      });
-	      if (perm !== 'none' && oldCount && oldCount !== 'none') {
+	      if (perm === 'none' && oldCount && oldCount !== 'none') {
 	        if (value - Number(nomCard[nomIndex].count) > oldCount) {
 	          _tools4.default.informationtModal = {
 	            'title': 'ОШИБКА',
@@ -7669,6 +7677,14 @@
 	          return false;
 	        }
 	      }
+	    }
+	  } else {
+	    if (value - Number(nomCard[nomIndex].count) > oldCount) {
+	      _tools4.default.informationtModal = {
+	        'title': 'ОШИБКА',
+	        'message': '\u0422\u043E\u0432\u0430\u0440\u0430 "' + _storage2.default.operationTradeCurrentGoodName + '"" \u043D\u0435\u0442 \u043D\u0430 \u0441\u043A\u043B\u0430\u0434\u0435!'
+	      };
+	      return false;
 	    }
 	  }
 	
@@ -8325,8 +8341,8 @@
 	  rightColumnDiscount: function rightColumnDiscount(name, count, price, discount) {
 	    return '\n      <th scope="row">#</th>\n      <td>' + name + '</td>\n      <td>' + discount + '%</td>\n      <td></td>\n      <td>' + Number(price * count).toFixed(2) + '</td>\n    ';
 	  },
-	  rightColumnGoodsInventory: function rightColumnGoodsInventory(index, name, count, curCount) {
-	    return '\n      <th scope="row">' + (index + 1) + '</th>\n      <td>' + name + '</td>\n      <td>' + curCount + '</td>\n      <td>' + count + '</td>\n      <td>' + Number(curCount - count).toFixed(2) + '</td>\n    ';
+	  rightColumnGoodsInventory: function rightColumnGoodsInventory(index, name, count, oldCount) {
+	    return '\n      <th scope="row">' + (index + 1) + '</th>\n      <td>' + name + '</td>\n      <td>' + oldCount + '</td>\n      <td>' + Number(count - oldCount).toFixed(2) + '</td>\n      <td>' + count + '</td>\n    ';
 	  }
 	};
 
@@ -8446,10 +8462,9 @@
 	    tr.dataset['count'] = position.count;
 	    tr.dataset['name'] = position.name;
 	    tr.dataset['oldCount'] = position.oldCount;
-	    tr.dataset['curCount'] = position.curCount;
 	    tr.scope = 'row';
 	
-	    tr.innerHTML = _operation__trade2.default.rightColumnGoodsInventory(index, position.name, position.count, position.curCount);
+	    tr.innerHTML = _operation__trade2.default.rightColumnGoodsInventory(index, position.name, position.count, position.oldCount);
 	
 	    tr.addEventListener('click', clickHandler);
 	    fragment.appendChild(tr);
@@ -8587,8 +8602,11 @@
 	  },
 	  setStocksList: function setStocksList(stocks) {
 	    var data = _storage2.default.data;
-	
 	    var fragment = document.createDocumentFragment();
+	
+	    var stocksList = _storage2.default.operationTradeType === '7' ? stocksListInventory : stocksListTrade;
+	
+	    stocksList.innerHTML = '';
 	
 	    stocks.forEach(function (el) {
 	      var option = document.createElement('option');
@@ -8601,8 +8619,6 @@
 	
 	      fragment.appendChild(option);
 	    });
-	
-	    var stocksList = _storage2.default.operationTradeType === '7' ? stocksListInventory : stocksListTrade;
 	
 	    stocksList.appendChild(fragment);
 	  }
@@ -8862,18 +8878,6 @@
 	  var nomIndex = searchGoodById(nomCard, goodId);
 	
 	  if (!barcode) {
-	    // let count;
-	
-	    // if (goodIndex !== 'none') {
-	    //   count = currGoods[goodIndex].count;
-	    // } else {
-	    //   if (nomIndex !== 'none') {
-	    //     count = nomCard[nomIndex].oldCount;
-	    //   } else {
-	    //     console.log('что-то пошло не так....');
-	    //   }
-	
-	    // }
 	
 	    if (dataStore.property_list) {
 	      var perm = _tools2.default.serachElements({
@@ -8882,14 +8886,22 @@
 	        'strict': true
 	      });
 	
-	      if (perm !== 'none') {
-	        if (value <= 0) {
+	      if (perm === 'none') {
+	        if (value < 0) {
 	          _tools4.default.informationtModal = {
 	            'title': 'ОШИБКА',
 	            'message': 'Запрещены отрицательные остатки'
 	          };
 	          return false;
 	        }
+	      }
+	    } else {
+	      if (value < 0) {
+	        _tools4.default.informationtModal = {
+	          'title': 'ОШИБКА',
+	          'message': 'Запрещены отрицательные остатки'
+	        };
+	        return false;
 	      }
 	    }
 	  }
@@ -8899,79 +8911,43 @@
 	  }
 	
 	  // let goodOldCount = (stor.operationTradeCurrentGoodCount !== 'undefined') ? stor.operationTradeCurrentGoodCount : 'none';
-	  var oldCount = void 0;
-	  if (goodIndex !== 'none') {
-	    currGoods[goodIndex].count = Number(currGoods[goodIndex].count) - Number(value);
+	  // let oldCount;
+	  // if (goodIndex !== 'none') {
+	  //   // currGoods[goodIndex].count = Number(currGoods[goodIndex].count) - Number(value);
+	  //   oldCount = (!barcode) ? currGoods[goodIndex].count : 'null';
+	  //   currGoods[goodIndex].count = value;
 	
-	    oldCount = !barcode ? currGoods[goodIndex].count : 'null';
-	  } else if (nomIndex !== 'none') {
-	    oldCount = !barcode ? _storage2.default.operationTradeCurrentGoodCount - value : 'none';
-	  } else {
-	    oldCount = 'none';
-	  }
+	  // } else if (nomIndex !== 'none') {
+	  //   oldCount = (!barcode) ? value - stor.operationTradeCurrentGoodCount :
+	  //     'none';
+	  // } else {
+	  //   oldCount = 'none';
+	  // }
 	
 	  if (nomIndex === 'none') {
 	    nomCard.push({
 	      'id': _storage2.default.operationTradeCurrentGoodId,
 	      'name': _storage2.default.operationTradeCurrentGoodName,
 	      'count': value,
-	      'curCount': _storage2.default.operationTradeCurrentGoodCount,
-	      'oldCount': oldCount
+	      'oldCount': _storage2.default.operationTradeCurrentGoodCount
 	    });
 	  } else {
-	    nomCard[nomIndex].id = _storage2.default.operationTradeCurrentGoodId;
-	    nomCard[nomIndex].name = _storage2.default.operationTradeCurrentGoodName;
-	    nomCard[nomIndex].count = Number(nomCard[nomIndex].count) + Number(value);
+	    // nomCard[nomIndex].id = stor.operationTradeCurrentGoodId;
+	    // nomCard[nomIndex].name = stor.operationTradeCurrentGoodName;
+	    nomCard[nomIndex].count = value;
 	    // nomCard[nomIndex].curCount = stor.operationTradeCurrentGoodCount;
-	    nomCard[nomIndex].oldCount = oldCount;
+	  }
+	
+	  if (goodIndex !== 'none') {
+	    if (_storage2.default.operationTradeIsFind === 'true') {
+	      dataFind[goodIndex].count = value;
+	    } else {
+	      currGoods[goodIndex].count = value;
+	    }
 	  }
 	
 	  redrawColumn();
 	  inventoryForm.submit.disabled = false;
-	  return true;
-	};
-	
-	var setCountGoodToNomCard = function setCountGoodToNomCard(value) {
-	  nomCard = _operationsRightColumn2.default.getNomenklature();
-	
-	  var goodIndex = searchGoodById(dataGoods, _storage2.default.operationTradeCurrentGoodId);
-	  var nomIndex = searchGoodById(nomCard, _storage2.default.operationTradeCurrentGoodId);
-	
-	  var goodCount = nomCard[nomIndex].count;
-	  var oldCount = goodIndex !== 'none' ? dataGoods[goodIndex].count : nomCard[nomIndex].oldCount;
-	
-	  if (_storage2.default.operationTradeType !== '0') {
-	    if (dataStore.property_list) {
-	      var perm = _tools2.default.serachElements({
-	        'array': dataStore.property_list,
-	        'el': '11',
-	        'strict': true
-	      });
-	      if (perm !== 'none' && oldCount !== 'none') {
-	        if (value - Number(nomCard[nomIndex].count) > oldCount) {
-	          _tools4.default.informationtModal = {
-	            'title': 'ОШИБКА',
-	            'message': '\u0422\u043E\u0432\u0430\u0440\u0430 "' + _storage2.default.operationTradeCurrentGoodName + '"" \u043D\u0435\u0442 \u043D\u0430 \u0441\u043A\u043B\u0430\u0434\u0435!'
-	          };
-	          return false;
-	        }
-	      }
-	    }
-	  }
-	
-	  var delta = goodCount - value;
-	  if (goodIndex !== 'none') {
-	    dataGoods[goodIndex].count = _storage2.default.operationTradeType === '0' ? dataGoods[goodIndex].count - delta : dataGoods[goodIndex].count + delta;
-	
-	    goodCount = dataGoods[goodIndex].count;
-	  } else {
-	    nomCard[nomIndex].oldCount = _storage2.default.operationTradeType === '0' ? nomCard[nomIndex].oldCount - delta : nomCard[nomIndex].oldCount + delta;
-	  }
-	
-	  nomCard[nomIndex].count = value;
-	  nomCard[nomIndex].oldCount = goodCount;
-	
-	  redrawColumn();
 	  return true;
 	};
 	
@@ -8981,7 +8957,7 @@
 	  var goodIndex = searchGoodById(dataGoods, id);
 	
 	  if (goodIndex !== 'none') {
-	    dataGoods[goodIndex].count = Number(dataGoods[goodIndex].count) + Number(nomCard[numIndex].count);
+	    dataGoods[goodIndex].count = nomCard[numIndex].oldCount;
 	  }
 	
 	  nomCard.splice(numIndex, 1);
@@ -8999,7 +8975,7 @@
 	
 	var addRightFormCallback = function addRightFormCallback(count) {
 	  if (count !== 0) {
-	    setCountGoodToNomCard(count);
+	    addGoodToNomCard(count);
 	  } else {
 	    remGoodFromNomCard();
 	  }
