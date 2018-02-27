@@ -7404,9 +7404,10 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	var listReceipt = document.querySelector('#list-receipt');
 	var searchBarcodeForm = document.querySelector('#operations-trade-search-barcode-form');
-	var searchForm = document.querySelector('#operations-trade-search');
 	var tradeForm = document.querySelector('#operation-trade-form');
+	var searchForm = document.querySelector('#operations-trade-search');
 	
 	var dataStore = [];
 	var dataGoods = [];
@@ -7788,6 +7789,8 @@
 	  _operationsHeader2.default.setStocksList(dataStore.all_stocks);
 	  _operationsRightColumn2.default.setKontragentList(dataStore.all_kontr_agents);
 	  _operationsLeftColumn2.default.drawGroups(dataStore.all_groups, clickGroupsCallback);
+	
+	  searchBarcodeForm.barcode.focus();
 	};
 	
 	var getData = function getData() {
@@ -7804,6 +7807,15 @@
 	  _storage2.default.operationTradeDiscount = 0;
 	  initWindow();
 	  getData();
+	};
+	
+	var sendTradeForm = function sendTradeForm() {
+	  _operationsServerTools2.default.sendDataToServer({
+	    'stock': tradeForm.stock.value,
+	    'kontragent': tradeForm.kontragents.value,
+	    'delivery': tradeForm.delivery.checked ? 1 : 0,
+	    'data': nomCard
+	  }, tradeSubmitFormCallback, dataStore.discount_id);
 	};
 	
 	var addHandlers = function addHandlers() {
@@ -7825,6 +7837,16 @@
 	    _operationsRightColumn2.default.clear();
 	  });
 	
+	  document.querySelector('body').addEventListener('keydown', function (evt) {
+	    if (evt.altKey && evt.code === 'Enter') {
+	      evt.preventDefault();
+	
+	      if (listReceipt.classList.contains('active') && !tradeForm.submit.disabled) {
+	        sendTradeForm();
+	      }
+	    }
+	  }, true);
+	
 	  tradeForm.stock.addEventListener('change', function () {
 	    // stor.operationTradeDiscount = 0;
 	    // operationsTradeLeft.drawGroups(dataStore.all_groups, clickGroupsCallback, clichButtonBackCallback);
@@ -7834,13 +7856,7 @@
 	
 	  tradeForm.addEventListener('submit', function (evt) {
 	    evt.preventDefault();
-	    var form = evt.target;
-	    _operationsServerTools2.default.sendDataToServer({
-	      'stock': form.stock.value,
-	      'kontragent': form.kontragents.value,
-	      'delivery': form.delivery.checked ? 1 : 0,
-	      'data': nomCard
-	    }, tradeSubmitFormCallback, dataStore.discount_id);
+	    sendTradeForm();
 	  });
 	
 	  searchBarcodeForm.addEventListener('submit', function (evt) {
@@ -8377,6 +8393,9 @@
 	var kontragentsListInventory = document.querySelector('#operation-inventory-kontragents-list');
 	var priceNode = document.querySelector('#operations-trade-price');
 	
+	var tradeSubmit = document.querySelector('#operations-trade-submit');
+	var inventorySubmit = document.querySelector('#operation-inventory-submit');
+	
 	var getTradeGoods = function getTradeGoods(nomenklature, callback) {
 	  var clickHandler = function clickHandler(evt) {
 	    var el = evt.target;
@@ -8527,11 +8546,13 @@
 	    var tbodyNode = void 0;
 	
 	    if (_storage2.default.operationTradeType !== '7') {
+	      tradeSubmit.disabled = true;
 	      tbodyNode = tbodyNodeTrade;
 	      tfootNodeTrade.innerHTML = '';
 	      priceNode.innerHTML = '0';
 	    } else {
 	      tbodyNode = tbodyNodeInventory;
+	      inventorySubmit.disabled = true;
 	    }
 	
 	    tbodyNode.innerHTML = '';
@@ -8803,6 +8824,7 @@
 	var searchBarcodeForm = document.querySelector('#operation-inventory-search-barcode-form');
 	var searchForm = document.querySelector('#operation-inventory-search');
 	var inventoryForm = document.querySelector('#operation-inventory-form');
+	var listInventory = document.querySelector('#list-inventory');
 	
 	var dataStore = [];
 	var dataGoods = [];
@@ -9033,6 +9055,16 @@
 	  _operationsHeader2.default.setStocksList(dataStore.all_stocks);
 	  _operationsRightColumn2.default.setKontragentList(dataStore.all_kontr_agents);
 	  _operationsLeftColumn2.default.drawGroups(dataStore.all_groups, clickGroupsCallback);
+	
+	  searchBarcodeForm.barcode.focus();
+	};
+	
+	var sendInventoryForm = function sendInventoryForm() {
+	  _operationsServerTools2.default.sendDataToServer({
+	    'stock': inventoryForm.stock.value,
+	    'kontragent': inventoryForm.kontragents.value,
+	    'data': nomCard
+	  }, tradeSubmitFormCallback);
 	};
 	
 	var addHandlers = function addHandlers() {
@@ -9049,6 +9081,16 @@
 	    inventoryForm.submit.disabled = true;
 	  });
 	
+	  document.querySelector('body').addEventListener('keydown', function (evt) {
+	    if (evt.altKey && evt.code === 'Enter') {
+	      evt.preventDefault();
+	
+	      if (listInventory.classList.contains('active') && !inventoryForm.submit.disabled) {
+	        sendInventoryForm();
+	      }
+	    }
+	  }, true);
+	
 	  inventoryForm.stock.addEventListener('change', function () {
 	    _storage2.default.operationTradeDiscount = 0;
 	    _operationsLeftColumn2.default.drawGroups(dataStore.all_groups, clickGroupsCallback, clichButtonBackCallback);
@@ -9058,12 +9100,7 @@
 	
 	  inventoryForm.addEventListener('submit', function (evt) {
 	    evt.preventDefault();
-	    var form = evt.target;
-	    _operationsServerTools2.default.sendDataToServer({
-	      'stock': form.stock.value,
-	      'kontragent': form.kontragents.value,
-	      'data': nomCard
-	    }, tradeSubmitFormCallback);
+	    sendInventoryForm();
 	  });
 	
 	  searchBarcodeForm.addEventListener('submit', function (evt) {
