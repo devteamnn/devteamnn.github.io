@@ -544,6 +544,14 @@
 	    return sessionStorage.getItem('operationTradeCurrentGoodOldCount');
 	  },
 	
+	  set operationTradeCurrentGoodStartCount(count) {
+	    sessionStorage.setItem('operationTradeCurrentGoodStartCount', count);
+	  },
+	
+	  get operationTradeCurrentGoodStartCount() {
+	    return sessionStorage.getItem('operationTradeCurrentGoodStartCount');
+	  },
+	
 	  set operationTradeDiscount(discount) {
 	    sessionStorage.setItem('operationTradeDiscount', discount);
 	  },
@@ -575,7 +583,16 @@
 	
 	  get operationTradeIsFind() {
 	    return sessionStorage.getItem('operationTradeIsFind');
+	  },
+	
+	  set operationTradeIsFindToBarcode(type) {
+	    sessionStorage.setItem('operationTradeIsFindToBarcode', type);
+	  },
+	
+	  get operationTradeIsFindToBarcode() {
+	    return sessionStorage.getItem('operationTradeIsFindToBarcode');
 	  }
+	
 	};
 
 /***/ }),
@@ -7433,12 +7450,14 @@
 	  if (_storage2.default.operationTradeIsFind === 'true') {
 	    switch (_storage2.default.operationTradeCurrentOpen) {
 	      case 'groups':
-	        // operationsTradeLeft.drawGroups(dataFind, clickGroupsCallback);
 	        _operationsLeftColumn2.default.drawFind(dataFind, clickGroupsCallback, clichButtonBackCallback, _storage2.default.operationTradeCurrentOpen);
 	        break;
 	      case 'goods':
-	        // operationsTradeLeft.drawGoods(dataFind, clickLeftGoodsCallback, clichButtonBackCallback);
-	        _operationsLeftColumn2.default.drawFind(dataFind, clickLeftGoodsCallback, clichButtonBackCallback, _storage2.default.operationTradeCurrentOpen);
+	        if (_storage2.default.operationTradeIsFindToBarcode === 'true') {
+	          _operationsLeftColumn2.default.drawFind(dataFind, clickLeftFindToBarcodeCallack, clichButtonBackCallback, 'goods');
+	        } else {
+	          _operationsLeftColumn2.default.drawFind(dataFind, clickLeftGoodsCallback, clichButtonBackCallback, _storage2.default.operationTradeCurrentOpen);
+	        }
 	        break;
 	    }
 	  } else {
@@ -7455,8 +7474,23 @@
 	  _operationsRightColumn2.default.drawPrice(calcNumSum());
 	  _operationsRightColumn2.default.drawGoods(nomCard, clickRightGoodsCallback);
 	
+	  focusBarcode();
+	};
+	
+	var focusBarcode = function focusBarcode() {
 	  searchBarcodeForm.reset();
-	  searchBarcodeForm.barcode.focus();
+	  if (dataStore.property_list) {
+	    var perm = _tools2.default.serachElements({
+	      'array': dataStore.property_list,
+	      'el': '30',
+	      'strict': true
+	    });
+	
+	    if (perm !== 'none') {
+	
+	      searchBarcodeForm.barcode.focus();
+	    }
+	  }
 	};
 	
 	var tradeSubmitFormCallback = function tradeSubmitFormCallback() {
@@ -7469,6 +7503,7 @@
 	};
 	
 	var clichButtonBackCallback = function clichButtonBackCallback() {
+	  _storage2.default.operationTradeIsFindToBarcode = false;
 	  _operationsLeftColumn2.default.drawGroups(dataStore.all_groups, clickGroupsCallback);
 	};
 	
@@ -7574,6 +7609,7 @@
 	      'price': _storage2.default.operationTradeCurrentGoodPrice,
 	      'count': value,
 	      'oldCount': oldCount,
+	      'startCount': _storage2.default.operationTradeCurrentGoodCount,
 	      'newRow': true
 	    });
 	  } else {
@@ -7665,7 +7701,9 @@
 	  var nomIndex = searchGoodById(nomCard, _storage2.default.operationTradeCurrentGoodId);
 	
 	  var goodCount = nomCard[nomIndex].count;
-	  var oldCount = goodIndex !== 'none' ? dataGoods[goodIndex].count : nomCard[nomIndex].oldCount;
+	  // let oldCount = (goodIndex !== 'none') ? dataGoods[goodIndex].count :
+	  //   nomCard[nomIndex].oldCount;
+	  var startCount = _storage2.default.operationTradeCurrentGoodStartCount;
 	
 	  if (dataStore.property_list) {
 	    if (_storage2.default.operationTradeType !== '0') {
@@ -7674,8 +7712,8 @@
 	        'el': '11',
 	        'strict': true
 	      });
-	      if (perm === 'none' && oldCount && oldCount !== 'none') {
-	        if (value - Number(nomCard[nomIndex].count) > oldCount) {
+	      if (perm === 'none' && startCount) {
+	        if (value > startCount) {
 	          _tools4.default.informationtModal = {
 	            'title': 'ОШИБКА',
 	            'message': '\u0422\u043E\u0432\u0430\u0440\u0430 "' + _storage2.default.operationTradeCurrentGoodName + '"" \u043D\u0435\u0442 \u043D\u0430 \u0441\u043A\u043B\u0430\u0434\u0435!'
@@ -7685,7 +7723,7 @@
 	      }
 	    }
 	  } else {
-	    if (value - Number(nomCard[nomIndex].count) > oldCount) {
+	    if (value > startCount) {
 	      _tools4.default.informationtModal = {
 	        'title': 'ОШИБКА',
 	        'message': '\u0422\u043E\u0432\u0430\u0440\u0430 "' + _storage2.default.operationTradeCurrentGoodName + '"" \u043D\u0435\u0442 \u043D\u0430 \u0441\u043A\u043B\u0430\u0434\u0435!'
@@ -7694,13 +7732,12 @@
 	    }
 	  }
 	
-	  var delta = goodCount - value;
+	  var delta = _storage2.default.operationTradeType === '0' ? Number(startCount) + Number(value) : Number(startCount) - Number(value);
 	  if (goodIndex !== 'none') {
-	    dataGoods[goodIndex].count = _storage2.default.operationTradeType === '0' ? dataGoods[goodIndex].count - delta : dataGoods[goodIndex].count + delta;
-	
-	    goodCount = dataGoods[goodIndex].count;
+	    dataGoods[goodIndex].count = delta;
+	    goodCount = delta;
 	  } else {
-	    nomCard[nomIndex].oldCount = _storage2.default.operationTradeType === '0' ? nomCard[nomIndex].oldCount - delta : nomCard[nomIndex].oldCount + delta;
+	    goodCount = delta;
 	  }
 	
 	  nomCard[nomIndex].count = value;
@@ -7795,8 +7832,7 @@
 	  _operationsHeader2.default.setStocksList(dataStore.all_stocks);
 	  _operationsRightColumn2.default.setKontragentList(dataStore.all_kontr_agents);
 	  _operationsLeftColumn2.default.drawGroups(dataStore.all_groups, clickGroupsCallback);
-	
-	  searchBarcodeForm.barcode.focus();
+	  focusBarcode();
 	};
 	
 	var getData = function getData() {
@@ -7854,8 +7890,6 @@
 	  }, true);
 	
 	  tradeForm.stock.addEventListener('change', function () {
-	    // stor.operationTradeDiscount = 0;
-	    // operationsTradeLeft.drawGroups(dataStore.all_groups, clickGroupsCallback, clichButtonBackCallback);
 	    _operationsRightColumn2.default.clear();
 	    init(_storage2.default.operationTradeType);
 	  });
@@ -7891,6 +7925,7 @@
 	    }
 	    _storage2.default.operationTradeIsFind = true;
 	    _storage2.default.operationTradeCurrentOpen = 'goods';
+	    _storage2.default.operationTradeIsFindToBarcode = true;
 	    _operationsLeftColumn2.default.drawFind(dataFind, clickLeftFindToBarcodeCallack, clichButtonBackCallback, 'goods');
 	    return true;
 	  });
@@ -8414,6 +8449,7 @@
 	    _storage2.default.operationTradeCurrentGoodName = el.dataset['name'];
 	    _storage2.default.operationTradeCurrentGoodCount = el.dataset['count'];
 	    _storage2.default.operationTradeCurrentGoodPrice = el.dataset['price'];
+	    _storage2.default.operationTradeCurrentGoodStartCount = el.dataset['startCount'];
 	
 	    if (el.dataset['discount']) {
 	      _storage2.default.operationTradeCurrentGoodOldCount = false;
@@ -8438,12 +8474,13 @@
 	    tr.dataset['count'] = position.count;
 	    tr.dataset['price'] = position.price;
 	    tr.dataset['name'] = position.name;
+	    tr.dataset['startCount'] = position.startCount;
 	    tr.scope = 'row';
 	
-	    // if (position.newRow) {
-	    //   let color = (stor.operationTradeType === '0') ? 'table-danger' : 'table-success';
-	    //   tr.classList.add(color);
-	    // }
+	    if (position.newRow) {
+	      var color = _storage2.default.operationTradeType === '0' ? 'table-danger' : 'table-success';
+	      tr.classList.add(color);
+	    }
 	
 	    if (position.discount) {
 	      tr.dataset['discount'] = position.discount;
@@ -8537,7 +8574,8 @@
 	      'price': el.dataset['price'],
 	      'count': el.dataset['count'],
 	      'oldCount': el.dataset['oldCount'],
-	      'curCount': el.dataset['curCount']
+	      'curCount': el.dataset['curCount'],
+	      'startCount': el.dataset['startCount']
 	    });
 	  });
 	
@@ -8863,11 +8901,9 @@
 	  if (_storage2.default.operationTradeIsFind === 'true') {
 	    switch (_storage2.default.operationTradeCurrentOpen) {
 	      case 'groups':
-	        // leftColumn.drawGroups(dataFind, clickGroupsCallback);
 	        _operationsLeftColumn2.default.drawFind(dataFind, clickGroupsCallback, clichButtonBackCallback, _storage2.default.operationTradeCurrentOpen);
 	        break;
 	      case 'goods':
-	        // leftColumn.drawGoods(dataFind, clickLeftGoodsCallback, clichButtonBackCallback);
 	        _operationsLeftColumn2.default.drawFind(dataFind, clickLeftGoodsCallback, clichButtonBackCallback, _storage2.default.operationTradeCurrentOpen);
 	        break;
 	    }
@@ -8883,8 +8919,22 @@
 	  }
 	
 	  _operationsRightColumn2.default.drawGoods(nomCard, clickRightGoodsCallback);
+	  focusBarcode();
+	};
+	
+	var focusBarcode = function focusBarcode() {
 	  searchBarcodeForm.reset();
-	  searchBarcodeForm.barcode.focus();
+	  if (dataStore.property_list) {
+	    var perm = _tools2.default.serachElements({
+	      'array': dataStore.property_list,
+	      'el': '30',
+	      'strict': true
+	    });
+	
+	    if (perm !== 'none') {
+	      searchBarcodeForm.barcode.focus();
+	    }
+	  }
 	};
 	
 	var tradeSubmitFormCallback = function tradeSubmitFormCallback() {
@@ -9072,8 +9122,7 @@
 	  _operationsHeader2.default.setStocksList(dataStore.all_stocks);
 	  _operationsRightColumn2.default.setKontragentList(dataStore.all_kontr_agents);
 	  _operationsLeftColumn2.default.drawGroups(dataStore.all_groups, clickGroupsCallback);
-	
-	  searchBarcodeForm.barcode.focus();
+	  focusBarcode();
 	};
 	
 	var sendInventoryForm = function sendInventoryForm() {
