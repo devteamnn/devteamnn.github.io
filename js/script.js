@@ -9788,6 +9788,10 @@
 	var searchBarcodeForm = document.querySelector('#operations-trade-search-barcode-form');
 	var tradeForm = document.querySelector('#operation-trade-form');
 	var searchForm = document.querySelector('#operations-trade-search');
+	var modalAdd = document.querySelector('#operations-trade-add');
+	var modalAddCount = document.querySelector('#operations-trade-add-input');
+	var modalDiscount = document.querySelector('#operations-trade-discount');
+	var modalDiscountCount = document.querySelector('#operations-trade-discount-input');
 	
 	var dataStore = [];
 	var dataGoods = [];
@@ -10224,6 +10228,14 @@
 	};
 	
 	var addHandlers = function addHandlers() {
+	
+	  $(modalAdd).on('shown.bs.modal', function () {
+	    $(modalAddCount).trigger('focus');
+	  });
+	
+	  $(modalDiscount).on('shown.bs.modal', function () {
+	    $(modalDiscountCount).trigger('focus');
+	  });
 	
 	  document.querySelector('#list-receipt-list').addEventListener('click', function () {
 	    init(0);
@@ -10892,9 +10904,9 @@
 	    tr.dataset['oldCount'] = position.oldCount;
 	    tr.scope = 'row';
 	
-	    // if (position.newRow) {
-	    //   tr.classList.add('table-primary');
-	    // }
+	    if (position.newRow) {
+	      tr.classList.add('table-primary');
+	    }
 	
 	    tr.innerHTML = _operation__trade2.default.rightColumnGoodsInventory(index, position.name, position.count, position.oldCount);
 	
@@ -11127,6 +11139,7 @@
 	
 	    _formTools2.default.work(modal, submitForm);
 	    $(modal).modal('show');
+	    count.focus();
 	  }
 	};
 
@@ -11241,6 +11254,10 @@
 	var searchForm = document.querySelector('#operation-inventory-search');
 	var inventoryForm = document.querySelector('#operation-inventory-form');
 	var listInventory = document.querySelector('#list-inventory');
+	var modalAdd = document.querySelector('#operations-trade-add');
+	var modalAddCount = document.querySelector('#operations-trade-add-input');
+	var modalDiscount = document.querySelector('#operations-trade-discount');
+	var modalDiscountCount = document.querySelector('#operations-trade-discount-input');
 	
 	var dataStore = [];
 	var dataGoods = [];
@@ -11499,6 +11516,14 @@
 	};
 	
 	var addHandlers = function addHandlers() {
+	
+	  $(modalAdd).on('shown.bs.modal', function () {
+	    $(modalAddCount).trigger('focus');
+	  });
+	
+	  $(modalDiscount).on('shown.bs.modal', function () {
+	    $(modalDiscountCount).trigger('focus');
+	  });
 	
 	  document.querySelector('#list-inventory-list').addEventListener('click', function () {
 	    _storage2.default.operationTradeType = 7;
