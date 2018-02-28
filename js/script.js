@@ -50,79 +50,103 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _main_login_window = __webpack_require__(2);
+	var _permissions = __webpack_require__(2);
+	
+	var _permissions2 = _interopRequireDefault(_permissions);
+	
+	var _main_login_window = __webpack_require__(3);
 	
 	var _main_login_window2 = _interopRequireDefault(_main_login_window);
 	
-	var _log = __webpack_require__(14);
+	var _log = __webpack_require__(15);
 	
 	var _log2 = _interopRequireDefault(_log);
 	
-	var _online__profile = __webpack_require__(16);
+	var _online__profile = __webpack_require__(17);
 	
 	var _online__profile2 = _interopRequireDefault(_online__profile);
 	
-	var _reference__enterprises = __webpack_require__(18);
+	var _reference__enterprises = __webpack_require__(19);
 	
 	var _reference__enterprises2 = _interopRequireDefault(_reference__enterprises);
 	
-	var _reference__enterprisesAdd = __webpack_require__(20);
+	var _reference__enterprisesAdd = __webpack_require__(21);
 	
 	var _reference__enterprisesAdd2 = _interopRequireDefault(_reference__enterprisesAdd);
 	
-	var _reference__enterprisesEdit = __webpack_require__(21);
+	var _reference__enterprisesEdit = __webpack_require__(22);
 	
 	var _reference__enterprisesEdit2 = _interopRequireDefault(_reference__enterprisesEdit);
 	
-	var _reference__points = __webpack_require__(22);
+	var _reference__points = __webpack_require__(23);
 	
 	var _reference__points2 = _interopRequireDefault(_reference__points);
 	
-	var _reference__pointsAdd = __webpack_require__(24);
+	var _reference__pointsAdd = __webpack_require__(25);
 	
 	var _reference__pointsAdd2 = _interopRequireDefault(_reference__pointsAdd);
 	
-	var _reference__pointsEdit = __webpack_require__(25);
+	var _reference__pointsEdit = __webpack_require__(26);
 	
 	var _reference__pointsEdit2 = _interopRequireDefault(_reference__pointsEdit);
 	
-	var _reference__contractors = __webpack_require__(26);
+	var _reference__contractors = __webpack_require__(27);
 	
 	var _reference__contractors2 = _interopRequireDefault(_reference__contractors);
 	
-	var _reference__contractorsAdd = __webpack_require__(29);
+	var _reference__contractorsAdd = __webpack_require__(30);
 	
 	var _reference__contractorsAdd2 = _interopRequireDefault(_reference__contractorsAdd);
 	
-	var _reference__keywords = __webpack_require__(30);
+	var _reference__keywords = __webpack_require__(31);
 	
 	var _reference__keywords2 = _interopRequireDefault(_reference__keywords);
 	
-	var _reference__keywordsAdd = __webpack_require__(32);
+	var _reference__keywordsAdd = __webpack_require__(33);
 	
 	var _reference__keywordsAdd2 = _interopRequireDefault(_reference__keywordsAdd);
 	
-	var _reference__keywordsEdit = __webpack_require__(33);
+	var _reference__keywordsEdit = __webpack_require__(34);
 	
 	var _reference__keywordsEdit2 = _interopRequireDefault(_reference__keywordsEdit);
 	
-	var _catalog__groups = __webpack_require__(34);
+	var _catalog__groups = __webpack_require__(35);
 	
 	var _catalog__groups2 = _interopRequireDefault(_catalog__groups);
 	
-	var _catalog__cards = __webpack_require__(50);
+	var _reference__debitCredit = __webpack_require__(51);
+	
+	var _reference__debitCredit2 = _interopRequireDefault(_reference__debitCredit);
+	
+	var _operations__manufacture = __webpack_require__(53);
+	
+	var _operations__manufacture2 = _interopRequireDefault(_operations__manufacture);
+	
+	var _operations__balance = __webpack_require__(56);
+	
+	var _operations__balance2 = _interopRequireDefault(_operations__balance);
+	
+	var _online__users = __webpack_require__(57);
+	
+	var _online__users2 = _interopRequireDefault(_online__users);
+	
+	var _accounting__allDocs = __webpack_require__(58);
+	
+	var _accounting__allDocs2 = _interopRequireDefault(_accounting__allDocs);
+	
+	var _catalog__cards = __webpack_require__(60);
 	
 	var _catalog__cards2 = _interopRequireDefault(_catalog__cards);
 	
-	var _catalog__search = __webpack_require__(54);
+	var _catalog__search = __webpack_require__(63);
 	
 	var _catalog__search2 = _interopRequireDefault(_catalog__search);
 	
-	var _operations__trade = __webpack_require__(58);
+	var _operations__trade = __webpack_require__(67);
 	
 	var _operations__trade2 = _interopRequireDefault(_operations__trade);
 	
-	var _operations__inventory = __webpack_require__(66);
+	var _operations__inventory = __webpack_require__(75);
 	
 	var _operations__inventory2 = _interopRequireDefault(_operations__inventory);
 	
@@ -135,7 +159,7 @@
 	
 	// import goodsButtonFormEdit from './buttons/catalog__goods--edit.js';
 	console.log('3D3 (07.02.18_13:30)');
-	console.log('ver: 3A5');
+	console.log('ver: 4А1');
 	
 	var exit = document.querySelector('#profile-exit');
 	var app = document.querySelector('#app');
@@ -177,10 +201,13 @@
 	  }
 	};
 	
-	var mainMenuButtons = [_online__profile2.default, _log2.default, _reference__enterprises2.default, _reference__points2.default, _reference__contractors2.default, _reference__keywords2.default, _catalog__groups2.default, _catalog__cards2.default, _catalog__search2.default, _operations__trade2.default, _operations__inventory2.default];
+	var mainMenuButtons = [_online__profile2.default, _log2.default, _reference__enterprises2.default, _reference__points2.default, _reference__contractors2.default, _reference__keywords2.default, _catalog__groups2.default, _catalog__cards2.default,
+	// cardsResourcesButton,
+	_catalog__search2.default, _reference__debitCredit2.default, _operations__manufacture2.default, _operations__balance2.default, _online__users2.default, _accounting__allDocs2.default, _operations__trade2.default, _operations__inventory2.default];
 	
 	// ========== ОБНОВЛЕНИЕ/ОТКРЫТИЕ СТРАНИЦЫ ==========
 	var start = function start() {
+	  _storage2.default.goodsViewMode = 'string';
 	  if (_storage2.default.isSetFlag) {
 	    showAppHideLogin();
 	    initMarkup();
@@ -195,6 +222,8 @@
 	    _reference__contractorsAdd2.default.start();
 	    _reference__keywordsAdd2.default.start();
 	    _reference__keywordsEdit2.default.start();
+	
+	    _permissions2.default.read();
 	  } else {
 	    showLoginHideApp();
 	    _main_login_window2.default.init();
@@ -259,6 +288,7 @@
 	    };
 	  },
 	
+	  // отдельные сеттеры для бизнеса и склада
 	  set currentBusiness(id) {
 	    localStorage.setItem('currentBusiness', id);
 	  },
@@ -267,6 +297,26 @@
 	    localStorage.setItem('currentStock', id);
 	  },
 	
+	  // работа с правами доступа
+	  set currentScreen(screen) {
+	    sessionStorage.setItem('currentScreen', screen);
+	  },
+	
+	  get currentScreen() {
+	    return sessionStorage.getItem('currentScreen');
+	  },
+	
+	  set permissions(data) {
+	    localStorage.setItem('permissions', data.map(function (item) {
+	      return item.kod_operation;
+	    }).join());
+	  },
+	
+	  get permissions() {
+	    return localStorage.getItem('permissions');
+	  },
+	
+	  // проверка хранилища
 	  get isSetFlag() {
 	    return Object.values(this.data).some(function (item) {
 	      return item !== null;
@@ -488,6 +538,54 @@
 	    return sessionStorage.getItem('groupListOperationType');
 	  },
 	
+	  set debitCreditType(type) {
+	    sessionStorage.setItem('debitCreditType', type);
+	  },
+	
+	  get debitCreditType() {
+	    return sessionStorage.getItem('debitCreditType');
+	  },
+	
+	  set debitCreditName(name) {
+	    sessionStorage.setItem('debitCreditName', name);
+	  },
+	
+	  get debitCreditName() {
+	    return sessionStorage.getItem('debitCreditName');
+	  },
+	
+	  set debitCreditId(id) {
+	    sessionStorage.setItem('debitCreditId', id);
+	  },
+	
+	  get debitCreditId() {
+	    return sessionStorage.getItem('debitCreditId');
+	  },
+	
+	  set currentUserId(id) {
+	    sessionStorage.setItem('currentUserId', id);
+	  },
+	
+	  get currentUserId() {
+	    return sessionStorage.getItem('currentUserId');
+	  },
+	
+	  set allDocsOperationType(type) {
+	    sessionStorage.setItem('allDocsOperationType', type);
+	  },
+	
+	  get allDocsOperationType() {
+	    return sessionStorage.getItem('allDocsOperationType');
+	  },
+	
+	  set currentBillId(id) {
+	    sessionStorage.setItem('currentBillId', id);
+	  },
+	
+	  get currentBillId() {
+	    return sessionStorage.getItem('currentBillId');
+	  },
+	
 	  set operationClickType(type) {
 	    sessionStorage.setItem('operationClickType', type);
 	  },
@@ -605,23 +703,150 @@
 	  value: true
 	});
 	
-	var _form_login = __webpack_require__(3);
+	var _storage = __webpack_require__(1);
+	
+	var _storage2 = _interopRequireDefault(_storage);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	// Пользовательские права доступа на чтение в зависимости от кодов
+	var permissionEngToRus = {
+	
+	  // операции
+	  'receipt': 'Операции/Поступление',
+	  'sell': 'Операции/Продажа',
+	  'inventory': 'Операции/Инвентаризация',
+	  'balance': 'Операции/Балансовые операции',
+	  'manufacture': 'Операции/Производство',
+	
+	  // каталог
+	  'groups': 'Каталог/Группы товаров',
+	  'cards': 'Каталог/Производственные карточки',
+	
+	  // учет
+	  'docs': 'Учет/Все документы',
+	  'reports': 'Учет/Отчеты и аналитика',
+	
+	  // справочники
+	  'contractor-suppliers': 'Справочники/Поставщики',
+	  'contractor-buyers': 'Справочники/Покупатели',
+	  'points': 'Справочники/Точки продаж',
+	  'keywords': 'Справочники/Ключевые слова',
+	  'enterprises': 'Справочники/Предприятия',
+	  'debit': 'Справочники/Категории доходов',
+	  'credit': 'Справочники/Категории расходов',
+	
+	  // журнал
+	  'log': 'Журнал/Журнал операций'
+	};
+	
+	var permissionRead = {
+	
+	  // операции
+	  'receipt': 111,
+	  'sell': 121,
+	  'inventory': 141,
+	  'balance': 131,
+	  'manufacture': 181,
+	
+	  // каталог
+	  'groups': 221,
+	  'cards': 231,
+	
+	  // учет
+	  'docs': 321,
+	  'reports': 331,
+	
+	  // справочники
+	  'contractor-suppliers': 411,
+	  'contractor-buyers': 421,
+	  'points': 431,
+	  'keywords': 441,
+	  'enterprises': 511,
+	  'debit': 451,
+	  'credit': 461,
+	
+	  // журнал
+	  'log': 541
+	};
+	
+	/*
+	const permissionEdit = {
+	
+	  // каталог
+	  'groups': 222,
+	  'cards': 232,
+	
+	  // учет
+	  'docs': 322,
+	
+	  // справочники
+	  'contractor-suppliers': 412,
+	  'contractor-buyers': 422,
+	  'points': 432,
+	  'keywords': 442,
+	  'enterprises': 512,
+	  'debit': 452,
+	  'credit': 462,
+	};
+	*/
+	
+	var permissionReadAdminOnly = ['users', 'support'];
+	
+	var read = function read() {
+	  if (_storage2.default.data.operatorId !== '1') {
+	    Object.keys(permissionRead).forEach(function (itemId) {
+	      return document.querySelector('#list-' + itemId + '-list').classList.remove('disabled');
+	    });
+	    Object.keys(permissionRead).forEach(function (itemId) {
+	      return !_storage2.default.permissions.includes(permissionRead[itemId]) && document.querySelector('#list-' + itemId + '-list').classList.add('disabled');
+	    });
+	    permissionReadAdminOnly.forEach(function (itemId) {
+	      return document.querySelector('#list-' + itemId + '-list').classList.add('disabled');
+	    });
+	  } else {
+	    Object.keys(permissionRead).forEach(function (itemId) {
+	      return document.querySelector('#list-' + itemId + '-list').classList.remove('disabled');
+	    });
+	    permissionReadAdminOnly.forEach(function (itemId) {
+	      return document.querySelector('#list-' + itemId + '-list').classList.remove('disabled');
+	    });
+	  }
+	};
+	
+	exports.default = {
+	  read: read,
+	  permissionRead: permissionRead,
+	  permissionEngToRus: permissionEngToRus
+	};
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _form_login = __webpack_require__(4);
 	
 	var _form_login2 = _interopRequireDefault(_form_login);
 	
-	var _form_register = __webpack_require__(8);
+	var _form_register = __webpack_require__(9);
 	
 	var _form_register2 = _interopRequireDefault(_form_register);
 	
-	var _form_confirm_email = __webpack_require__(10);
+	var _form_confirm_email = __webpack_require__(11);
 	
 	var _form_confirm_email2 = _interopRequireDefault(_form_confirm_email);
 	
-	var _form_forgot = __webpack_require__(12);
+	var _form_forgot = __webpack_require__(13);
 	
 	var _form_forgot2 = _interopRequireDefault(_form_forgot);
 	
-	var _captcha = __webpack_require__(7);
+	var _captcha = __webpack_require__(8);
 	
 	var _captcha2 = _interopRequireDefault(_captcha);
 	
@@ -740,7 +965,7 @@
 	};
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -749,15 +974,15 @@
 	  value: true
 	});
 	
-	var _main_login_window = __webpack_require__(2);
+	var _main_login_window = __webpack_require__(3);
 	
 	var _main_login_window2 = _interopRequireDefault(_main_login_window);
 	
-	var _login = __webpack_require__(4);
+	var _login = __webpack_require__(5);
 	
 	var _login2 = _interopRequireDefault(_login);
 	
-	var _captcha = __webpack_require__(7);
+	var _captcha = __webpack_require__(8);
 	
 	var _captcha2 = _interopRequireDefault(_captcha);
 	
@@ -841,7 +1066,7 @@
 	};
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -850,7 +1075,7 @@
 	  value: true
 	});
 	
-	var _xhr = __webpack_require__(5);
+	var _xhr = __webpack_require__(6);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
 	
@@ -858,15 +1083,15 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _form_login = __webpack_require__(3);
+	var _form_login = __webpack_require__(4);
 	
 	var _form_login2 = _interopRequireDefault(_form_login);
 	
-	var _main_login_window = __webpack_require__(2);
+	var _main_login_window = __webpack_require__(3);
 	
 	var _main_login_window2 = _interopRequireDefault(_main_login_window);
 	
-	var _tools = __webpack_require__(6);
+	var _tools = __webpack_require__(7);
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
@@ -889,6 +1114,7 @@
 	      };
 	    } else {
 	      _storage2.default.data = response.data;
+	      _storage2.default.permissions = response.data.list_of_permissions;
 	      document.dispatchEvent(new Event('loginSuccess'));
 	    }
 	  } else {
@@ -985,7 +1211,7 @@
 	};
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -994,7 +1220,7 @@
 	  value: true
 	});
 	
-	var _tools = __webpack_require__(6);
+	var _tools = __webpack_require__(7);
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
@@ -1103,7 +1329,7 @@
 	};
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -1122,6 +1348,13 @@
 	var modalUniversalAddName = document.querySelector('#universal-add-name');
 	var modalUniversalAddNameLabel = document.querySelector('#universal-add-name-label');
 	var modalUniversalAddSubmit = document.querySelector('#universal-add-submit');
+	
+	var modalUniversalMicro = document.querySelector('#universal-modal-micro');
+	var modalUniversalMicroLabel = document.querySelector('#universal-modal-micro-label');
+	var modalUniversalMicroForm = document.querySelector('#universal-modal-micro-form');
+	var modalUniversalMicroName = document.querySelector('#universal-modal-micro-name');
+	var modalUniversalMicroNameLabel = document.querySelector('#universal-modal-micro-name-label');
+	var modalUniversalMicroSubmit = document.querySelector('#universal-modal-micro-submit');
 	
 	var alertBlock = document.querySelector('#alertBlock');
 	
@@ -1165,7 +1398,7 @@
 	      if (block) {
 	        block.remove();
 	      }
-	    }, 5000);
+	    }, 2000);
 	  },
 	
 	  set runUniversalAdd(setup) {
@@ -1185,11 +1418,30 @@
 	    modalUniversalAddName.setAttribute('placeholder', setup.inputPlaceholder);
 	    modalUniversalAddName.value = setup.inputValue ? setup.inputValue : '';
 	    modalUniversalAddSubmit.innerHTML = setup.submitBtnName;
+	  },
+	
+	  set runUniversalModalMicro(setup) {
+	    var requestHandler = function requestHandler(evt) {
+	      evt.preventDefault();
+	      setup.submitCallback(modalUniversalAddName.value);
+	      modalUniversalAddForm.removeEventListener('submit', requestHandler);
+	    };
+	
+	    $(modalUniversalMicro).modal('show');
+	    $(modalUniversalMicro).on('shown.bs.modal', function () {
+	      $(modalUniversalMicro).trigger('focus');
+	    });
+	    modalUniversalMicroLabel.innerHTML = setup.title;
+	    modalUniversalMicroNameLabel.innerHTML = setup.inputLabel;
+	    modalUniversalMicroName.setAttribute('placeholder', setup.inputPlaceholder);
+	    modalUniversalMicroName.value = setup.inputValue ? setup.inputValue : '';
+	    modalUniversalMicroSubmit.innerHTML = setup.submitBtnName;
+	    modalUniversalMicroForm.addEventListener('submit', requestHandler);
 	  }
 	};
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1198,23 +1450,23 @@
 	  value: true
 	});
 	
-	var _form_register = __webpack_require__(8);
+	var _form_register = __webpack_require__(9);
 	
 	var _form_register2 = _interopRequireDefault(_form_register);
 	
-	var _form_login = __webpack_require__(3);
+	var _form_login = __webpack_require__(4);
 	
 	var _form_login2 = _interopRequireDefault(_form_login);
 	
-	var _form_confirm_email = __webpack_require__(10);
+	var _form_confirm_email = __webpack_require__(11);
 	
 	var _form_confirm_email2 = _interopRequireDefault(_form_confirm_email);
 	
-	var _form_forgot = __webpack_require__(12);
+	var _form_forgot = __webpack_require__(13);
 	
 	var _form_forgot2 = _interopRequireDefault(_form_forgot);
 	
-	var _tools = __webpack_require__(6);
+	var _tools = __webpack_require__(7);
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
@@ -1261,7 +1513,7 @@
 	};
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1270,15 +1522,15 @@
 	  value: true
 	});
 	
-	var _main_login_window = __webpack_require__(2);
+	var _main_login_window = __webpack_require__(3);
 	
 	var _main_login_window2 = _interopRequireDefault(_main_login_window);
 	
-	var _register = __webpack_require__(9);
+	var _register = __webpack_require__(10);
 	
 	var _register2 = _interopRequireDefault(_register);
 	
-	var _captcha = __webpack_require__(7);
+	var _captcha = __webpack_require__(8);
 	
 	var _captcha2 = _interopRequireDefault(_captcha);
 	
@@ -1359,7 +1611,7 @@
 	};
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1368,15 +1620,15 @@
 	  value: true
 	});
 	
-	var _main_login_window = __webpack_require__(2);
+	var _main_login_window = __webpack_require__(3);
 	
 	var _main_login_window2 = _interopRequireDefault(_main_login_window);
 	
-	var _xhr = __webpack_require__(5);
+	var _xhr = __webpack_require__(6);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
 	
-	var _tools = __webpack_require__(6);
+	var _tools = __webpack_require__(7);
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
@@ -1504,7 +1756,7 @@
 	};
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1513,15 +1765,15 @@
 	  value: true
 	});
 	
-	var _main_login_window = __webpack_require__(2);
+	var _main_login_window = __webpack_require__(3);
 	
 	var _main_login_window2 = _interopRequireDefault(_main_login_window);
 	
-	var _confirm_email = __webpack_require__(11);
+	var _confirm_email = __webpack_require__(12);
 	
 	var _confirm_email2 = _interopRequireDefault(_confirm_email);
 	
-	var _captcha = __webpack_require__(7);
+	var _captcha = __webpack_require__(8);
 	
 	var _captcha2 = _interopRequireDefault(_captcha);
 	
@@ -1590,7 +1842,7 @@
 	};
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1599,7 +1851,7 @@
 	  value: true
 	});
 	
-	var _xhr = __webpack_require__(5);
+	var _xhr = __webpack_require__(6);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
 	
@@ -1607,11 +1859,11 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _main_login_window = __webpack_require__(2);
+	var _main_login_window = __webpack_require__(3);
 	
 	var _main_login_window2 = _interopRequireDefault(_main_login_window);
 	
-	var _tools = __webpack_require__(6);
+	var _tools = __webpack_require__(7);
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
@@ -1691,7 +1943,7 @@
 	};
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1700,15 +1952,15 @@
 	  value: true
 	});
 	
-	var _main_login_window = __webpack_require__(2);
+	var _main_login_window = __webpack_require__(3);
 	
 	var _main_login_window2 = _interopRequireDefault(_main_login_window);
 	
-	var _forgot = __webpack_require__(13);
+	var _forgot = __webpack_require__(14);
 	
 	var _forgot2 = _interopRequireDefault(_forgot);
 	
-	var _captcha = __webpack_require__(7);
+	var _captcha = __webpack_require__(8);
 	
 	var _captcha2 = _interopRequireDefault(_captcha);
 	
@@ -1777,7 +2029,7 @@
 	};
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1786,15 +2038,15 @@
 	  value: true
 	});
 	
-	var _xhr = __webpack_require__(5);
+	var _xhr = __webpack_require__(6);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
 	
-	var _main_login_window = __webpack_require__(2);
+	var _main_login_window = __webpack_require__(3);
 	
 	var _main_login_window2 = _interopRequireDefault(_main_login_window);
 	
-	var _tools = __webpack_require__(6);
+	var _tools = __webpack_require__(7);
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
@@ -1868,7 +2120,7 @@
 	};
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1877,11 +2129,11 @@
 	  value: true
 	});
 	
-	var _log = __webpack_require__(15);
+	var _log = __webpack_require__(16);
 	
 	var _log2 = _interopRequireDefault(_log);
 	
-	var _xhr = __webpack_require__(5);
+	var _xhr = __webpack_require__(6);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
 	
@@ -2000,7 +2252,7 @@
 	};
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -2060,7 +2312,7 @@
 	};
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2069,7 +2321,7 @@
 	  value: true
 	});
 	
-	var _online__profile = __webpack_require__(17);
+	var _online__profile = __webpack_require__(18);
 	
 	var _online__profile2 = _interopRequireDefault(_online__profile);
 	
@@ -2085,7 +2337,7 @@
 	};
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2116,7 +2368,7 @@
 	};
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2125,7 +2377,7 @@
 	  value: true
 	});
 	
-	var _xhr = __webpack_require__(5);
+	var _xhr = __webpack_require__(6);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
 	
@@ -2133,11 +2385,11 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _reference__enterprises = __webpack_require__(19);
+	var _reference__enterprises = __webpack_require__(20);
 	
 	var _reference__enterprises2 = _interopRequireDefault(_reference__enterprises);
 	
-	var _tools = __webpack_require__(6);
+	var _tools = __webpack_require__(7);
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
@@ -2221,11 +2473,7 @@
 	};
 	
 	var onSuccessNegativeTailingsSwitch = function onSuccessNegativeTailingsSwitch(loadedEnterpriseCard) {
-	  console.log(loadedEnterpriseCard);
-	};
-	
-	var onErrorNegativeTailingsSwitch = function onErrorNegativeTailingsSwitch(error) {
-	  console.log(error);
+	  return console.log(loadedEnterpriseCard);
 	};
 	
 	listEnterprisesCardNegativeBalanceSwitch.addEventListener('change', function (evt) {
@@ -2236,8 +2484,7 @@
 	    metod: 'PUT',
 	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/1/business/' + _storage2.default.currentEnterpriseId + '/meta',
 	    data: 'code=12&token=' + _storage2.default.data.token + '&value=' + value,
-	    callbackSuccess: onSuccessNegativeTailingsSwitch,
-	    callbackError: onErrorNegativeTailingsSwitch
+	    callbackSuccess: onSuccessNegativeTailingsSwitch
 	  };
 	});
 	
@@ -2249,10 +2496,13 @@
 	    metod: 'PUT',
 	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/1/business/' + _storage2.default.currentEnterpriseId + '/meta',
 	    data: 'code=11&token=' + _storage2.default.data.token + '&value=' + value,
-	    callbackSuccess: onSuccessNegativeTailingsSwitch,
-	    callbackError: onErrorNegativeTailingsSwitch
+	    callbackSuccess: onSuccessNegativeTailingsSwitch
 	  };
 	});
+	
+	var enterpriseCheckSuccess = function enterpriseCheckSuccess(answer) {
+	  return console.log(answer);
+	};
 	
 	var onSuccessEnterpriseCardLoad = function onSuccessEnterpriseCardLoad(loadedEnterpriseCard) {
 	  console.log(loadedEnterpriseCard);
@@ -2275,6 +2525,12 @@
 	    console.log(_storage2.default.data.currentBusiness);
 	    listEnterprisesCardCheckBtn.classList.add('d-none');
 	    listEnterprisesCardIsChecked.classList.remove('d-none');
+	    _xhr2.default.request = {
+	      metod: 'POST',
+	      url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/1/business/' + _storage2.default.currentEnterpriseId + '/select',
+	      data: 'token=' + _storage2.default.data.token,
+	      callbackSuccess: enterpriseCheckSuccess
+	    };
 	  });
 	
 	  $('#enterprises-card-edit').on('show.bs.modal', function (e) {
@@ -2366,7 +2622,7 @@
 	};
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2404,7 +2660,7 @@
 	};
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2413,7 +2669,7 @@
 	  value: true
 	});
 	
-	var _xhr = __webpack_require__(5);
+	var _xhr = __webpack_require__(6);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
 	
@@ -2421,13 +2677,19 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _reference__enterprises = __webpack_require__(18);
+	var _tools = __webpack_require__(7);
+	
+	var _tools2 = _interopRequireDefault(_tools);
+	
+	var _reference__enterprises = __webpack_require__(19);
 	
 	var _reference__enterprises2 = _interopRequireDefault(_reference__enterprises);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var appUrl = window.appSettings.formAddEnterprise.UrlApi;
+	var messages = window.appSettings.formAddEnterprise.message;
+	
 	var validPattern = window.appSettings.formAddEnterprise.validPatterns;
 	var validMessage = window.appSettings.formAddEnterprise.validMessage;
 	
@@ -2485,17 +2747,40 @@
 	  buttonCancel.disabled = false;
 	};
 	
-	var callbackXhrSuccess = function callbackXhrSuccess() {
+	var callbackXhrSuccess = function callbackXhrSuccess(response) {
+	
 	  hideSpinner();
 	  formReset();
 	  $('#enterprises-add').modal('hide');
-	  _reference__enterprises2.default.redraw();
+	
+	  switch (response.status) {
+	    case 200:
+	      _reference__enterprises2.default.redraw();
+	      break;
+	    case 400:
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'messages': messages.mes400
+	      };
+	      break;
+	    case 271:
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'messages': response.messages
+	      };
+	      break;
+	  }
 	};
 	
 	var callbackXhrError = function callbackXhrError() {
 	  hideSpinner();
 	  formReset();
 	  $('#enterprises-card-edit').modal('hide');
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'Error',
+	    'messages': window.appSettings.messagess.xhrError
+	  };
 	};
 	
 	var validateForm = function validateForm() {
@@ -2563,7 +2848,7 @@
 	};
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2572,7 +2857,7 @@
 	  value: true
 	});
 	
-	var _xhr = __webpack_require__(5);
+	var _xhr = __webpack_require__(6);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
 	
@@ -2580,20 +2865,31 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _reference__enterprises = __webpack_require__(18);
+	var _tools = __webpack_require__(7);
+	
+	var _tools2 = _interopRequireDefault(_tools);
+	
+	var _reference__enterprises = __webpack_require__(19);
 	
 	var _reference__enterprises2 = _interopRequireDefault(_reference__enterprises);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var appUrl = window.appSettings.formEditEnterprise.UrlApi;
+	
+	var messages = window.appSettings.formEditEnterprise.messages;
+	
 	var validPattern = window.appSettings.formEditEnterprise.validPatterns;
 	var validMessage = window.appSettings.formEditEnterprise.validMessage;
+	
 	var body = document.querySelector('body');
 	var enterprisesCarEedit = body.querySelector('#enterprises-card-edit');
 	var form = enterprisesCarEedit.querySelector('#enterprises-card-edit-form');
+	
 	var name = form.querySelector('#enterprises-card-edit-name');
+	
 	var spinner = form.querySelector('#enterprises-card-edit-spinner');
+	
 	var buttonSubmit = form.querySelector('#enterprises-card-edit-submit');
 	var buttonCancel = form.querySelector('#enterprises-card-edit-cancel');
 	
@@ -2634,17 +2930,41 @@
 	  buttonCancel.disabled = false;
 	};
 	
-	var callbackXhrSuccess = function callbackXhrSuccess() {
+	var callbackXhrSuccess = function callbackXhrSuccess(response) {
+	
 	  hideSpinner();
 	  formReset();
 	  $('#enterprises-card-edit').modal('hide');
-	  _reference__enterprises2.default.updateCard();
+	
+	  switch (response.status) {
+	    case 200:
+	      _reference__enterprises2.default.updateCard();
+	      break;
+	    case 400:
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'messages': messages.mes400
+	      };
+	      break;
+	    case 271:
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'messages': response.messages
+	      };
+	      break;
+	  }
 	};
 	
 	var callbackXhrError = function callbackXhrError() {
+	
 	  hideSpinner();
 	  formReset();
 	  $('#enterprises-card-edit').modal('hide');
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'Error',
+	    'messages': window.appSettings.messagess.xhrError
+	  };
 	};
 	
 	var formIsChange = function formIsChange() {
@@ -2721,7 +3041,7 @@
 	};
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2730,7 +3050,7 @@
 	  value: true
 	});
 	
-	var _xhr = __webpack_require__(5);
+	var _xhr = __webpack_require__(6);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
 	
@@ -2738,11 +3058,11 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _reference__points = __webpack_require__(23);
+	var _reference__points = __webpack_require__(24);
 	
 	var _reference__points2 = _interopRequireDefault(_reference__points);
 	
-	var _tools = __webpack_require__(6);
+	var _tools = __webpack_require__(7);
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
@@ -2781,10 +3101,6 @@
 	var selectedString = '';
 	disableCheckEditButtons();
 	
-	var onErrorPointsLoad = function onErrorPointsLoad(error) {
-	  console.log(error);
-	};
-	
 	listPointsBody.addEventListener('change', function (evt) {
 	  console.log(evt);
 	  if (selectedString) {
@@ -2796,10 +3112,20 @@
 	  enableCheckEditButtons();
 	});
 	
+	var onSuccessPointCheck = function onSuccessPointCheck(answer) {
+	  return console.log(answer);
+	};
+	
 	pointsCheckBtn.addEventListener('click', function () {
 	  if (!pointsCheckBtn.hasAttribute('disabled')) {
 	    _storage2.default.currentStock = selectedString.dataset.stockId;
 	    disableCheckEditButtons();
+	    _xhr2.default.request = {
+	      metod: 'POST',
+	      url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/1/business/' + _storage2.default.data.currentBusiness + '/stock/' + _storage2.default.currentStockId + '/select',
+	      data: 'token=' + _storage2.default.data.token,
+	      callbackSuccess: onSuccessPointCheck
+	    };
 	    getPoints();
 	  }
 	});
@@ -2822,8 +3148,7 @@
 	    metod: 'POST',
 	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/1/business/' + _storage2.default.data.currentBusiness + '/stock',
 	    data: 'view_last=0&token=' + _storage2.default.data.token,
-	    callbackSuccess: onSuccessPointsLoad,
-	    callbackError: onErrorPointsLoad
+	    callbackSuccess: onSuccessPointsLoad
 	  };
 	};
 	
@@ -2842,7 +3167,7 @@
 	};
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2880,7 +3205,7 @@
 	};
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2889,7 +3214,7 @@
 	  value: true
 	});
 	
-	var _xhr = __webpack_require__(5);
+	var _xhr = __webpack_require__(6);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
 	
@@ -2897,7 +3222,11 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _reference__points = __webpack_require__(22);
+	var _tools = __webpack_require__(7);
+	
+	var _tools2 = _interopRequireDefault(_tools);
+	
+	var _reference__points = __webpack_require__(23);
 	
 	var _reference__points2 = _interopRequireDefault(_reference__points);
 	
@@ -2907,6 +3236,8 @@
 	
 	var validPattern = window.appSettings.formAddPoint.validPatterns;
 	var validMessage = window.appSettings.formAddPoint.validMessage;
+	
+	var messages = window.appSettings.formAddPoint.messages;
 	
 	var body = document.querySelector('body');
 	var enterprisesAdd = body.querySelector('#points-add');
@@ -2960,17 +3291,40 @@
 	  buttonCancel.disabled = false;
 	};
 	
-	var callbackXhrSuccess = function callbackXhrSuccess() {
+	var callbackXhrSuccess = function callbackXhrSuccess(response) {
+	
 	  hideSpinner();
 	  formReset();
 	  $('#points-add').modal('hide');
-	  _reference__points2.default.redraw();
+	
+	  switch (response.status) {
+	    case 200:
+	      _reference__points2.default.redraw();
+	      break;
+	    case 400:
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'messages': messages.mes400
+	      };
+	      break;
+	    case 271:
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'messages': response.messages
+	      };
+	      break;
+	  }
 	};
 	
 	var callbackXhrError = function callbackXhrError() {
 	  hideSpinner();
 	  formReset();
 	  $('#points-add').modal('hide');
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'Error',
+	    'messages': window.appSettings.messagess.xhrError
+	  };
 	};
 	
 	var validateForm = function validateForm() {
@@ -3035,7 +3389,7 @@
 	};
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3044,7 +3398,7 @@
 	  value: true
 	});
 	
-	var _xhr = __webpack_require__(5);
+	var _xhr = __webpack_require__(6);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
 	
@@ -3052,7 +3406,11 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _reference__points = __webpack_require__(22);
+	var _tools = __webpack_require__(7);
+	
+	var _tools2 = _interopRequireDefault(_tools);
+	
+	var _reference__points = __webpack_require__(23);
 	
 	var _reference__points2 = _interopRequireDefault(_reference__points);
 	
@@ -3062,6 +3420,8 @@
 	
 	var validPattern = window.appSettings.formEditPoint.validPatterns;
 	var validMessage = window.appSettings.formEditPoint.validMessage;
+	
+	var messages = window.appSettings.formEditPoint.messages;
 	
 	var body = document.querySelector('body');
 	var enterprisesAdd = body.querySelector('#points-edit');
@@ -3111,17 +3471,41 @@
 	  buttonCancel.disabled = false;
 	};
 	
-	var callbackXhrSuccess = function callbackXhrSuccess() {
+	var callbackXhrSuccess = function callbackXhrSuccess(response) {
+	
 	  hideSpinner();
 	  formReset();
 	  $('#points-edit').modal('hide');
-	  _reference__points2.default.redraw();
+	
+	  switch (response.status) {
+	    case 200:
+	      _reference__points2.default.redraw();
+	      break;
+	    case 400:
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'messages': messages.mes400
+	      };
+	      break;
+	    case 271:
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'messages': response.messages
+	      };
+	      break;
+	  }
 	};
 	
 	var callbackXhrError = function callbackXhrError() {
+	
 	  hideSpinner();
 	  formReset();
 	  $('#points-edit').modal('hide');
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'Error',
+	    'messages': window.appSettings.messagess.xhrError
+	  };
 	};
 	
 	var formIsChange = function formIsChange() {
@@ -3201,7 +3585,7 @@
 	};
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3210,7 +3594,7 @@
 	  value: true
 	});
 	
-	var _xhr = __webpack_require__(5);
+	var _xhr = __webpack_require__(6);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
 	
@@ -3218,15 +3602,15 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _reference__contractors = __webpack_require__(27);
+	var _reference__contractors = __webpack_require__(28);
 	
 	var _reference__contractors2 = _interopRequireDefault(_reference__contractors);
 	
-	var _reference__contractorsCard = __webpack_require__(28);
+	var _reference__contractorsCard = __webpack_require__(29);
 	
 	var _reference__contractorsCard2 = _interopRequireDefault(_reference__contractorsCard);
 	
-	var _tools = __webpack_require__(6);
+	var _tools = __webpack_require__(7);
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
@@ -3352,10 +3736,6 @@
 	
 	  listContractorsFormBill.classList.remove('d-none');
 	
-	  console.log(_storage2.default.currentContractorId);
-	  console.log(_storage2.default.currentContractorOperation);
-	  console.log(contractorsData);
-	
 	  var onListContractorsFormBillClick = function onListContractorsFormBillClick() {
 	    hideBodyShowCard();
 	    listContractorsCardName.innerHTML = name;
@@ -3378,14 +3758,16 @@
 	};
 	
 	listContractorsBody.addEventListener('click', onListContractorsBodyClick);
+	/*
+	 */
 	
 	var getContractors = function getContractors(type) {
+	
+	  _storage2.default.currentScreen = Number(type) === ContractorType.SUPPLIER ? 'reference__contractors--Suppliers' : 'reference__contractors--Buyers';
+	
 	  showBodyHideCard();
-	  console.log('hi');
-	  console.log(type);
-	  console.log(_storage2.default.currentContractorType);
+	  document.querySelector('#list-contractors').classList.remove('d-none');
 	  type = type || _storage2.default.currentContractorType;
-	  console.log(type);
 	
 	  listContractorsHeaderType.innerHTML = Number(type) === ContractorType.SUPPLIER ? _reference__contractors2.default.getSuppliersHeader() : _reference__contractors2.default.getBuyersHeader();
 	  listContractorsFormEditLabel.innerHTML = Number(type) === ContractorType.SUPPLIER ? 'Поставщики' : 'Покупатели';
@@ -3401,16 +3783,15 @@
 	    callbackSuccess: onSuccessContractorsLoad,
 	    callbackError: onErrorContractorsLoad
 	  };
-	};
 	
-	$('#contractors-add').on('hidden.bs.modal', function (e) {
-	  listContractorsFormBill.classList.add('d-none');
-	});
-	$('#contractors-add').on('show.bs.modal', function (e) {
-	  listContractorsFormSubmit.innerHTML = _storage2.default.currentContractorOperation === 'edit' ? 'Изменить' : 'Создать';
-	  console.log(_storage2.default.currentContractorId);
-	  console.log(_storage2.default.currentContractorOperation);
-	});
+	  $('#contractors-add').on('hidden.bs.modal', function (e) {
+	    listContractorsFormBill.classList.add('d-none');
+	  });
+	
+	  $('#contractors-add').on('show.bs.modal', function (e) {
+	    listContractorsFormSubmit.innerHTML = _storage2.default.currentContractorOperation === 'edit' ? 'Изменить' : 'Создать';
+	  });
+	};
 	
 	exports.default = {
 	  start: function start() {
@@ -3429,7 +3810,7 @@
 	};
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -3466,7 +3847,7 @@
 	};
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -3510,7 +3891,7 @@
 	};
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3519,7 +3900,7 @@
 	  value: true
 	});
 	
-	var _xhr = __webpack_require__(5);
+	var _xhr = __webpack_require__(6);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
 	
@@ -3527,15 +3908,20 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _reference__contractors = __webpack_require__(26);
+	var _reference__contractors = __webpack_require__(27);
 	
 	var _reference__contractors2 = _interopRequireDefault(_reference__contractors);
+	
+	var _tools = __webpack_require__(7);
+	
+	var _tools2 = _interopRequireDefault(_tools);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var appUrl = window.appSettings.formAddContractor.UrlApi;
 	var validPattern = window.appSettings.formAddContractor.validPatterns;
 	var validMessage = window.appSettings.formAddContractor.validMessage;
+	var messages = window.appSettings.formAddContractor.messages;
 	
 	var body = document.querySelector('body');
 	var contractorsAdd = body.querySelector('#contractors-add');
@@ -3594,16 +3980,35 @@
 	};
 	
 	var callbackXhrSuccess = function callbackXhrSuccess(response) {
+	  console.dir(response);
+	
 	  hideSpinner();
 	  formReset();
 	  $('#contractors-add').modal('hide');
-	  _reference__contractors2.default.redraw();
+	
+	  switch (response.status) {
+	    case 200:
+	      _reference__contractors2.default.redraw();
+	      break;
+	    case 400:
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'message': messages.mes400
+	      };
+	      break;
+	  }
 	};
 	
 	var callbackXhrError = function callbackXhrError() {
+	
 	  hideSpinner();
 	  formReset();
 	  $('#enterprises-card-edit').modal('hide');
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'Error',
+	    'messages': window.appSettings.messagess.xhrError
+	  };
 	};
 	
 	var validateForm = function validateForm() {
@@ -3740,7 +4145,7 @@
 	};
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3749,7 +4154,7 @@
 	  value: true
 	});
 	
-	var _xhr = __webpack_require__(5);
+	var _xhr = __webpack_require__(6);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
 	
@@ -3757,11 +4162,11 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _tools = __webpack_require__(6);
+	var _tools = __webpack_require__(7);
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _universalKeywords = __webpack_require__(31);
+	var _universalKeywords = __webpack_require__(32);
 	
 	var _universalKeywords2 = _interopRequireDefault(_universalKeywords);
 	
@@ -3890,7 +4295,7 @@
 	};
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3899,7 +4304,7 @@
 	  value: true
 	});
 	
-	var _xhr = __webpack_require__(5);
+	var _xhr = __webpack_require__(6);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
 	
@@ -3907,7 +4312,7 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _tools = __webpack_require__(6);
+	var _tools = __webpack_require__(7);
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
@@ -3945,7 +4350,6 @@
 	  containerToDraw.lastChild.addEventListener('click', handler);
 	};
 	
-	// принимает необязательный параметр handler на тот случай, когда массив не загружается обычным способом (например, ключевые слова, ассоциированные с товаром)
 	var drawKeywordsToContainer = function drawKeywordsToContainer(keyword) {
 	  console.log(keyword);
 	  container.insertAdjacentHTML('beforeend', getKeywordMarkup(keyword));
@@ -3988,7 +4392,7 @@
 	};
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3997,7 +4401,7 @@
 	  value: true
 	});
 	
-	var _xhr = __webpack_require__(5);
+	var _xhr = __webpack_require__(6);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
 	
@@ -4005,7 +4409,11 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _reference__keywords = __webpack_require__(30);
+	var _tools = __webpack_require__(7);
+	
+	var _tools2 = _interopRequireDefault(_tools);
+	
+	var _reference__keywords = __webpack_require__(31);
 	
 	var _reference__keywords2 = _interopRequireDefault(_reference__keywords);
 	
@@ -4014,13 +4422,20 @@
 	var appUrl = window.appSettings.formAddKeywords.UrlApi;
 	var validPattern = window.appSettings.formAddKeywords.validPatterns;
 	var validMessage = window.appSettings.formAddKeywords.validMessage;
+	var messages = window.appSettings.formAddKeywords.messages;
+	
 	var body = document.querySelector('body');
 	var enterprisesAdd = body.querySelector('#keywords-add');
 	var form = enterprisesAdd.querySelector('#keywords-add-form');
+	
 	var name = form.querySelector('#keywords-add-name');
+	
 	var spinner = form.querySelector('#keywords-add-spinner');
+	
 	var buttonSubmit = form.querySelector('#keywords-add-submit');
 	var buttonCancel = form.querySelector('#keywords-add-cancel');
+	
+	// const stor = dataStorage.data;
 	
 	var showSpinner = function showSpinner() {
 	  spinner.classList.remove('invisible');
@@ -4061,17 +4476,41 @@
 	  buttonCancel.disabled = false;
 	};
 	
-	var callbackXhrSuccess = function callbackXhrSuccess() {
+	var callbackXhrSuccess = function callbackXhrSuccess(response) {
+	
 	  hideSpinner();
 	  formReset();
 	  $('#keywords-add').modal('hide');
-	  _reference__keywords2.default.update();
+	
+	  switch (response.status) {
+	    case 200:
+	      _reference__keywords2.default.update();
+	      break;
+	    case 400:
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'messages': messages.mes400
+	      };
+	      break;
+	    case 271:
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'messages': response.messages
+	      };
+	      break;
+	  }
 	};
 	
 	var callbackXhrError = function callbackXhrError() {
+	
 	  hideSpinner();
 	  formReset();
 	  $('#keywords-add').modal('hide');
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'Error',
+	    'messages': window.appSettings.messagess.xhrError
+	  };
 	};
 	
 	var validateForm = function validateForm() {
@@ -4153,7 +4592,7 @@
 	};
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4162,7 +4601,7 @@
 	  value: true
 	});
 	
-	var _xhr = __webpack_require__(5);
+	var _xhr = __webpack_require__(6);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
 	
@@ -4170,13 +4609,19 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _reference__keywords = __webpack_require__(30);
+	var _tools = __webpack_require__(7);
+	
+	var _tools2 = _interopRequireDefault(_tools);
+	
+	var _reference__keywords = __webpack_require__(31);
 	
 	var _reference__keywords2 = _interopRequireDefault(_reference__keywords);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var appUrl = window.appSettings.formEditKeywords.UrlApi;
+	
+	var messages = window.appSettings.formEditKeywords.messages;
 	
 	var validPattern = window.appSettings.formEditKeywords.validPatterns;
 	var validMessage = window.appSettings.formEditKeywords.validMessage;
@@ -4229,18 +4674,43 @@
 	  buttonCancel.disabled = false;
 	};
 	
-	var callbackXhrSuccess = function callbackXhrSuccess() {
+	var callbackXhrSuccess = function callbackXhrSuccess(response) {
+	
+	  console.dir(response);
 	  _storage2.default.currentKeywordName = name.value;
 	  hideSpinner();
 	  formReset();
 	  $('#keywords-card-edit').modal('hide');
-	  _reference__keywords2.default.redraw();
+	
+	  switch (response.status) {
+	    case 200:
+	      _reference__keywords2.default.redraw();
+	      break;
+	    case 400:
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'messages': messages.mes400
+	      };
+	      break;
+	    case 271:
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'messages': response.messages
+	      };
+	      break;
+	  }
 	};
 	
 	var callbackXhrError = function callbackXhrError() {
+	
 	  hideSpinner();
 	  formReset();
 	  $('#keywords-card-edit').modal('hide');
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'Error',
+	    'messages': window.appSettings.messagess.xhrError
+	  };
 	};
 	
 	var formIsChange = function formIsChange() {
@@ -4320,7 +4790,7 @@
 	};
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4329,7 +4799,7 @@
 	  value: true
 	});
 	
-	var _xhr = __webpack_require__(5);
+	var _xhr = __webpack_require__(6);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
 	
@@ -4337,31 +4807,31 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _tools = __webpack_require__(6);
+	var _tools = __webpack_require__(7);
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _universalSearch = __webpack_require__(35);
+	var _universalSearch = __webpack_require__(36);
 	
 	var _universalSearch2 = _interopRequireDefault(_universalSearch);
 	
-	var _catalog__groupsDelete = __webpack_require__(36);
+	var _catalog__groupsDelete = __webpack_require__(37);
 	
 	var _catalog__groupsDelete2 = _interopRequireDefault(_catalog__groupsDelete);
 	
-	var _catalog__groupsAdd = __webpack_require__(37);
+	var _catalog__groupsAdd = __webpack_require__(38);
 	
 	var _catalog__groupsAdd2 = _interopRequireDefault(_catalog__groupsAdd);
 	
-	var _catalog__goods = __webpack_require__(39);
+	var _catalog__goods = __webpack_require__(40);
 	
 	var _catalog__goods2 = _interopRequireDefault(_catalog__goods);
 	
-	var _universalGroupsList = __webpack_require__(48);
+	var _universalGroupsList = __webpack_require__(49);
 	
 	var _universalGroupsList2 = _interopRequireDefault(_universalGroupsList);
 	
-	var _catalog__groupsEdit = __webpack_require__(49);
+	var _catalog__groupsEdit = __webpack_require__(50);
 	
 	var _catalog__groupsEdit2 = _interopRequireDefault(_catalog__groupsEdit);
 	
@@ -4504,7 +4974,7 @@
 	};
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -4527,7 +4997,7 @@
 	};
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4536,7 +5006,7 @@
 	  value: true
 	});
 	
-	var _xhr = __webpack_require__(5);
+	var _xhr = __webpack_require__(6);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
 	
@@ -4544,11 +5014,11 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _tools = __webpack_require__(6);
+	var _tools = __webpack_require__(7);
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _catalog__groups = __webpack_require__(34);
+	var _catalog__groups = __webpack_require__(35);
 	
 	var _catalog__groups2 = _interopRequireDefault(_catalog__groups);
 	
@@ -4601,7 +5071,7 @@
 	};
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4614,17 +5084,23 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _formTools = __webpack_require__(38);
+	var _tools = __webpack_require__(7);
+	
+	var _tools2 = _interopRequireDefault(_tools);
+	
+	var _formTools = __webpack_require__(39);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
-	var _catalog__groups = __webpack_require__(34);
+	var _catalog__groups = __webpack_require__(35);
 	
 	var _catalog__groups2 = _interopRequireDefault(_catalog__groups);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var appUrl = void 0;
+	var messages = void 0;
+	
 	var form = void 0;
 	var name = void 0;
 	var modal = void 0;
@@ -4633,18 +5109,42 @@
 	  modal = remModal;
 	  form = modal.querySelector('*[data-formName]');
 	  name = form.querySelector('*[data-valid="name"]');
+	
 	  appUrl = window.appSettings[form.dataset.formname].UrlApi;
+	  messages = window.appSettings[form.dataset.formname].messages;
 	};
 	
-	var callbackXhrSuccess = function callbackXhrSuccess() {
-	  $(modal).modal('hide');
-	  _formTools2.default.reset();
-	  _catalog__groups2.default.redraw();
+	var callbackXhrSuccess = function callbackXhrSuccess(response) {
+	  switch (response.status) {
+	    case 200:
+	      $(modal).modal('hide');
+	      _formTools2.default.reset();
+	      _catalog__groups2.default.redraw();
+	      break;
+	    case 400:
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'message': messages.mes400
+	      };
+	      break;
+	    case 271:
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'message': response.messages
+	      };
+	      break;
+	  }
 	};
 	
-	var callbackXhrError = function callbackXhrError() {
+	var callbackXhrError = function callbackXhrError(xhr) {
+	
 	  $(modal).modal('hide');
 	  _formTools2.default.reset();
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'ОШИБКА СВЯЗИ',
+	    'message': '\u041E\u0448\u0438\u0431\u043A\u0430 ' + xhr.status + ': ' + xhr.statusText
+	  };
 	};
 	
 	var submitForm = function submitForm() {
@@ -4675,7 +5175,7 @@
 	};
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4684,7 +5184,7 @@
 	  value: true
 	});
 	
-	var _xhr = __webpack_require__(5);
+	var _xhr = __webpack_require__(6);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
 	
@@ -4944,7 +5444,7 @@
 	};
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4953,7 +5453,7 @@
 	  value: true
 	});
 	
-	var _xhr = __webpack_require__(5);
+	var _xhr = __webpack_require__(6);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
 	
@@ -4961,39 +5461,39 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _catalog__goodsExpress = __webpack_require__(40);
+	var _catalog__goodsExpress = __webpack_require__(41);
 	
 	var _catalog__goodsExpress2 = _interopRequireDefault(_catalog__goodsExpress);
 	
-	var _catalog__goodsStock = __webpack_require__(41);
+	var _catalog__goodsStock = __webpack_require__(42);
 	
 	var _catalog__goodsStock2 = _interopRequireDefault(_catalog__goodsStock);
 	
-	var _catalog__goodsEdit = __webpack_require__(42);
+	var _catalog__goodsEdit = __webpack_require__(43);
 	
 	var _catalog__goodsEdit2 = _interopRequireDefault(_catalog__goodsEdit);
 	
-	var _catalog__groups = __webpack_require__(34);
+	var _catalog__groups = __webpack_require__(35);
 	
 	var _catalog__groups2 = _interopRequireDefault(_catalog__groups);
 	
-	var _catalog__goodsGetStock = __webpack_require__(44);
+	var _catalog__goodsGetStock = __webpack_require__(45);
 	
 	var _catalog__goodsGetStock2 = _interopRequireDefault(_catalog__goodsGetStock);
 	
-	var _catalog__goodsGetKeywords = __webpack_require__(45);
+	var _catalog__goodsGetKeywords = __webpack_require__(46);
 	
 	var _catalog__goodsGetKeywords2 = _interopRequireDefault(_catalog__goodsGetKeywords);
 	
-	var _catalog__goodsAdd = __webpack_require__(46);
+	var _catalog__goodsAdd = __webpack_require__(47);
 	
 	var _catalog__goodsAdd2 = _interopRequireDefault(_catalog__goodsAdd);
 	
-	var _universalGoodsList = __webpack_require__(47);
+	var _universalGoodsList = __webpack_require__(48);
 	
 	var _universalGoodsList2 = _interopRequireDefault(_universalGoodsList);
 	
-	var _universalSearch = __webpack_require__(35);
+	var _universalSearch = __webpack_require__(36);
 	
 	var _universalSearch2 = _interopRequireDefault(_universalSearch);
 	
@@ -5101,6 +5601,7 @@
 	    universalSort(_storage2.default.goodsSortMode);
 	  }
 	  _storage2.default.goodsViewMode = _storage2.default.goodsViewMode === 'null' ? 'string' : _storage2.default.goodsViewMode;
+	  console.log('hihi');
 	  _universalGoodsList2.default.draw(goodsData.data, groupGoodsBody, onGoodClick);
 	};
 	
@@ -5411,7 +5912,7 @@
 	};
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5424,13 +5925,19 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _formTools = __webpack_require__(38);
+	var _tools = __webpack_require__(7);
+	
+	var _tools2 = _interopRequireDefault(_tools);
+	
+	var _formTools = __webpack_require__(39);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var appUrl = void 0;
+	var messages = void 0;
+	
 	var form = void 0;
 	var price = void 0;
 	var amount = void 0;
@@ -5441,16 +5948,45 @@
 	  form = modal.querySelector('*[data-formName]');
 	  price = form.querySelector('*[data-valid="price"]');
 	  amount = form.querySelector('*[data-valid="amount"]');
+	
 	  appUrl = window.appSettings[form.dataset.formname].UrlApi;
+	  messages = window.appSettings[form.dataset.formname].messages;
 	};
 	
-	var callbackXhrSuccess = function callbackXhrSuccess() {
-	  $(modal).modal('hide');
+	var callbackXhrSuccess = function callbackXhrSuccess(response) {
+	  switch (response.status) {
+	    case 270:
+	      $(modal).modal('hide');
+	      _tools2.default.informationtModal = {
+	        'title': 'MESSAGE: ',
+	        'message': response.message,
+	        'isMess': true
+	      };
+	      break;
+	    case 400:
+	      _tools2.default.informationtModal = {
+	        'title': 'ERROR: ',
+	        'message': messages.mes400
+	      };
+	      break;
+	    case 271:
+	      _tools2.default.informationtModal = {
+	        'title': 'ERROR: ',
+	        'message': response.messages
+	      };
+	      break;
+	  }
 	};
 	
-	var callbackXhrError = function callbackXhrError() {
+	var callbackXhrError = function callbackXhrError(xhr) {
+	
 	  $(modal).modal('hide');
 	  _formTools2.default.reset();
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'ОШИБКА СВЯЗИ',
+	    'message': '\u041E\u0448\u0438\u0431\u043A\u0430 ' + xhr.status + ': ' + xhr.statusText
+	  };
 	};
 	
 	var submitForm = function submitForm() {
@@ -5484,7 +6020,7 @@
 	};
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5497,11 +6033,11 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _tools = __webpack_require__(6);
+	var _tools = __webpack_require__(7);
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _formTools = __webpack_require__(38);
+	var _formTools = __webpack_require__(39);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
@@ -5586,7 +6122,7 @@
 	};
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5599,19 +6135,19 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _tools = __webpack_require__(6);
+	var _tools = __webpack_require__(7);
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _formTools = __webpack_require__(38);
+	var _formTools = __webpack_require__(39);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
-	var _tools3 = __webpack_require__(43);
+	var _tools3 = __webpack_require__(44);
 	
 	var _tools4 = _interopRequireDefault(_tools3);
 	
-	var _catalog__goods = __webpack_require__(39);
+	var _catalog__goods = __webpack_require__(40);
 	
 	var _catalog__goods2 = _interopRequireDefault(_catalog__goods);
 	
@@ -5827,7 +6363,7 @@
 	};
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -5886,7 +6422,7 @@
 	};
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5954,7 +6490,7 @@
 	};
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5967,23 +6503,23 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _catalog__goods = __webpack_require__(39);
+	var _catalog__goods = __webpack_require__(40);
 	
 	var _catalog__goods2 = _interopRequireDefault(_catalog__goods);
 	
-	var _xhr = __webpack_require__(5);
+	var _xhr = __webpack_require__(6);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
 	
-	var _universalKeywords = __webpack_require__(31);
+	var _universalKeywords = __webpack_require__(32);
 	
 	var _universalKeywords2 = _interopRequireDefault(_universalKeywords);
 	
-	var _reference__keywords = __webpack_require__(30);
+	var _reference__keywords = __webpack_require__(31);
 	
 	var _reference__keywords2 = _interopRequireDefault(_reference__keywords);
 	
-	var _catalog__goodsEdit = __webpack_require__(42);
+	var _catalog__goodsEdit = __webpack_require__(43);
 	
 	var _catalog__goodsEdit2 = _interopRequireDefault(_catalog__goodsEdit);
 	
@@ -6066,7 +6602,7 @@
 	};
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6079,21 +6615,27 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _formTools = __webpack_require__(38);
+	var _tools = __webpack_require__(7);
+	
+	var _tools2 = _interopRequireDefault(_tools);
+	
+	var _formTools = __webpack_require__(39);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
-	var _catalog__groups = __webpack_require__(34);
+	var _catalog__groups = __webpack_require__(35);
 	
 	var _catalog__groups2 = _interopRequireDefault(_catalog__groups);
 	
-	var _tools = __webpack_require__(43);
+	var _tools3 = __webpack_require__(44);
 	
-	var _tools2 = _interopRequireDefault(_tools);
+	var _tools4 = _interopRequireDefault(_tools3);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var appUrl = void 0;
+	var messages = void 0;
+	
 	var form = void 0;
 	var name = void 0;
 	var modal = void 0;
@@ -6117,17 +6659,44 @@
 	  priceBlock = form.querySelector('#group-goods-price');
 	
 	  appUrl = window.appSettings[form.dataset.formname].UrlApi;
+	  messages = window.appSettings[form.dataset.formname].messages;
 	};
 	
-	var callbackXhrSuccess = function callbackXhrSuccess() {
-	  $(modal).modal('hide');
-	  _formTools2.default.reset();
-	  _catalog__groups2.default.getGoodsForGroup();
+	var callbackXhrSuccess = function callbackXhrSuccess(response) {
+	  switch (response.status) {
+	    case 200:
+	      $(modal).modal('hide');
+	      _formTools2.default.reset();
+	      _catalog__groups2.default.getGoodsForGroup();
+	      break;
+	    case 400:
+	      $(modal).modal('hide');
+	      _formTools2.default.reset();
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'message': messages.mes400
+	      };
+	      break;
+	    case 271:
+	      $(modal).modal('hide');
+	      _formTools2.default.reset();
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'message': response.messages
+	      };
+	      break;
+	  }
 	};
 	
-	var callbackXhrError = function callbackXhrError() {
+	var callbackXhrError = function callbackXhrError(xhr) {
+	
 	  $(modal).modal('hide');
 	  _formTools2.default.reset();
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'ОШИБКА СВЯЗИ',
+	    'message': '\u041E\u0448\u0438\u0431\u043A\u0430 ' + xhr.status + ': ' + xhr.statusText
+	  };
 	};
 	
 	var submitForm = function submitForm() {
@@ -6156,19 +6725,19 @@
 	
 	    switch (evt.target.dataset.valid) {
 	      case 'percent':
-	        price.value = _tools2.default.calcPrice(purchase.value, percent.value);
+	        price.value = _tools4.default.calcPrice(purchase.value, percent.value);
 	        break;
 	      case 'purchase':
 	        if (price.value === '') {
 	          price.value = purchase.value;
 	        }
-	        percent.value = _tools2.default.calcPercent(purchase.value, price.value);
+	        percent.value = _tools4.default.calcPercent(purchase.value, price.value);
 	        break;
 	      case 'price':
 	        if (purchase.value === '') {
 	          purchase.value = price.value;
 	        }
-	        percent.value = _tools2.default.calcPercent(purchase.value, price.value);
+	        percent.value = _tools4.default.calcPercent(purchase.value, price.value);
 	        break;
 	    }
 	  }
@@ -6188,7 +6757,7 @@
 	};
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6205,7 +6774,7 @@
 	
 	var markup = {
 	  getGoodString: function getGoodString(item, index) {
-	    return '\n    <div class="goods-string" data-good-id="' + item.id + '">\n      <div>\n        <span class="reference-row-number">' + (index + 1) + '</span> <span>' + item.name + '</span>\n      </div>\n      <div>\n        ' + (item.count ? item.count : '') + '\n        <button type="button" class="btn p-0 bg-white icon-btn icon-btn__go"></button>\n      </div>\n    </div>';
+	    return '\n    <div class="goods-string" data-good-id="' + item.id + '">\n      <div>\n        <span class="reference-row-number">' + (index + 1) + '</span> <span>' + item.name + '</span>\n      </div>\n      <div>\n        ' + (Number(item.count) ? Number(item.count).toFixed(2) : '') + '\n        <button type="button" class="btn p-0 bg-white icon-btn icon-btn__go"></button>\n      </div>\n    </div>';
 	  },
 	  getGoodTile: function getGoodTile(item, index) {
 	
@@ -6213,7 +6782,7 @@
 	      return imgUrl ? 'https://lopos.bidone.ru/users/600a5357/images/' + imgUrl + '_preview150.jpg' : './img/not-available.png';
 	    };
 	
-	    return '\n    <div class="card goods-tile-card" data-good-id="' + item.id + '">\n      <img class="card-img-top" src="' + getImg(item.img_url) + '" alt="' + item.name + '" title="' + item.name + '">\n      <div class="card-body ' + (item.count ? 'goods-tile-title' : '') + '">\n        <p class="card-text">' + (item.count ? item.count : '') + '</p>\n      </div>\n    </div>';
+	    return '\n    <div class="card goods-tile-card" data-good-id="' + item.id + '">\n      <img class="card-img-top" src="' + getImg(item.img_url) + '" alt="' + item.name + '" title="' + item.name + '">\n      <div class="card-body ' + (Number(item.count) ? 'goods-tile-title' : '') + '">\n        <p class="card-text">' + (Number(item.count) ? Number(item.count).toFixed(2) : '') + '</p>\n      </div>\n    </div>';
 	  },
 	  drawGoodsTable: function drawGoodsTable(goodsData, container, handler) {
 	    var _this = this;
@@ -6251,7 +6820,9 @@
 	
 	// отрисовка списка товаров по данным
 	var drawGoods = function drawGoods(goodsList, container, handler, viewFlag) {
+	  console.log(goodsList);
 	  if (_storage2.default.goodsViewMode === 'string' || viewFlag === 'string') {
+	    console.log('hihihi');
 	    markup.drawGoodsTable(goodsList, container, handler);
 	  } else if (_storage2.default.goodsViewMode === 'metro') {
 	    markup.drawGoodsMetro(goodsList, container, handler);
@@ -6263,7 +6834,7 @@
 	};
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6312,7 +6883,7 @@
 	};
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6325,17 +6896,23 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _formTools = __webpack_require__(38);
+	var _tools = __webpack_require__(7);
+	
+	var _tools2 = _interopRequireDefault(_tools);
+	
+	var _formTools = __webpack_require__(39);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
-	var _catalog__groups = __webpack_require__(34);
+	var _catalog__groups = __webpack_require__(35);
 	
 	var _catalog__groups2 = _interopRequireDefault(_catalog__groups);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var appUrl = void 0;
+	var messages = void 0;
+	
 	var form = void 0;
 	var name = void 0;
 	var modal = void 0;
@@ -6346,17 +6923,40 @@
 	  name = form.querySelector('*[data-valid="name"]');
 	
 	  appUrl = window.appSettings[form.dataset.formname].UrlApi;
+	  messages = window.appSettings[form.dataset.formname].messages;
 	};
 	
-	var callbackXhrSuccess = function callbackXhrSuccess() {
-	  $(modal).modal('hide');
-	  _formTools2.default.reset();
-	  _catalog__groups2.default.redraw();
+	var callbackXhrSuccess = function callbackXhrSuccess(response) {
+	  switch (response.status) {
+	    case 200:
+	      $(modal).modal('hide');
+	      _formTools2.default.reset();
+	      _catalog__groups2.default.redraw();
+	      break;
+	    case 400:
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'message': messages.mes400
+	      };
+	      break;
+	    case 271:
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'message': response.messages
+	      };
+	      break;
+	  }
 	};
 	
-	var callbackXhrError = function callbackXhrError() {
+	var callbackXhrError = function callbackXhrError(xhr) {
+	
 	  $(modal).modal('hide');
 	  _formTools2.default.reset();
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'ОШИБКА СВЯЗИ',
+	    'message': '\u041E\u0448\u0438\u0431\u043A\u0430 ' + xhr.status + ': ' + xhr.statusText
+	  };
 	};
 	
 	var submitForm = function submitForm() {
@@ -6388,7 +6988,7 @@
 	};
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6397,7 +6997,7 @@
 	  value: true
 	});
 	
-	var _xhr = __webpack_require__(5);
+	var _xhr = __webpack_require__(6);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
 	
@@ -6405,31 +7005,1731 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _catalogCards = __webpack_require__(51);
-	
-	var _catalogCards2 = _interopRequireDefault(_catalogCards);
-	
-	var _tools = __webpack_require__(6);
+	var _tools = __webpack_require__(7);
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _catalog__cardsAddEdit = __webpack_require__(52);
+	var _reference__debitCreditAddEditU = __webpack_require__(52);
+	
+	var _reference__debitCreditAddEditU2 = _interopRequireDefault(_reference__debitCreditAddEditU);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var debitList = document.querySelector('#list-debit-list');
+	var creditList = document.querySelector('#list-credit-list');
+	var debitCreditBody = document.querySelector('#list-debit-credit-card-body');
+	
+	var debitCreditIcon = document.querySelector('#list-debit-credit-icon');
+	var debitCreditTitle = document.querySelector('#list-debit-credit-title');
+	
+	var debitCreditAddBtn = document.querySelector('#list-debit-credit-card-add-btn');
+	var debitCreditEditBtn = document.querySelector('#list-debit-credit-card-edit-btn');
+	var debitCreditDeleteBtn = document.querySelector('#list-debit-credit-card-delete-btn');
+	var universalAdd = document.querySelector('#universal-add');
+	
+	var loaderSpinnerId = 'loader-groups';
+	var loaderSpinnerMessage = 'Загрузка';
+	var loaderSpinnerMarkup = _tools2.default.getLoadSpinner(loaderSpinnerId, loaderSpinnerMessage);
+	
+	var enableCheckEditButtons = function enableCheckEditButtons() {
+	  debitCreditEditBtn.removeAttribute('disabled');
+	  debitCreditDeleteBtn.removeAttribute('disabled');
+	};
+	
+	var disableCheckEditButtons = function disableCheckEditButtons() {
+	  debitCreditEditBtn.setAttribute('disabled', 'disabled');
+	  debitCreditDeleteBtn.setAttribute('disabled', 'disabled');
+	};
+	
+	// ############################## РАЗМЕТКА ##############################
+	var getElement = function getElement(item, index) {
+	
+	  return '\n  <input type="radio" id="reference-' + item.id + '" class="d-none">\n  <label style="padding-left: 34px;" for="reference-' + item.id + '" class="d-flex justify-content-between align-items-center reference-string" data-debit-credit-id="' + item.id + '" data-debit-credit-name="' + item.name + '">\n    <div><span class="reference-row-number">' + (index + 1) + '</span> ' + item.name + '</div>\n    <div class="d-flex justify-content-between align-items-center">\n    </div>\n  </label>';
+	};
+	
+	var drawDataInContainer = function drawDataInContainer(enterprisesData) {
+	  enterprisesData.forEach(function (item, index) {
+	    return debitCreditBody.insertAdjacentHTML('beforeend', getElement(item, index));
+	  });
+	};
+	
+	// ############################## ЗАПРОС НА УДАЛЕНИЕ ##############################
+	var onSuccessdebitCreditDelete = function onSuccessdebitCreditDelete(answer) {
+	  console.log(answer);
+	
+	  _tools2.default.informationtModal = {
+	    title: 'Уведомление',
+	    message: '\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F <b>' + _storage2.default.debitCreditName + '</b> \u0443\u0441\u043F\u0435\u0448\u043D\u043E \u0443\u0434\u0430\u043B\u0435\u043D\u043E'
+	  };
+	  getdebitCredit();
+	};
+	
+	var setRequestToDeletedebitCredit = function setRequestToDeletedebitCredit() {
+	  _xhr2.default.request = {
+	    metod: 'DELETE',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/1/business/' + _storage2.default.data.currentBusiness + '/reason/' + _storage2.default.debitCreditId,
+	    data: 'view_last=0&token=' + _storage2.default.data.token,
+	    callbackSuccess: onSuccessdebitCreditDelete
+	  };
+	};
+	
+	debitCreditDeleteBtn.addEventListener('click', function () {
+	
+	  _tools2.default.actionRequestModal = {
+	    title: 'Удаление',
+	    message: '\u0412\u044B \u0442\u043E\u0447\u043D\u043E \u0445\u043E\u0442\u0438\u0442\u0435 \u0443\u0434\u0430\u043B\u0438\u0442\u044C \u043A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044E <b>' + _storage2.default.debitCreditName + '</b>?',
+	    submitCallback: setRequestToDeletedebitCredit
+	  };
+	});
+	// ############################## НАСТРОЙКА УНИВЕРСАЛЬНОЙ ФОРМЫ ДОБАВЛЕНИЯ ##############################
+	var setupUniversalAdd = function setupUniversalAdd() {
+	  _storage2.default.currentCardName = '';
+	  _tools2.default.runUniversalAdd = {
+	    title: 'Создание категории',
+	    inputLabel: 'Название',
+	    inputPlaceholder: 'введите название',
+	    submitBtnName: 'Создать'
+	  };
+	  _reference__debitCreditAddEditU2.default.start(universalAdd, 'add');
+	};
+	
+	var setupUniversalAddEdit = function setupUniversalAddEdit() {
+	  _tools2.default.runUniversalAdd = {
+	    title: 'Редактирование категории',
+	    inputLabel: 'Название',
+	    inputPlaceholder: 'введите название',
+	    inputValue: _storage2.default.debitCreditName,
+	    submitBtnName: 'Изменить'
+	  };
+	  _reference__debitCreditAddEditU2.default.start(universalAdd, 'edit');
+	};
+	
+	debitCreditAddBtn.addEventListener('click', setupUniversalAdd);
+	debitCreditEditBtn.addEventListener('click', setupUniversalAddEdit);
+	
+	// ############################## РАБОТА С ГРУППАМИ (СПИСОК) ##############################
+	
+	var selectedString = '';
+	
+	debitCreditBody.addEventListener('change', function (evt) {
+	  console.log(evt);
+	  if (selectedString) {
+	    selectedString.classList.remove('bg-light');
+	  }
+	  console.log(evt.target.labels[0]);
+	  selectedString = evt.target.labels[0];
+	  selectedString.classList.add('bg-light');
+	  _storage2.default.debitCreditId = selectedString.dataset.debitCreditId;
+	  _storage2.default.debitCreditName = selectedString.dataset.debitCreditName;
+	  enableCheckEditButtons();
+	});
+	
+	var onSuccessdebitCreditLoad = function onSuccessdebitCreditLoad(debitCreditData) {
+	  console.log(debitCreditData);
+	  document.querySelector('#' + loaderSpinnerId).remove();
+	  drawDataInContainer(debitCreditData.data);
+	  disableCheckEditButtons();
+	};
+	
+	var getdebitCredit = function getdebitCredit() {
+	
+	  debitCreditBody.innerHTML = '';
+	  debitCreditBody.insertAdjacentHTML('beforeend', loaderSpinnerMarkup);
+	
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/1/business/' + _storage2.default.data.currentBusiness + '/reason/' + _storage2.default.debitCreditType,
+	    data: 'view_last=0&token=' + _storage2.default.data.token,
+	    callbackSuccess: onSuccessdebitCreditLoad
+	  };
+	};
+	
+	var initDebit = function initDebit() {
+	  _storage2.default.debitCreditType = 'debit';
+	  debitCreditIcon.src = 'img/revenue.png';
+	  debitCreditTitle.innerHTML = 'Категории доходов';
+	  getdebitCredit();
+	};
+	
+	var initCredit = function initCredit() {
+	  _storage2.default.debitCreditType = 'credit';
+	  debitCreditIcon.src = 'img/expenses.png';
+	  debitCreditTitle.innerHTML = 'Категории расходов';
+	  getdebitCredit();
+	};
+	
+	exports.default = {
+	  start: function start() {
+	    debitList.addEventListener('click', initDebit);
+	    creditList.addEventListener('click', initCredit);
+	  },
+	
+	
+	  redraw: getdebitCredit,
+	
+	  stop: function stop() {
+	    // groupsMarkup.cleanContainer();
+	    debitList.removeEventListener('click', initDebit);
+	    creditList.removeEventListener('click', initCredit);
+	  }
+	};
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _storage = __webpack_require__(1);
+	
+	var _storage2 = _interopRequireDefault(_storage);
+	
+	var _tools = __webpack_require__(7);
+	
+	var _tools2 = _interopRequireDefault(_tools);
+	
+	var _formTools = __webpack_require__(39);
+	
+	var _formTools2 = _interopRequireDefault(_formTools);
+	
+	var _reference__debitCredit = __webpack_require__(51);
+	
+	var _reference__debitCredit2 = _interopRequireDefault(_reference__debitCredit);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	// let appUrlAdd;
+	// let appUrlEdit;
+	var messages = void 0;
+	
+	var form = void 0;
+	var field1 = void 0;
+	var modal = void 0;
+	
+	var initVar = function initVar(remModal) {
+	  modal = remModal;
+	  form = modal.querySelector('*[data-formName]');
+	
+	  form.dataset.formname = 'nomenclatureAddEdit';
+	  field1 = form.querySelector('*[data-valid="field1"]');
+	
+	  // appUrlAdd = window.appSettings[form.dataset.formname].UrlApiAdd;
+	  // appUrlEdit = window.appSettings[form.dataset.formname].UrlApiEdit;
+	  messages = window.appSettings[form.dataset.formname].messages;
+	};
+	
+	var callbackXhrSuccess = function callbackXhrSuccess(response) {
+	  switch (response.status) {
+	    case 200:
+	      $(modal).modal('hide');
+	      _formTools2.default.reset();
+	      _reference__debitCredit2.default.redraw();
+	      /*
+	      if (dataStorage.currentCardName === '') {
+	        catalogCard.redrawList();
+	      } else {
+	        catalogCard.redrawCard();
+	      }
+	      */
+	      break;
+	    case 400:
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'message': messages.mes400
+	      };
+	      break;
+	    case 271:
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'message': response.messages
+	      };
+	      break;
+	  }
+	};
+	
+	var callbackXhrError = function callbackXhrError(xhr) {
+	
+	  $(modal).modal('hide');
+	  _formTools2.default.reset();
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'ОШИБКА СВЯЗИ',
+	    'message': '\u041E\u0448\u0438\u0431\u043A\u0430 ' + xhr.status + ': ' + xhr.statusText
+	  };
+	};
+	
+	var submitFormAdd = function submitFormAdd() {
+	  var stor = _storage2.default.data;
+	
+	  /*
+	  let urlApp = appUrlAdd.replace('{{dir}}', stor.directory);
+	  urlApp = urlApp.replace('{{oper}}', stor.operatorId);
+	  urlApp = urlApp.replace('{{busId}}', stor.currentBusiness);
+	  */
+	  var postData = 'name=' + field1.value + '&token=' + stor.token;
+	  var urlApp = 'lopos_directory/' + stor.directory + '/operator/1/business/' + stor.currentBusiness + '/reason/' + _storage2.default.debitCreditType;
+	  _formTools2.default.submit({
+	    url: urlApp,
+	    metod: 'POST',
+	    data: postData,
+	    callbackSuccess: callbackXhrSuccess,
+	    callbackError: callbackXhrError
+	  });
+	};
+	
+	var submitFormEdit = function submitFormEdit() {
+	  var stor = _storage2.default.data;
+	
+	  /*
+	  let urlApp = appUrlEdit.replace('{{dir}}', stor.directory);
+	  urlApp = urlApp.replace('{{oper}}', stor.operatorId);
+	  urlApp = urlApp.replace('{{busId}}', stor.currentBusiness);
+	  urlApp = urlApp.replace('{{NCid}}', dataStorage.currentCardId);
+	  */
+	  var postData = 'name=' + field1.value + '&token=' + stor.token;
+	  var urlApp = 'lopos_directory/' + stor.directory + '/operator/1/business/' + stor.currentBusiness + '/reason/' + _storage2.default.debitCreditId;
+	  _formTools2.default.submit({
+	    url: urlApp,
+	    metod: 'PUT',
+	    data: postData,
+	    callbackSuccess: callbackXhrSuccess
+	  });
+	};
+	
+	exports.default = {
+	  start: function start(remModal, type) {
+	    initVar(remModal);
+	
+	    if (type === 'add') {
+	      _formTools2.default.work(modal, submitFormAdd);
+	    } else if (type === 'edit') {
+	      _formTools2.default.work(modal, submitFormEdit);
+	    }
+	  },
+	  stop: function stop() {
+	    _formTools2.default.reset();
+	  }
+	};
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _xhr = __webpack_require__(6);
+	
+	var _xhr2 = _interopRequireDefault(_xhr);
+	
+	var _storage = __webpack_require__(1);
+	
+	var _storage2 = _interopRequireDefault(_storage);
+	
+	var _universalValidityMicro = __webpack_require__(54);
+	
+	var _universalValidityMicro2 = _interopRequireDefault(_universalValidityMicro);
+	
+	var _tools = __webpack_require__(7);
+	
+	var _tools2 = _interopRequireDefault(_tools);
+	
+	var _catalogCards = __webpack_require__(55);
+	
+	var _catalogCards2 = _interopRequireDefault(_catalogCards);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var manufactureList = document.querySelector('#list-manufacture-list');
+	var manufactureStocks = document.querySelector('#manufacture-stocks');
+	var manufactureAddBtn = document.querySelector('#list-manufacture-card-add-btn');
+	var manufactureCountBtn = document.querySelector('#list-manufacture-count');
+	var manufactureMaterialCheck = document.querySelector('#manufacture-material-check');
+	var manufactureMakeBtn = document.querySelector('#list-manufacture-make');
+	var manufactureColumnBody = document.querySelector('#manufacture-card-manufacture');
+	var materialColumnBody = document.querySelector('#manufacture-card-material');
+	var goodColumnBody = document.querySelector('#manufacture-card-good');
+	
+	var nomenklatureCardModal = document.querySelector('#select-nomenklature-card');
+	var nomenklatureCardModalBody = document.querySelector('#select-nomenklature-card-body');
+	
+	var loadedNomenklatureCards = '';
+	var selectedNomenklatureCards = '';
+	var currentGoods = [];
+	// #################### РАЗМЕТКА ДЛЯ ПОМЕЩЕНИЯ ТОВАРОВ В КОЛОНКИ ######################
+	
+	var getGoodString = function getGoodString(id, name, good, index, value, classDanger) {
+	  return '\n  <div class="goods-string ' + classDanger + '" data-good-id="' + id + '">\n    <div>\n      <span class="reference-row-number">' + index + '</span> <span>' + name + '</span>\n    </div>\n    <div>\n      <span>' + (good ? good : 'X') + '</span>\n      <span>' + value + '</span>\n    </div>\n  </div>';
+	};
+	
+	var drawGoodsToColumns = function drawGoodsToColumns() {
+	  var materialNumber = 0;
+	  var goodNumber = 0;
+	  materialColumnBody.innerHTML = '';
+	  goodColumnBody.innerHTML = '';
+	  manufactureCountBtn.removeAttribute('disabled');
+	  currentGoods = [];
+	  selectedNomenklatureCards.forEach(function (card) {
+	    if (card.content) {
+	      card.content.forEach(function (good) {
+	        currentGoods.push(good);
+	        if (good.value < 0) {
+	          materialNumber++;
+	          materialColumnBody.insertAdjacentHTML('beforeend', getGoodString(good.id, good.name, good.good, materialNumber, good.value * card.k, ''));
+	        } else {
+	          goodNumber++;
+	          goodColumnBody.insertAdjacentHTML('beforeend', getGoodString(good.id, good.name, '', goodNumber, good.value * card.k, ''));
+	        }
+	      });
+	    }
+	  });
+	};
+	// #################### КНОПКА ВЫПОЛНИТЬ ####################
+	var onManufactureMakeBtnClick = function onManufactureMakeBtnClick() {
+	  var data = currentGoods.map(function (good) {
+	    return [JSON.stringify({
+	      value: good.value,
+	      good: good.id,
+	      price: 0
+	    })];
+	  });
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/1/business/' + _storage2.default.data.currentBusiness + '/stock/' + _storage2.default.currentStockId + '/temp_naklad_provesti',
+	    data: 'content=[' + data + ']&token=' + _storage2.default.data.token + '&delivery=0&type=8&kontr_agent=2',
+	    callbackSuccess: getManufacture
+	  };
+	};
+	
+	manufactureMakeBtn.addEventListener('click', onManufactureMakeBtnClick);
+	// #################### КНОПКА ПОДСЧЕТ ######################
+	var onSuccessCountLoad = function onSuccessCountLoad(data) {
+	  var materialNumber = 0;
+	  var goodNumber = 0;
+	  materialColumnBody.innerHTML = '';
+	  goodColumnBody.innerHTML = '';
+	  for (var i = 0; i < data.data.length; i++) {
+	    if (currentGoods[i].value < 0) {
+	      materialNumber++;
+	      var classDanger = +data.data[i].value + +currentGoods[i].value < 0 ? 'bg-danger' : '';
+	      materialColumnBody.insertAdjacentHTML('beforeend', getGoodString(currentGoods[i].id, currentGoods[i].name, data.data[i].value, materialNumber, currentGoods[i].value, classDanger));
+	    } else {
+	      goodNumber++;
+	      goodColumnBody.insertAdjacentHTML('beforeend', getGoodString(currentGoods[i].id, currentGoods[i].name, data.data[i].value, goodNumber, currentGoods[i].value));
+	    }
+	  }
+	  if (materialColumnBody.querySelectorAll('.bg-danger').length === 0) {
+	    manufactureMaterialCheck.classList.remove('d-none');
+	    manufactureMakeBtn.removeAttribute('disabled');
+	  } else {
+	    manufactureMaterialCheck.classList.add('d-none');
+	    manufactureMakeBtn.setAttribute('disabled', 'disabled');
+	  }
+	};
+	
+	var onManufactureCountBtnClick = function onManufactureCountBtnClick() {
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/1/business/' + _storage2.default.data.currentBusiness + '/stock/' + _storage2.default.currentStockId + '/some_goods/',
+	    data: 'content=[' + currentGoods.map(function (good) {
+	      return good.id;
+	    }) + ']&token=' + _storage2.default.data.token,
+	    callbackSuccess: onSuccessCountLoad
+	  };
+	};
+	manufactureCountBtn.addEventListener('click', onManufactureCountBtnClick);
+	
+	// #################### ОБРАБАТЫВАЕМ КЛИКИ ПО СПИСКУ В ПЕРВОЙ КОЛОНКЕ ######################
+	
+	var onManufactureColumnBodyClick = function onManufactureColumnBodyClick(evt) {
+	  var currentStringElement = evt.target;
+	  while (!currentStringElement.dataset.cardId) {
+	    currentStringElement = currentStringElement.parentNode;
+	  }
+	
+	  _tools2.default.runUniversalModalMicro = {
+	    title: 'Укажите коэффициент',
+	    inputLabel: 'Коэффициент',
+	    inputPlaceholder: 'введите коэффициент',
+	    submitBtnName: 'Изменить',
+	    submitCallback: function submitCallback() {
+	      // if (/^\-?\d+$/.test(document.querySelector('#universal-modal-micro-name').value)) {
+	      if (_universalValidityMicro2.default.check([document.querySelector('#universal-modal-micro-name')])) {
+	        if (+document.querySelector('#universal-modal-micro-name').value === 0) {
+	          selectedNomenklatureCards.splice([currentStringElement.dataset.cardIndex], 1);
+	          document.querySelectorAll('.manufacture-nomenklature-card--muted')[currentStringElement.dataset.cardIndex].classList.remove('manufacture-nomenklature-card--muted');
+	        } else {
+	          selectedNomenklatureCards[currentStringElement.dataset.cardIndex].k = document.querySelector('#universal-modal-micro-name').value;
+	        }
+	
+	        manufactureColumnBody.innerHTML = '';
+	        _catalogCards2.default.drawDataInContainer(selectedNomenklatureCards, manufactureColumnBody);
+	        drawGoodsToColumns();
+	        manufactureMakeBtn.setAttribute('disabled', 'disabled');
+	        document.querySelector('#universal-modal-micro-valid').innerHTML = '';
+	        $('#universal-modal-micro').modal('hide');
+	      }
+	      /*
+	      } else {
+	        document.querySelector('#universal-modal-micro-valid').innerHTML = 'Целое число';
+	      }
+	      */
+	    }
+	  };
+	};
+	
+	manufactureColumnBody.addEventListener('click', onManufactureColumnBodyClick);
+	
+	// #################### ОБРАБАТЫВАЕМ КЛИКИ ПО СПИСКУ КАРТОЧКЕ В МОДАЛЬНОМ ОКНЕ #############
+	$(nomenklatureCardModal).on('hidden.bs.modal', function () {
+	  selectedNomenklatureCards = [].map.call(document.querySelectorAll('.manufacture-nomenklature-card--muted'), function (item) {
+	    return Object.assign(loadedNomenklatureCards[item.dataset.cardIndex], {
+	      k: 1
+	    });
+	  });
+	  if (selectedNomenklatureCards.length !== 0) {
+	    manufactureColumnBody.innerHTML = '';
+	    _catalogCards2.default.drawDataInContainer(selectedNomenklatureCards, manufactureColumnBody);
+	    manufactureMaterialCheck.classList.add('d-none');
+	    drawGoodsToColumns();
+	  }
+	});
+	
+	var onListCardBodyClick = function onListCardBodyClick(evt) {
+	  var currentStringElement = evt.target;
+	  while (!currentStringElement.dataset.cardId) {
+	    currentStringElement = currentStringElement.parentNode;
+	  }
+	  currentStringElement.classList.toggle('manufacture-nomenklature-card--muted');
+	};
+	
+	nomenklatureCardModalBody.addEventListener('click', onListCardBodyClick);
+	
+	// ############################## ЗАГРУЗКА И ОТРИСОВКА ДАННЫХ ##############################
+	
+	manufactureAddBtn.addEventListener('click', function () {
+	  return $(nomenklatureCardModal).modal('show');
+	});
+	
+	manufactureStocks.addEventListener('change', function (evt) {
+	  _storage2.default.currentStockId = evt.target.value;
+	  manufactureMakeBtn.setAttribute('disabled', 'disabled');
+	});
+	
+	var onSuccessManufactureLoad = function onSuccessManufactureLoad(manufactureData) {
+	  loadedNomenklatureCards = manufactureData.data.all_nomenclature_cards;
+	  nomenklatureCardModalBody.innerHTML = '';
+	  _catalogCards2.default.drawDataInContainer(loadedNomenklatureCards, nomenklatureCardModalBody);
+	
+	  manufactureStocks.innerHTML = manufactureData.data.all_stocks.map(function (item) {
+	    return '<option value="' + item.id + '" ' + (item.id === _storage2.default.data.currentStock ? 'selected' : '') + '>' + item.name + '</option>';
+	  }).join('');
+	  currentGoods = [];
+	};
+	
+	var getManufacture = function getManufacture() {
+	
+	  manufactureColumnBody.innerHTML = '';
+	  materialColumnBody.innerHTML = '';
+	  goodColumnBody.innerHTML = '';
+	  _storage2.default.currentStockId = _storage2.default.data.currentStock;
+	
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/1/business/' + _storage2.default.data.currentBusiness + '/operation/manufacture',
+	    data: 'view_last=0&token=' + _storage2.default.data.token,
+	    callbackSuccess: onSuccessManufactureLoad
+	  };
+	};
+	
+	exports.default = {
+	  start: function start() {
+	    manufactureList.addEventListener('click', getManufacture);
+	  },
+	  stop: function stop() {
+	    manufactureList.removeEventListener('click', getManufacture);
+	  }
+	};
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var validityRelations = {
+	  'balance-amount': {
+	    pattern: /(^\d+$)|(^\d+[.]\d+$)/,
+	    message: 'денежный формат<br>( 000, 000.000 )'
+	  },
+	  'balance-set-describe': {
+	    pattern: /^[а-яёА-ЯЁA-Za-z\s\d\.\,\:\;]{0,300}$/,
+	    message: 'Не более 300 символов со знаками препинания (. , : ;) без спецсимволов'
+	  },
+	  'universal-modal-micro-name': {
+	    pattern: /^\-?\d+$/,
+	    message: 'Целое число (0 удалит карточку)'
+	  },
+	  'change-password': {
+	    pattern: /^[а-яёА-ЯЁA-Za-z0-9\s\d]{2,20}$/,
+	    message: 'От 2-х до 20 символов без спецсимволов'
+	  },
+	  'change-user-name': {
+	    pattern: /^[а-яёА-ЯЁA-Za-z0-9\s\d]{2,20}$/,
+	    message: 'От 2-х до 20 символов без спецсимволов'
+	  }
+	
+	};
+	
+	exports.default = {
+	  check: function check(fields, presetNames) {
+	    var result = [];
+	    fields.forEach(function (field, i) {
+	      var relationType = presetNames[i] || field.id;
+	      field.nextElementSibling.innerHTML = !validityRelations[relationType].pattern.test(field.value) ? validityRelations[relationType].message : '';
+	      result.push(validityRelations[relationType].pattern.test(field.value));
+	    });
+	    return result.every(function (item) {
+	      return item;
+	    });
+	  }
+	};
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = {
+	  getElement: function getElement(item, index) {
+	
+	    return '\n    <div class="d-flex justify-content-between align-items-center reference-string" data-card-id="' + item.id + '" data-card-index="' + index + '"">\n      <div style="padding-left: 34px;">\n        <span class="reference-row-number">' + (index + 1) + '</span>\n        <span>' + item.name + '</span>\n      </div>\n      <div class="d-flex justify-content-between align-items-center">' + (item.k ? item.k : '') + '\n      </div>\n    </div>';
+	  },
+	  drawDataInContainer: function drawDataInContainer(cardsData, container) {
+	    var _this = this;
+	
+	    if (cardsData.length > 0) {
+	      cardsData.forEach(function (item, index) {
+	        return container.insertAdjacentHTML('beforeend', _this.getElement(item, index));
+	      });
+	    } else {
+	      container.innerHTML = 'Производственных карточек еще не создано';
+	    }
+	  },
+	  getResourceElement: function getResourceElement(item) {
+	    return '\n    <div class="d-flex justify-content-between reference-string" data-card-id="' + item.good_id + '"">\n      <div style="padding-left: 34px;">\n        ' + item.name + '\n      </div>\n      <div style="padding-right: 10px;">\n        ' + item.value + '\n      </div>\n\n    </div>';
+	  }
+	};
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _xhr = __webpack_require__(6);
+	
+	var _xhr2 = _interopRequireDefault(_xhr);
+	
+	var _storage = __webpack_require__(1);
+	
+	var _storage2 = _interopRequireDefault(_storage);
+	
+	var _universalValidityMicro = __webpack_require__(54);
+	
+	var _universalValidityMicro2 = _interopRequireDefault(_universalValidityMicro);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	// import toolsMarkup from '../markup/tools.js';
+	
+	var balanceList = document.querySelector('#list-balance-list');
+	var balanceCardPlusBody = document.querySelector('#balance-card-plus-data');
+	var balanceCardMinusBody = document.querySelector('#balance-card-minus');
+	var balanceCardPlusTab = document.querySelector('#balance-card-plus-tab');
+	var balanceCardMinusTab = document.querySelector('#balance-card-minus-tab');
+	
+	var balanceAmount = document.querySelector('#balance-amount');
+	var balanceAmountValid = document.querySelector('#balance-amount-valid');
+	var balanceSetDescribe = document.querySelector('#balance-set-describe');
+	var balanceSetDescribeValid = document.querySelector('#balance-set-valid');
+	var balanceStocks = document.querySelector('#balance-stocks');
+	
+	var balanceForm = document.querySelector('#balance-set-form');
+	var balanceFormSend = document.querySelector('#list-balance-make');
+	
+	// ############################## РАЗМЕТКА ##############################
+	var getElement = function getElement(item, index) {
+	
+	  return '\n  <input type="radio" id="operations-' + item.id + '" name="contact" value="email" class="d-none">\n  <label style="padding-left: 34px;" for="operations-' + item.id + '"  class="d-flex justify-content-between align-items-center reference-string" data-debit-credit-id="' + item.id + '" data-debit-credit-name="' + item.name + '">\n    <div><span class="reference-row-number">' + (index + 1) + '</span> ' + item.name + '</div>\n    <div class="d-flex justify-content-between align-items-center">\n    </div>\n  </label>';
+	};
+	
+	var drawDataInContainer = function drawDataInContainer(balanceData, container) {
+	  balanceData.forEach(function (item, index) {
+	    return container.insertAdjacentHTML('beforeend', getElement(item, index));
+	  });
+	};
+	
+	var onSuccessBalanceFormSend = function onSuccessBalanceFormSend() {
+	  balanceAmount.value = '';
+	  balanceSetDescribe.value = '';
+	  balanceFormSend.setAttribute('disabled', 'disabled');
+	};
+	
+	var onBalanceFormSendSubmit = function onBalanceFormSendSubmit(evt) {
+	  evt.preventDefault();
+	  if (_universalValidityMicro2.default.check([balanceAmount, balanceSetDescribe])) {
+	    _xhr2.default.request = {
+	      metod: 'POST',
+	      url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/1/business/' + _storage2.default.data.currentBusiness + '/stock/' + _storage2.default.currentStockId + '/balance_act',
+	      data: 'value=' + (_storage2.default.debitCreditType === 'credit' ? '-' : '') + balanceAmount.value + '&reason=' + _storage2.default.debitCreditId + '&comment=' + balanceSetDescribe.value + '&token=' + _storage2.default.data.token,
+	      callbackSuccess: onSuccessBalanceFormSend
+	    };
+	  }
+	};
+	
+	balanceFormSend.addEventListener('click', onBalanceFormSendSubmit);
+	balanceForm.addEventListener('submit', onBalanceFormSendSubmit);
+	
+	balanceStocks.addEventListener('change', function (evt) {
+	  _storage2.default.currentStockId = evt.target.value;
+	});
+	
+	balanceForm.addEventListener('input', function () {
+	  return balanceFormSend.removeAttribute('disabled');
+	});
+	
+	var selectedString = '';
+	balanceCardPlusBody.addEventListener('change', function (evt) {
+	  if (selectedString) {
+	    selectedString.classList.remove('bg-light');
+	  }
+	  selectedString = evt.target.labels[0];
+	  selectedString.classList.add('bg-light');
+	  balanceAmount.removeAttribute('disabled', 'disabled');
+	  balanceSetDescribe.removeAttribute('disabled', 'disabled');
+	  if (balanceAmount.value || balanceSetDescribe.value) {
+	    balanceFormSend.removeAttribute('disabled');
+	  } else {
+	    balanceFormSend.setAttribute('disabled', 'disabled');
+	  }
+	  _storage2.default.debitCreditId = selectedString.dataset.debitCreditId;
+	});
+	
+	balanceCardMinusBody.addEventListener('change', function (evt) {
+	  console.log(evt);
+	  if (selectedString) {
+	    selectedString.classList.remove('bg-light');
+	  }
+	  selectedString = evt.target.labels[0];
+	  selectedString.classList.add('bg-light');
+	  balanceAmount.removeAttribute('disabled', 'disabled');
+	  balanceSetDescribe.removeAttribute('disabled', 'disabled');
+	  if (balanceAmount.value || balanceSetDescribe.value) {
+	    balanceFormSend.removeAttribute('disabled');
+	  } else {
+	    balanceFormSend.setAttribute('disabled', 'disabled');
+	  }
+	  _storage2.default.debitCreditId = selectedString.dataset.debitCreditId;
+	});
+	// ############################## ЗАГРУЗКА И ОТРИСОВКА ДАННЫХ ##############################
+	
+	
+	var onSuccessBalanceMinusLoad = function onSuccessBalanceMinusLoad(balanceData) {
+	  drawDataInContainer(balanceData.data.all_reasons, balanceCardMinusBody);
+	  _storage2.default.debitCreditType = 'credit';
+	  balanceAmount.setAttribute('disabled', 'disabled');
+	  balanceSetDescribe.setAttribute('disabled', 'disabled');
+	  balanceStocks.innerHTML = balanceData.data.all_stocks.map(function (item) {
+	    return '<option value="' + item.id + '" ' + (item.id === _storage2.default.data.currentStock ? 'selected' : '') + '>' + item.name + '</option>';
+	  }).join('');
+	  balanceFormSend.setAttribute('disabled', 'disabled');
+	};
+	
+	var onSuccessBalancePlusLoad = function onSuccessBalancePlusLoad(balanceData) {
+	  drawDataInContainer(balanceData.data.all_reasons, balanceCardPlusBody);
+	  _storage2.default.debitCreditType = 'debit';
+	  balanceAmount.setAttribute('disabled', 'disabled');
+	  balanceSetDescribe.setAttribute('disabled', 'disabled');
+	  balanceStocks.innerHTML = balanceData.data.all_stocks.map(function (item) {
+	    return '<option value="' + item.id + '" ' + (item.id === _storage2.default.data.currentStock ? 'selected' : '') + '>' + item.name + '</option>';
+	  }).join('');
+	  balanceFormSend.setAttribute('disabled', 'disabled');
+	};
+	
+	var getCredit = function getCredit() {
+	  balanceCardMinusBody.innerHTML = '';
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/1/business/' + _storage2.default.data.currentBusiness + '/operation/credit',
+	    data: 'view_last=0&token=' + _storage2.default.data.token,
+	    callbackSuccess: onSuccessBalanceMinusLoad
+	  };
+	};
+	var getDebit = function getDebit() {
+	
+	  balanceCardPlusBody.innerHTML = '';
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/1/business/' + _storage2.default.data.currentBusiness + '/operation/debit',
+	    data: 'view_last=0&token=' + _storage2.default.data.token,
+	    callbackSuccess: onSuccessBalancePlusLoad
+	  };
+	};
+	
+	var init = function init() {
+	  balanceCardMinusBody.innerHTML = '';
+	  balanceCardPlusBody.innerHTML = '';
+	  balanceCardPlusTab.classList.remove('active');
+	  balanceCardMinusTab.classList.remove('active');
+	  balanceAmount.setAttribute('disabled', 'disabled');
+	  balanceSetDescribe.setAttribute('disabled', 'disabled');
+	  balanceAmount.value = '';
+	  balanceSetDescribe.value = '';
+	  balanceAmountValid.innerHTML = '';
+	  balanceSetDescribeValid.innerHTML = '';
+	  _storage2.default.currentStockId = _storage2.default.data.currentStock;
+	};
+	
+	exports.default = {
+	  start: function start() {
+	    balanceList.addEventListener('click', init);
+	    balanceCardPlusTab.addEventListener('click', getDebit);
+	    balanceCardMinusTab.addEventListener('click', getCredit);
+	  },
+	  stop: function stop() {
+	    balanceList.removeEventListener('click', init);
+	    balanceCardPlusTab.removeEventListener('click', getDebit);
+	    balanceCardMinusTab.removeEventListener('click', getCredit);
+	  }
+	};
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _xhr = __webpack_require__(6);
+	
+	var _xhr2 = _interopRequireDefault(_xhr);
+	
+	var _storage = __webpack_require__(1);
+	
+	var _storage2 = _interopRequireDefault(_storage);
+	
+	var _universalValidityMicro = __webpack_require__(54);
+	
+	var _universalValidityMicro2 = _interopRequireDefault(_universalValidityMicro);
+	
+	var _tools = __webpack_require__(7);
+	
+	var _tools2 = _interopRequireDefault(_tools);
+	
+	var _permissions = __webpack_require__(2);
+	
+	var _permissions2 = _interopRequireDefault(_permissions);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var usersList = document.querySelector('#list-users-list');
+	var usersHeader = document.querySelector('#list-users-header');
+	var usersBody = document.querySelector('#list-users-body');
+	var usersAddBtn = document.querySelector('#users-add');
+	var usersReturnBtn = document.querySelector('#user-card-return-btn');
+	var usersPasswordBtn = document.querySelector('#user-card-password-btn');
+	var usersEditBtn = document.querySelector('#user-card-edit-btn');
+	var usersLockBtn = document.querySelector('#user-card-lock-btn');
+	
+	var userCard = document.querySelector('#user-card');
+	var userCardData = document.querySelector('#user-card-data');
+	var userProfileName = userCardData.querySelector('#user-profile-name');
+	var userProfileStatus = userCardData.querySelector('#user-profile-status');
+	var userProfileId = userCardData.querySelector('#user-profile-id');
+	var userProfileImage = userCardData.querySelector('#user-profile-image');
+	var userStockList = userCardData.querySelector('#user-stock-list');
+	var userStockPermissions = userCardData.querySelector('#user-stock-permissions');
+	var userOtherPermissions = userCardData.querySelector('#user-other-permissions');
+	var userRGBForm = document.querySelector('#user-card-edit-rgb');
+	
+	var permissionsStock = {
+	  // операции
+	  'receipt': 111,
+	  'sell': 121,
+	  'inventory': 141,
+	  'balance': 131,
+	  'manufacture': 181
+	};
+	
+	var permissionsOther = {
+	
+	  // каталог
+	  'groups': [221, 222],
+	  'cards': [231, 232],
+	
+	  // учет
+	  'docs': [321, 322],
+	  'reports': [331, 0],
+	
+	  // справочники
+	  'contractor-suppliers': [411, 412],
+	  'contractor-buyers': [421, 422],
+	  'points': [431, 432],
+	  'keywords': [441, 442],
+	  'enterprises': [511, 512],
+	  'debit': [451, 452],
+	  'credit': [461, 462],
+	
+	  // журнал
+	  'log': [541, '']
+	};
+	
+	// ############################## РАЗМЕТКА ##############################
+	var markup = {
+	  getElement: function getElement(item, index) {
+	    return '\n    <div class="d-flex justify-content-between align-items-center reference-string" data-user-id="' + item.id + '">\n      <div style="padding-left: 34px;">\n        <span class="reference-row-number">' + (index + 1) + '</span>\n        <img class="ml-2 mr-1 rounded-circle p-1" src="img/user-male-filled-32.png" title="' + item.name + '" style="background-color: #' + item.color + '" width="30" alt="' + item.name + '">\n        <span>' + item.name + '</span>\n      </div>\n      <div class="user-status" style="background-color: #' + (item.status === '0' ? 'dc3545' : '28a745') + '"></div>\n    </div>';
+	  },
+	  drawDataInContainer: function drawDataInContainer(users, container, handler) {
+	    var _this = this;
+	
+	    users.forEach(function (user, index) {
+	      container.insertAdjacentHTML('beforeend', _this.getElement(user, index));
+	      container.lastChild.addEventListener('click', function () {
+	        _storage2.default.currentUserId = user.id;
+	        handler();
+	      });
+	    });
+	  }
+	};
+	
+	// отрисовка списка групп по данным
+	var drawUsers = function drawUsers(users, container, handler) {
+	  container.innerHTML = '';
+	  if (users.length > 0) {
+	    markup.drawDataInContainer(users, container, handler);
+	  } else {
+	    container.innerHTML = 'Пользователей нет, все ушли на базу';
+	  }
+	};
+	
+	// ############################## БЛОКИРОВКА ПОЛЬЗОВАТЕЛЯ #########################
+	var lockSuccess = function lockSuccess(answer) {
+	  userProfileStatus.innerText = +userProfileStatus.innerText === 0 ? '1' : '0';
+	  console.log(answer);
+	};
+	
+	var onUsersLockBtnClick = function onUsersLockBtnClick() {
+	  _xhr2.default.request = {
+	    metod: 'PUT',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.currentUserId,
+	    data: 'status=' + (+userProfileStatus.innerText === 0 ? '1' : '0') + '&token=' + _storage2.default.data.token,
+	    callbackSuccess: lockSuccess
+	  };
+	};
+	
+	usersLockBtn.addEventListener('click', onUsersLockBtnClick);
+	// ############################## ИЗМЕНЕНИЕ ИМЕНИ ПОЛЬЗОВАТЕЛЯ #########################
+	var editedName = '';
+	var editSuccess = function editSuccess(answer) {
+	  userProfileName.innerText = editedName;
+	  console.log(answer);
+	};
+	var onUsersEditBtnClick = function onUsersEditBtnClick() {
+	  _tools2.default.runUniversalModalMicro = {
+	    title: 'Новое имя',
+	    inputLabel: 'Имя',
+	    inputPlaceholder: 'введите имя',
+	    inputValue: userProfileName.innerText,
+	    submitBtnName: 'Изменить',
+	    submitCallback: function submitCallback() {
+	      if (_universalValidityMicro2.default.check([document.querySelector('#universal-modal-micro-name')], ['change-user-name'])) {
+	        _xhr2.default.request = {
+	          metod: 'PUT',
+	          url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.currentUserId,
+	          data: 'nickname=' + document.querySelector('#universal-modal-micro-name').value + '&token=' + _storage2.default.data.token,
+	          callbackSuccess: editSuccess
+	        };
+	        editedName = document.querySelector('#universal-modal-micro-name').value;
+	        $('#universal-modal-micro').modal('hide');
+	      }
+	    }
+	  };
+	};
+	usersEditBtn.addEventListener('click', onUsersEditBtnClick);
+	// ############################## ИЗМЕНЕНИЕ ПАРОЛЯ ПОЛЬЗОВАТЕЛЯ #########################
+	var changePassSuccess = function changePassSuccess(answer) {
+	  return console.log(answer);
+	};
+	var onUsersPasswordBtnClick = function onUsersPasswordBtnClick() {
+	  _tools2.default.runUniversalModalMicro = {
+	    title: 'Новый пароль',
+	    inputLabel: 'Пароль',
+	    inputPlaceholder: 'введите пароль',
+	    submitBtnName: 'Изменить',
+	    submitCallback: function submitCallback() {
+	      if (_universalValidityMicro2.default.check([document.querySelector('#universal-modal-micro-name')], ['change-password'])) {
+	        _xhr2.default.request = {
+	          metod: 'PUT',
+	          url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.currentUserId,
+	          data: 'password=' + document.querySelector('#universal-modal-micro-name').value + '&token=' + _storage2.default.data.token,
+	          callbackSuccess: changePassSuccess
+	        };
+	        $('#universal-modal-micro').modal('hide');
+	      }
+	    }
+	  };
+	};
+	
+	usersPasswordBtn.addEventListener('click', onUsersPasswordBtnClick);
+	// ############################## ИЗМЕНЕНИЕ ЦВЕТА ПОЛЬЗОВАТЕЛЯ #########################
+	var editedRGB = '';
+	var updateColor = function updateColor() {
+	  userProfileImage.style.backgroundColor = '#' + editedRGB;
+	};
+	
+	var onListKeywordsCardEditRGBFormSubmit = function onListKeywordsCardEditRGBFormSubmit(evt) {
+	  evt.preventDefault();
+	  console.log(userRGBForm.querySelector('input:checked'));
+	  var newRGB = userRGBForm.querySelector('input:checked').value;
+	  editedRGB = newRGB;
+	  // document.querySelector('#list-keywords-card-edit > h3').style.backgroundColor = '#' + auth.currentKeywordRgb;
+	  $(userRGBForm).modal('hide');
+	
+	  _xhr2.default.request = {
+	    metod: 'PUT',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.currentUserId,
+	    data: 'color=' + newRGB + '&token=' + _storage2.default.data.token,
+	    callbackSuccess: updateColor
+	  };
+	};
+	
+	userRGBForm.addEventListener('submit', onListKeywordsCardEditRGBFormSubmit);
+	// ############################## ДОБАВЛЕНИЕ ПОЛЬЗОВАТЕЛЯ ##############################
+	
+	var addUser = function addUser() {
+	  var onSuccessAddUser = function onSuccessAddUser(answer) {
+	    console.log(answer);
+	    getUsers();
+	  };
+	
+	  var setRequestToAddUser = function setRequestToAddUser() {
+	    _xhr2.default.request = {
+	      metod: 'POST',
+	      url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.data.operatorId,
+	      data: 'token=' + _storage2.default.data.token,
+	      callbackSuccess: onSuccessAddUser
+	    };
+	  };
+	
+	  _tools2.default.actionRequestModal = {
+	    title: 'Добавление',
+	    message: 'Вы точно хотите добавить пользователя?',
+	    submitCallback: setRequestToAddUser
+	  };
+	};
+	
+	// ############################## СЛУШАЕМ ЧЕКБОКСЫ ##############################
+	var onSuccessChangePermission = function onSuccessChangePermission(answer) {
+	  userStockPermissions.querySelectorAll('INPUT').forEach(function (elem) {
+	    return elem.removeAttribute('disabled');
+	  });
+	  userOtherPermissions.querySelectorAll('INPUT').forEach(function (elem) {
+	    return elem.removeAttribute('disabled');
+	  });
+	  onUserClick();
+	};
+	
+	var changeStockPermission = function changeStockPermission(evt) {
+	  userStockPermissions.querySelectorAll('INPUT').forEach(function (elem) {
+	    return elem.setAttribute('disabled', 'disabled');
+	  });
+	  _xhr2.default.request = {
+	    metod: 'PUT',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.currentUserId + '/permission',
+	    data: 'business=' + _storage2.default.data.currentBusiness + '&code=' + evt.target.value + '&value=' + (evt.target.checked ? 1 : 0) + '&stock=' + _storage2.default.currentStockId + '&token=' + _storage2.default.data.token,
+	    callbackSuccess: onSuccessChangePermission
+	  };
+	};
+	var changeOtherPermission = function changeOtherPermission(evt) {
+	  userOtherPermissions.querySelectorAll('INPUT').forEach(function (elem) {
+	    return elem.setAttribute('disabled', 'disabled');
+	  });
+	  _xhr2.default.request = {
+	    metod: 'PUT',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.currentUserId + '/permission',
+	    data: 'business=' + _storage2.default.data.currentBusiness + '&code=' + evt.target.value + '&value=' + (evt.target.checked ? 1 : 0) + '&token=' + _storage2.default.data.token,
+	    callbackSuccess: onSuccessChangePermission
+	  };
+	};
+	
+	userStockPermissions.addEventListener('change', changeStockPermission);
+	userOtherPermissions.addEventListener('change', changeOtherPermission);
+	
+	// ############################## ЗАГРУЗКА СПИСКА ПОЛЬЗОВАТЕЛЕЙ ##############################
+	usersReturnBtn.addEventListener('click', function () {
+	  getUsers();
+	  usersBody.classList.remove('d-none');
+	  userCard.classList.add('d-none');
+	  usersHeader.classList.remove('d-none');
+	});
+	
+	var onSuccessUserInfoLoad = function onSuccessUserInfoLoad(userData) {
+	  console.log('userData --> ', userData);
+	  var permissionList = {
+	    stock: {},
+	    other: []
+	  };
+	  var _userData$data = userData.data,
+	      name = _userData$data.name,
+	      status = _userData$data.status,
+	      id = _userData$data.id,
+	      color = _userData$data.color,
+	      permissions = _userData$data.operator_permissons,
+	      allSocks = _userData$data.all_stocks;
+	
+	  userProfileName.innerHTML = name;
+	  userProfileStatus.innerHTML = status;
+	  userProfileId.innerHTML = _storage2.default.data.directory + '-' + id;
+	  userProfileImage.style.backgroundColor = '#' + color;
+	
+	  if (permissions) {
+	
+	    permissions.forEach(function (item) {
+	
+	      if (item.stock === '00') {
+	        permissionList.other.push(item.code);
+	      } else if (permissionList.stock[item.stock]) {
+	        permissionList.stock[item.stock].push(item.code);
+	      } else {
+	        permissionList.stock[item.stock] = [item.code];
+	      }
+	    });
+	
+	    console.log(permissionList);
+	    var screenNamesStock = Object.keys(permissionsStock);
+	
+	    var drawAccessForStock = function drawAccessForStock(accessList) {
+	      return '\n          <div class="user-permissions-string">\n            <span>' + _permissions2.default.permissionEngToRus[accessList[0]] + '</span>\n            <div>\n              <input class="form-check-input position-static user-permissions-switch" type="checkbox" value="' + permissionsStock[accessList[0]] + '" ' + accessList[1] + '>\n            </div>\n          </div>';
+	    };
+	
+	    Object.keys(permissionList.stock).forEach(function (stockName) {
+	
+	      var stock = allSocks.find(function (item) {
+	        return item.id === Number(stockName).toFixed();
+	      });
+	      userStockList.insertAdjacentHTML('beforeEnd', '<span class="user-permissions-stock" data-stock-id=' + Number(stockName).toFixed() + '>' + (stock ? stock.name : '') + '</span>');
+	
+	      var screens = screenNamesStock.map(function (screen) {
+	        return permissionList.stock[stockName].includes(permissionsStock[screen].toString()) ? [screen, 'checked'] : [screen, ''];
+	      });
+	      drawAccessForStock(screens[0]);
+	
+	      userStockList.lastChild.addEventListener('click', function () {
+	        console.log(Number(stockName.split('-')[1]).toFixed());
+	        _storage2.default.currentStockId = Number(stockName).toFixed();
+	        onUserClick();
+	        console.log('screens-->', screens);
+	
+	        userStockPermissions.innerHTML = screens.map(drawAccessForStock).join('');
+	        /*
+	        userStockPermissions.innerHTML = screens.map((screen) => `
+	          <div class="user-permissions-string">
+	            <span>${permissionsModule.permissionEngToRus[screen[0]]}</span>
+	            <div>
+	              <input class="form-check-input position-static user-permissions-switch" type="checkbox" value="${permissionsStock[screen[0]]}" ${screen[1]}>
+	            </div>
+	          </div>`).join('');
+	        */
+	      });
+	    });
+	    userOtherPermissions.innerHTML = Object.keys(permissionsOther).map(function (screen) {
+	      console.log(screen);
+	      return '\n      <div class="user-permissions-string">\n        <span>' + _permissions2.default.permissionEngToRus[screen] + '</span>\n        <div>\n          <input class="form-check-input position-static user-permissions-switch" type="checkbox" value="' + permissionsOther[screen][0] + '" ' + (permissionList.other.includes(permissionsOther[screen][0].toString()) ? 'checked' : '') + '>\n          <input class="form-check-input position-static user-permissions-switch" type="checkbox" value="' + permissionsOther[screen][1] + '" ' + (permissionList.other.includes(permissionsOther[screen][1].toString()) ? 'checked' : '') + '>\n        </div>\n      </div>';
+	    }).join('');
+	  } else if (+_storage2.default.currentUserId === 1) {
+	    userStockList.innerHTML = '';
+	    userStockPermissions.innerHTML = 'У вас все права';
+	    userOtherPermissions.innerHTML = 'У вас все права';
+	  } else {
+	    userStockList.innerHTML = '';
+	    userStockPermissions.innerHTML = 'У вас нет прав';
+	    userOtherPermissions.innerHTML = 'У вас нет прав';
+	  }
+	  // drawUsers(usersData.data, usersBody, onUserClick);
+	};
+	
+	// обработчик клика по пользователю
+	var onUserClick = function onUserClick() {
+	  usersBody.classList.add('d-none');
+	  usersHeader.classList.add('d-none');
+	  userCard.classList.remove('d-none');
+	
+	  userStockList.innerHTML = '';
+	  userStockPermissions.innerHTML = '';
+	  userOtherPermissions.innerHTML = '';
+	
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.currentUserId + '/info',
+	    data: 'business=' + _storage2.default.data.currentBusiness + '&token=' + _storage2.default.data.token,
+	    callbackSuccess: onSuccessUserInfoLoad
+	  };
+	};
+	
+	var onSuccessUsersLoad = function onSuccessUsersLoad(usersData) {
+	  console.log(usersData);
+	  drawUsers(usersData.data, usersBody, onUserClick);
+	};
+	
+	var getUsers = function getUsers() {
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.data.operatorId,
+	    data: 'view_last=0&token=' + _storage2.default.data.token,
+	    callbackSuccess: onSuccessUsersLoad
+	  };
+	};
+	
+	exports.default = {
+	  start: function start() {
+	    usersList.addEventListener('click', getUsers);
+	    usersAddBtn.addEventListener('click', addUser);
+	  },
+	
+	
+	  // redraw: getdebitCredit,
+	
+	  stop: function stop() {
+	    usersList.removeEventListener('click', getUsers);
+	    usersAddBtn.removeEventListener('click', addUser);
+	  }
+	};
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _xhr = __webpack_require__(6);
+	
+	var _xhr2 = _interopRequireDefault(_xhr);
+	
+	var _storage = __webpack_require__(1);
+	
+	var _storage2 = _interopRequireDefault(_storage);
+	
+	var _universalBillsList = __webpack_require__(59);
+	
+	var _universalBillsList2 = _interopRequireDefault(_universalBillsList);
+	
+	var _tools = __webpack_require__(7);
+	
+	var _tools2 = _interopRequireDefault(_tools);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var START_YEAR = 2015;
+	// import goods from './universal-goods-list.js';
+	// import uValid from './universal-validity-micro.js';
+	
+	
+	var docsList = document.querySelector('#list-docs-list');
+	// const docsHeader = document.querySelector('#list-docs-header');
+	var docsBody = document.querySelector('#list-docs-body');
+	var docsStocks = document.querySelector('#docs-stocks');
+	
+	var docsYear = document.querySelector('#docs-year');
+	var docsMonth = document.querySelector('#docs-month');
+	var docsDay = document.querySelector('#docs-day');
+	
+	var docsBillBtn = document.querySelector('#docs-bill-btn');
+	var docsBalanceBtn = document.querySelector('#docs-balance-btn');
+	// const docsReturnBtn = document.querySelector('#user-card-return-btn');
+	var billCard = document.querySelector('#bill-card');
+	
+	var billCardType = document.querySelector('#bill-card-type');
+	var billCardStock = document.querySelector('#bill-card-stock');
+	var billCardId = document.querySelector('#bill-card-id');
+	var billCardTime = document.querySelector('#bill-card-time');
+	var billCardUser = document.querySelector('#bill-card-user');
+	var billCardGoods = document.querySelector('#bill-card-goods');
+	var billDeliveryBtn = document.querySelector('#bill-delivery-btn');
+	var billDeleteBtn = document.querySelector('#bill-delete-btn');
+	
+	var balanceCard = document.querySelector('#balance-act-card');
+	
+	var balanceCardStock = document.querySelector('#balance-act-card-stock');
+	var balanceCardId = document.querySelector('#balance-act-card-id');
+	var balanceCardUser = document.querySelector('#balance-act-card-user');
+	var balanceCardTime = document.querySelector('#balance-act-card-time');
+	var balanceCardTotal = document.querySelector('#balance-act-total');
+	var balanceCardReason = document.querySelector('#balance-act-reason');
+	var balanceCardComment = document.querySelector('#balance-act-comment');
+	var balanceDeleteBtn = document.querySelector('#balance-act-delete-btn');
+	
+	// ############################## РАЗМЕТКА ТОВАРОВ #############
+	var getGoodString = function getGoodString(item, index) {
+	  return '\n  <div class="goods-string"">\n    <div>\n      <span class="reference-row-number">' + (index + 1) + '</span> <span>\u2116 ' + item.good + '</span>\n    </div>\n    <div>\n      ' + Number(item.count).toFixed(2) + ' x ' + Number(item.price).toFixed(2) + ' = ' + Number(item.count).toFixed(2) * Number(item.price).toFixed(2) + '\n    </div>\n  </div>';
+	};
+	
+	// ############################## ОБРАБОТЧИКИ КЛИКОВ ПРИ ВЫВОДЕ ЗА ДЕНЬ#############
+	// let billStatus = '';
+	
+	var onSuccessBillGet = function onSuccessBillGet(answer) {
+	  console.log(answer);
+	  var _answer$data = answer.data,
+	      id = _answer$data.id,
+	      operatorName = _answer$data.operator_name,
+	      stockName = _answer$data.stock_name,
+	      time = _answer$data.time,
+	      type = _answer$data.type,
+	      goodsContent = _answer$data.content;
+	  // billStatus = status;
+	
+	  billCardStock.innerHTML = stockName;
+	  billCardType.src = 'img/' + _universalBillsList2.default.BillTypes['type' + type] + '.png';
+	  billCardId.innerHTML = '№' + id;
+	  billCardTime.innerHTML = '|| ' + new Date(+(time + '000')).toLocaleString();
+	  billCardUser.title = operatorName;
+	
+	  billCardGoods.innerHTML = '';
+	  goodsContent.forEach(function (good, index) {
+	    return billCardGoods.insertAdjacentHTML('beforeend', getGoodString(good, index));
+	  });
+	  if (+type === 0 || +type === 2) {
+	    billDeliveryBtn.classList.remove('d-none');
+	  } else {
+	    billDeliveryBtn.classList.add('d-none');
+	  }
+	  $(billCard).modal('show');
+	};
+	
+	// ############################## УДАЛЕНИЕ НАКЛАДНОЙ #############
+	var onSuccessBillDelete = function onSuccessBillDelete(answer) {
+	  console.log(answer);
+	
+	  // onListEnterprisesCardReturnBtn();
+	  $(billCard).modal('hide');
+	  getDocs(docsYear.value, docsMonth.value, docsDay.value);
+	
+	  _tools2.default.informationtModal = {
+	    title: 'Уведомление',
+	    message: 'Накладная успешно удалена'
+	  };
+	};
+	
+	var setRequestToDeleteBill = function setRequestToDeleteBill() {
+	  _xhr2.default.request = {
+	    metod: 'DELETE',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.data.operatorId + '/business/' + _storage2.default.currentEnterpriseId + '/' + _storage2.default.allDocsOperationType + '/' + _storage2.default.currentBillId,
+	    data: 'view_last=0&token=' + _storage2.default.data.token,
+	    callbackSuccess: onSuccessBillDelete
+	  };
+	};
+	
+	billDeleteBtn.addEventListener('click', function () {
+	
+	  _tools2.default.actionRequestModal = {
+	    title: 'Удаление',
+	    message: '\u0412\u044B \u0442\u043E\u0447\u043D\u043E \u0445\u043E\u0442\u0438\u0442\u0435 \u0443\u0434\u0430\u043B\u0438\u0442\u044C \u043D\u0430\u043A\u043B\u0430\u0434\u043D\u0443\u044E <b>' + _storage2.default.currentBillId + '</b>?',
+	    submitCallback: setRequestToDeleteBill
+	  };
+	});
+	
+	// ############################## ЗАВЕРШЕНИЕ ДОСТАВКИ #############
+	var onSuccessBillDelivery = function onSuccessBillDelivery(answer) {
+	  console.log(answer);
+	
+	  $(billCard).modal('hide');
+	  getDocs(docsYear.value, docsMonth.value, docsDay.value);
+	
+	  _tools2.default.informationtModal = {
+	    title: 'Уведомление',
+	    message: 'Накладная успешно доставлена'
+	  };
+	};
+	
+	var setRequestToDeliveryBill = function setRequestToDeliveryBill() {
+	  _xhr2.default.request = {
+	    metod: 'PUT',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.data.operatorId + '/business/' + _storage2.default.currentEnterpriseId + '/' + _storage2.default.allDocsOperationType + '/' + _storage2.default.currentBillId,
+	    data: 'status=3&token=' + _storage2.default.data.token,
+	    callbackSuccess: onSuccessBillDelivery
+	  };
+	};
+	
+	billDeliveryBtn.addEventListener('click', function () {
+	
+	  _tools2.default.actionRequestModal = {
+	    title: 'Удаление',
+	    message: '\u0412\u044B \u0443\u0432\u0435\u0440\u0435\u043D\u044B, \u0447\u0442\u043E \u0434\u043E\u0441\u0442\u0430\u0432\u043A\u0430 \u043F\u043E \u0434\u0430\u043D\u043D\u043E\u0439 \u043D\u0430\u043A\u043B\u0430\u0434\u043D\u043E\u0439 <b>' + _storage2.default.currentBillId + '</b> \u043E\u043A\u043E\u043D\u0447\u0435\u043D\u0430? (\u0434\u0430\u043D\u043D\u043E\u0435 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0435 \u044F\u0432\u043B\u044F\u0435\u0442\u0441\u044F \u0431\u0435\u0437\u0432\u043E\u0437\u0432\u0440\u0430\u0442\u043D\u044B\u043C)',
+	    submitCallback: setRequestToDeliveryBill
+	  };
+	});
+	
+	var onBillClick = function onBillClick() {
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.data.operatorId + '/business/' + _storage2.default.data.currentBusiness + '/' + _storage2.default.allDocsOperationType + '/' + _storage2.default.currentBillId + '/info',
+	    data: 'token=' + _storage2.default.data.token + (_storage2.default.currentStockId ? '&stock=' + _storage2.default.currentStockId : ''),
+	    callbackSuccess: onSuccessBillGet
+	  };
+	};
+	// ############################## УДАЛЕНИЕ БАЛАНСОВОЙ ОПЕРАЦИИ #############
+	var onSuccessBalanceDelete = function onSuccessBalanceDelete(answer) {
+	  console.log(answer);
+	
+	  $(balanceCard).modal('hide');
+	  getDocs(docsYear.value, docsMonth.value, docsDay.value);
+	
+	  _tools2.default.informationtModal = {
+	    title: 'Уведомление',
+	    message: 'Балансова операция успешно удалена'
+	  };
+	};
+	
+	var setRequestToDeleteBalance = function setRequestToDeleteBalance() {
+	  _xhr2.default.request = {
+	    metod: 'DELETE',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.data.operatorId + '/business/' + _storage2.default.currentEnterpriseId + '/balance_act/' + _storage2.default.currentBillId,
+	    data: 'view_last=0&token=' + _storage2.default.data.token,
+	    callbackSuccess: onSuccessBalanceDelete
+	  };
+	};
+	
+	balanceDeleteBtn.addEventListener('click', function () {
+	
+	  _tools2.default.actionRequestModal = {
+	    title: 'Удаление',
+	    message: '\u0412\u044B \u0442\u043E\u0447\u043D\u043E \u0445\u043E\u0442\u0438\u0442\u0435 \u0443\u0434\u0430\u043B\u0438\u0442\u044C \u0431\u0430\u043B\u0430\u043D\u0441\u043E\u0432\u0443\u044E \u043E\u043F\u0435\u0440\u0430\u0446\u0438\u044E <b>' + _storage2.default.currentBillId + '</b>?',
+	    submitCallback: setRequestToDeleteBalance
+	  };
+	});
+	
+	var onSuccessBalanceGet = function onSuccessBalanceGet(answer) {
+	  console.log(answer);
+	  var _answer$data2 = answer.data,
+	      id = _answer$data2.id,
+	      comment = _answer$data2.comment,
+	      reasonName = _answer$data2.reason_name,
+	      operatorName = _answer$data2.operator_name,
+	      stockName = _answer$data2.stock_name,
+	      time = _answer$data2.time,
+	      value = _answer$data2.value;
+	
+	  balanceCardStock.innerHTML = stockName;
+	  balanceCardTotal.innerHTML = value;
+	  balanceCardReason.innerHTML = reasonName;
+	  balanceCardComment.innerHTML = comment;
+	  balanceCardId.innerHTML = '№' + id;
+	  balanceCardTime.innerHTML = '|| ' + new Date(+(time + '000')).toLocaleString();
+	  balanceCardUser.title = operatorName;
+	
+	  $(balanceCard).modal('show');
+	};
+	
+	var onBalanceActClick = function onBalanceActClick() {
+	  console.log('hi');
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.data.operatorId + '/business/' + _storage2.default.data.currentBusiness + '/balance_act/' + _storage2.default.currentBillId + '/info',
+	    data: 'token=' + _storage2.default.data.token + (_storage2.default.currentStockId ? '&stock=' + _storage2.default.currentStockId : ''),
+	    callbackSuccess: onSuccessBalanceGet
+	  };
+	};
+	
+	// ############################## ЗАГРУЖАЕМ ДОПОЛНИТЕЛЬНЫЕ ДОКУМЕНТЫ   ############
+	
+	
+	var lastTime = '';
+	var prevData = [];
+	
+	var onSuccessLoadMore = function onSuccessLoadMore(billsData) {
+	  console.log(billsData);
+	  docsBody.innerHTML = '';
+	  _universalBillsList2.default.drawDay(billsData.data.concat(prevData), docsBody, onBillClick);
+	
+	  lastTime = billsData.data[billsData.data.length - 1].time;
+	  prevData = billsData.data.concat(prevData);
+	  docsBody.insertAdjacentHTML('beforeend', '<button type="button" class="btn btn-primary">Загрузить еще</button>');
+	  docsBody.lastChild.addEventListener('click', onClickLoadMore);
+	};
+	
+	var onClickLoadMore = function onClickLoadMore() {
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.data.operatorId + '/business/' + _storage2.default.data.currentBusiness + '/documents/' + _storage2.default.allDocsOperationType + '/time/' + lastTime + '/before/50',
+	    data: 'token=' + _storage2.default.data.token,
+	    callbackSuccess: onSuccessLoadMore
+	  };
+	};
+	// ############################## ЗАГРУЖАЕМ ДОКУМЕНТЫ ##############################
+	
+	var onSuccessBillsGet = function onSuccessBillsGet(billsData) {
+	  console.log(billsData);
+	
+	  docsBody.innerHTML = '';
+	  if (billsData.data.length > 0) {
+	
+	    if (billsData.data[0].month_number) {
+	      _universalBillsList2.default.drawYear(billsData.data, docsBody, null);
+	    } else if (billsData.data[0].day_number) {
+	      _universalBillsList2.default.drawMonth(billsData.data, docsBody, null);
+	    } else if (billsData.data[0].stock_name && _storage2.default.allDocsOperationType === 'naklad') {
+	      _universalBillsList2.default.drawDay(billsData.data, docsBody, onBillClick);
+	      lastTime = billsData.data[billsData.data.length - 1].time;
+	      prevData = billsData.data.slice(0);
+	      docsBody.insertAdjacentHTML('beforeend', '<button type="button" class="btn btn-primary">Загрузить еще</button>');
+	      docsBody.lastChild.addEventListener('click', onClickLoadMore);
+	    } else if (billsData.data[0].stock_name && _storage2.default.allDocsOperationType === 'balance') {
+	      _universalBillsList2.default.drawDayBalance(billsData.data, docsBody, onBalanceActClick);
+	    }
+	  } else {
+	    docsBody.innerHTML = _storage2.default.allDocsOperationType === 'naklad' ? 'Накладных нет' : 'Балансовых операций нет';
+	  }
+	};
+	var getDocs = function getDocs(year, month, day, type) {
+	  var interval = 'year/' + year + (month !== 'all' ? '/month/' + (+month + 1) : '') + (day !== 'all' ? '/day/' + day : '');
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.data.operatorId + '/business/' + _storage2.default.data.currentBusiness + '/documents/' + _storage2.default.allDocsOperationType + '/' + interval,
+	    data: 'token=' + _storage2.default.data.token + (_storage2.default.currentStockId !== 'all' ? '&stock=' + _storage2.default.currentStockId : ''),
+	    callbackSuccess: onSuccessBillsGet
+	  };
+	};
+	// ############################## ВЫСТАВЛЯЕМ ДАТЫ ##############################
+	var drawDates = function drawDates(year, month, day) {
+	  var thisYear = new Date().getFullYear();
+	  var thisMonth = month || new Date().getMonth();
+	  var numberOfDays = 33 - new Date(thisYear, thisMonth, 33).getDate();
+	
+	  docsYear.innerHTML = '';
+	  docsDay.innerHTML = '';
+	
+	  for (var i = START_YEAR; i <= thisYear; i++) {
+	    docsYear.insertAdjacentHTML('afterBegin', '<option value="' + i + '">' + i + '</option>');
+	  }
+	
+	  for (var _i = 1; _i <= numberOfDays; _i++) {
+	    var currentDayNumber = new Date(thisYear, thisMonth, _i).getUTCDay();
+	    var holidayFlag = currentDayNumber === 5 || currentDayNumber === 6 ? 'class="text-danger"' : '';
+	    docsDay.insertAdjacentHTML('afterBegin', '<option value="' + _i + '" ' + holidayFlag + '>' + _i + '</option>');
+	  }
+	  docsDay.insertAdjacentHTML('afterBegin', '<option value="all">---------</option>');
+	
+	  docsYear.value = year || thisYear;
+	  docsMonth.value = thisMonth;
+	  docsDay.value = day || new Date().getUTCDate();
+	  getDocs(docsYear.value, docsMonth.value, docsDay.value);
+	};
+	
+	docsYear.addEventListener('change', function (evt) {
+	  return drawDates(evt.target.value, 'all', 'all');
+	});
+	docsMonth.addEventListener('change', function (evt) {
+	  return drawDates(docsYear.value, evt.target.value, 'all');
+	});
+	docsDay.addEventListener('change', function (evt) {
+	  return drawDates(docsYear.value, docsMonth.value, evt.target.value);
+	});
+	docsStocks.addEventListener('change', function (evt) {
+	  _storage2.default.currentStockId = evt.target.value;
+	  drawDates(docsYear.value, docsMonth.value, docsDay.value);
+	});
+	
+	docsBillBtn.addEventListener('click', function () {
+	  _storage2.default.allDocsOperationType = 'naklad';
+	  getDocs(docsYear.value, docsMonth.value, docsDay.value);
+	});
+	
+	docsBalanceBtn.addEventListener('click', function () {
+	  _storage2.default.allDocsOperationType = 'balance';
+	  getDocs(docsYear.value, docsMonth.value, docsDay.value);
+	});
+	
+	var onSuccessStocksLoad = function onSuccessStocksLoad(docsData) {
+	  console.log(docsData);
+	  docsStocks.innerHTML = docsData.data.map(function (item) {
+	    return '<option value="' + item.id + '">' + item.name + '</option>';
+	  }).join('');
+	  if (docsData.data.length > 1) {
+	    docsStocks.innerHTML += '<option value="all" selected>Все склады</option';
+	  }
+	};
+	
+	var getStocks = function getStocks() {
+	
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.data.operatorId + '/business/' + _storage2.default.data.currentBusiness + '/stock',
+	    data: 'view_last=0&token=' + _storage2.default.data.token,
+	    callbackSuccess: onSuccessStocksLoad
+	  };
+	};
+	
+	exports.default = {
+	  start: function start() {
+	    docsList.addEventListener('click', getStocks);
+	    drawDates();
+	    getDocs(docsYear.value, docsMonth.value, docsDay.value);
+	    _storage2.default.allDocsOperationType = 'naklad';
+	  },
+	  stop: function stop() {
+	    docsList.removeEventListener('click', getStocks);
+	  }
+	};
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _storage = __webpack_require__(1);
+	
+	var _storage2 = _interopRequireDefault(_storage);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var BillTypes = {
+	  'type0': 'suppliers',
+	  'type1': 'admission',
+	  'type2': 'buyers',
+	  'type3': 'sale',
+	  'type8': 'ic_my_production'
+	};
+	
+	var getYearElement = function getYearElement(item, index) {
+	  return '\n  <div id="log-row" class="card mb-0 p-1 rounded-0" style="width: 100%">\n    <div class="media">\n      <div class="media-body">\n        <b> \u041D\u043E\u043C\u0435\u0440 \u043C\u0435\u0441\u044F\u0446\u0430: </b>' + item.month_number + '\n        <b> \u0412\u0440\u0435\u043C\u044F (\u043F\u0435\u0440\u0432\u0430\u044F) </b>' + new Date(+(item.doc_time_first + '000')).toLocaleString() + '\n        <b> \u0412\u0440\u0435\u043C\u044F (\u043F\u043E\u0441\u043B\u0435\u0434\u043D\u044F\u044F) </b>' + new Date(+(item.doc_time_last + '000')).toLocaleString() + '\n        <b> \u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432: </b>' + item.count_documents + '\n        <b> \u0412\u0441\u0435\u0433\u043E: </b>' + item.total + '\n      </div>\n    </div>';
+	};
+	
+	var getMonthElement = function getMonthElement(item, index) {
+	  return '\n  <div id="log-row" class="card mb-0 p-1 rounded-0" style="width: 100%">\n    <div class="media">\n      <div class="media-body">\n        <b> \u041D\u043E\u043C\u0435\u0440 \u0434\u043D\u044F: </b>' + item.day_number + '\n        <b> \u0412\u0440\u0435\u043C\u044F (\u043F\u0435\u0440\u0432\u0430\u044F) </b>' + new Date(+(item.doc_time_first + '000')).toLocaleString() + '\n        <b> \u0412\u0440\u0435\u043C\u044F (\u043F\u043E\u0441\u043B\u0435\u0434\u043D\u044F\u044F) </b>' + new Date(+(item.doc_time_last + '000')).toLocaleString() + '\n        <b> \u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432: </b>' + item.count_documents + '\n      </div>\n    </div>';
+	};
+	
+	var getDayElement = function getDayElement(item, index) {
+	  return '\n  <div id="log-row" class="card mb-0 p-1 rounded-0" style="width: 100%">\n    <div class="media">\n      <img class="mr-3" src="img/' + BillTypes['type' + item.type] + '.png" width="30" alt="">\n      <div class="media-body">\n        <b>ID: </b>' + item.id + '\n        <b> \u0421\u0442\u0430\u0442\u0443\u0441: </b>' + item.status + '\n        <b> ID \u0441\u043A\u043B\u0430\u0434\u0430: </b>' + item.stock_id + '\n        <b> \u0418\u043C\u044F \u0441\u043A\u043B\u0430\u0434\u0430: </b>' + item.stock_name + '\n        <b> \u0412\u0440\u0435\u043C\u044F: </b>' + new Date(+(item.time + '000')).toLocaleString() + '\n        <b> \u0412\u0441\u0435\u0433\u043E: </b>' + item.total + '\n        <b> \u0422\u0438\u043F: </b>' + item.type + '\n      </div>\n    </div>';
+	};
+	
+	var getDayBalanceElement = function getDayBalanceElement(item, index) {
+	  return '\n  <div id="log-row" class="card mb-0 p-1 rounded-0" style="width: 100%">\n    <div class="media">\n\n      <div class="media-body">\n        <b>ID: </b>' + item.id + '\n        <b> ID \u0441\u043A\u043B\u0430\u0434\u0430: </b>' + item.stock_id + '\n        <b> \u0418\u043C\u044F \u0441\u043A\u043B\u0430\u0434\u0430: </b>' + item.stock_name + '\n        <b> \u0412\u0440\u0435\u043C\u044F: </b>' + new Date(+(item.time + '000')).toLocaleString() + '\n        <b> \u0412\u0441\u0435\u0433\u043E: </b>' + item.total + '\n        <b> \u041A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0439: </b>' + item.comment + '\n        <b> \u041E\u0441\u043D\u043E\u0432\u0430\u043D\u0438\u0435: </b>' + item.reason + '\n      </div>\n    </div>';
+	};
+	
+	var markup = {
+	  drawBillsYear: function drawBillsYear(billsData, container, handler) {
+	    billsData.forEach(function (group, index) {
+	      container.insertAdjacentHTML('beforeend', getYearElement(group, index));
+	    });
+	  },
+	  drawBillsMonth: function drawBillsMonth(billsData, container, handler) {
+	    billsData.forEach(function (bill, index) {
+	      container.insertAdjacentHTML('beforeend', getMonthElement(bill, index));
+	    });
+	  },
+	  drawBillsDay: function drawBillsDay(billsData, container, handler) {
+	    billsData.forEach(function (bill, index) {
+	      container.insertAdjacentHTML('beforeend', getDayElement(bill, index));
+	
+	      container.lastChild.addEventListener('click', function () {
+	        _storage2.default.currentBillId = bill.id;
+	        handler();
+	      });
+	    });
+	  },
+	  drawBalanceDay: function drawBalanceDay(billsData, container, handler) {
+	    billsData.forEach(function (bill, index) {
+	      container.insertAdjacentHTML('beforeend', getDayBalanceElement(bill, index));
+	
+	      container.lastChild.addEventListener('click', function () {
+	        _storage2.default.currentBillId = bill.id;
+	        handler();
+	      });
+	    });
+	  }
+	};
+	
+	exports.default = {
+	  drawYear: markup.drawBillsYear,
+	  drawMonth: markup.drawBillsMonth,
+	  drawDay: markup.drawBillsDay,
+	  drawDayBalance: markup.drawBalanceDay,
+	  BillTypes: BillTypes
+	};
+
+/***/ }),
+/* 60 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _xhr = __webpack_require__(6);
+	
+	var _xhr2 = _interopRequireDefault(_xhr);
+	
+	var _storage = __webpack_require__(1);
+	
+	var _storage2 = _interopRequireDefault(_storage);
+	
+	var _catalogCards = __webpack_require__(55);
+	
+	var _catalogCards2 = _interopRequireDefault(_catalogCards);
+	
+	var _tools = __webpack_require__(7);
+	
+	var _tools2 = _interopRequireDefault(_tools);
+	
+	var _catalog__cardsAddEdit = __webpack_require__(61);
 	
 	var _catalog__cardsAddEdit2 = _interopRequireDefault(_catalog__cardsAddEdit);
 	
-	var _catalog__cardsAddResource = __webpack_require__(53);
+	var _catalog__cardsAddResource = __webpack_require__(62);
 	
 	var _catalog__cardsAddResource2 = _interopRequireDefault(_catalog__cardsAddResource);
 	
-	var _universalGoodsList = __webpack_require__(47);
+	var _universalGoodsList = __webpack_require__(48);
 	
 	var _universalGoodsList2 = _interopRequireDefault(_universalGoodsList);
 	
-	var _universalSearch = __webpack_require__(35);
+	var _universalSearch = __webpack_require__(36);
 	
 	var _universalSearch2 = _interopRequireDefault(_universalSearch);
 	
-	var _universalGroupsList = __webpack_require__(48);
+	var _universalGroupsList = __webpack_require__(49);
 	
 	var _universalGroupsList2 = _interopRequireDefault(_universalGroupsList);
 	
@@ -6440,6 +8740,7 @@
 	var listCardBody = document.querySelector('#list-cards-card-body');
 	var listCardAddBtn = document.querySelector('#list-cards-card-add-btn');
 	var listCardEditBtn = document.querySelector('#card-resources-edit-btn');
+	
 	var cardResources = document.querySelector('#card-resources');
 	var cardResourcesReturnBtn = document.querySelector('#card-resources-return-btn');
 	var cardResourcesDeleteBtn = document.querySelector('#card-resources-delete-btn');
@@ -6589,14 +8890,17 @@
 	        _catalog__cardsAddResource2.default.start(addResourcesModal);
 	        fastEditFlag = true;
 	      };
-	
+	      console.log(item.value < 0);
 	      if (item.value < 0) {
 	        cardResourcesResources.insertAdjacentHTML('beforeend', _catalogCards2.default.getResourceElement(item));
 	        cardResourcesResources.lastChild.addEventListener('click', onResourcesGoodClick);
 	      } else {
+	        console.log('hi');
+	        console.log(_catalogCards2.default.getResourceElement(item));
 	        cardResourcesProduct.insertAdjacentHTML('beforeend', _catalogCards2.default.getResourceElement(item));
 	        cardResourcesProduct.lastChild.addEventListener('click', onResourcesGoodClick);
 	      }
+	      console.log(cardResourcesProduct);
 	    });
 	  } else {
 	    cardResourcesResources.innerHTML = 'Nothig left, but hope';
@@ -6645,7 +8949,7 @@
 	  document.querySelector('#' + loaderSpinnerId).remove();
 	  console.log(loadedCards);
 	  cardData = loadedCards;
-	  _catalogCards2.default.drawDataInContainer(loadedCards.data);
+	  _catalogCards2.default.drawDataInContainer(loadedCards.data, listCardBody);
 	};
 	
 	var getCards = function getCards() {
@@ -6730,39 +9034,7 @@
 	};
 
 /***/ }),
-/* 51 */
-/***/ (function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var listCardsBody = document.querySelector('#list-cards-card-body');
-	
-	exports.default = {
-	  getElement: function getElement(item, index) {
-	
-	    return '\n    <div class="d-flex justify-content-between align-items-center reference-string" data-card-id="' + item.id + '" data-card-index="' + index + '"">\n      <div style="padding-left: 34px;">\n        <span class="reference-row-number">' + (index + 1) + '</span>\n        <span>' + item.name + '</span>\n      </div>\n      <div class="d-flex justify-content-between align-items-center">\n      </div>\n    </div>';
-	  },
-	  drawDataInContainer: function drawDataInContainer(cardsData) {
-	    var _this = this;
-	
-	    if (cardsData.length > 0) {
-	      cardsData.forEach(function (item, index) {
-	        return listCardsBody.insertAdjacentHTML('beforeend', _this.getElement(item, index));
-	      });
-	    } else {
-	      listCardsBody.innerHTML = 'Производственных карточек еще не создано';
-	    }
-	  },
-	  getResourceElement: function getResourceElement(item) {
-	    return '\n    <div class="d-flex justify-content-between reference-string" data-card-id="' + item.good_id + '"">\n      <div style="padding-left: 34px;">\n        ' + item.name + '\n      </div>\n      <div style="padding-right: 10px;">\n        ' + item.value + '\n      </div>\n\n    </div>';
-	  }
-	};
-
-/***/ }),
-/* 52 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6775,11 +9047,15 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _formTools = __webpack_require__(38);
+	var _tools = __webpack_require__(7);
+	
+	var _tools2 = _interopRequireDefault(_tools);
+	
+	var _formTools = __webpack_require__(39);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
-	var _catalog__cards = __webpack_require__(50);
+	var _catalog__cards = __webpack_require__(60);
 	
 	var _catalog__cards2 = _interopRequireDefault(_catalog__cards);
 	
@@ -6787,6 +9063,7 @@
 	
 	var appUrlAdd = void 0;
 	var appUrlEdit = void 0;
+	var messages = void 0;
 	
 	var form = void 0;
 	var field1 = void 0;
@@ -6801,21 +9078,44 @@
 	
 	  appUrlAdd = window.appSettings[form.dataset.formname].UrlApiAdd;
 	  appUrlEdit = window.appSettings[form.dataset.formname].UrlApiEdit;
+	  messages = window.appSettings[form.dataset.formname].messages;
 	};
 	
-	var callbackXhrSuccess = function callbackXhrSuccess() {
-	  $(modal).modal('hide');
-	  _formTools2.default.reset();
-	  if (_storage2.default.currentCardName === '') {
-	    _catalog__cards2.default.redrawList();
-	  } else {
-	    _catalog__cards2.default.redrawCard();
+	var callbackXhrSuccess = function callbackXhrSuccess(response) {
+	  switch (response.status) {
+	    case 200:
+	      $(modal).modal('hide');
+	      _formTools2.default.reset();
+	      if (_storage2.default.currentCardName === '') {
+	        _catalog__cards2.default.redrawList();
+	      } else {
+	        _catalog__cards2.default.redrawCard();
+	      }
+	      break;
+	    case 400:
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'message': messages.mes400
+	      };
+	      break;
+	    case 271:
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'message': response.messages
+	      };
+	      break;
 	  }
 	};
 	
-	var callbackXhrError = function callbackXhrError() {
+	var callbackXhrError = function callbackXhrError(xhr) {
+	
 	  $(modal).modal('hide');
 	  _formTools2.default.reset();
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'ОШИБКА СВЯЗИ',
+	    'message': '\u041E\u0448\u0438\u0431\u043A\u0430 ' + xhr.status + ': ' + xhr.statusText
+	  };
 	};
 	
 	var submitFormAdd = function submitFormAdd() {
@@ -6868,7 +9168,7 @@
 	};
 
 /***/ }),
-/* 53 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6881,17 +9181,23 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _formTools = __webpack_require__(38);
+	var _tools = __webpack_require__(7);
+	
+	var _tools2 = _interopRequireDefault(_tools);
+	
+	var _formTools = __webpack_require__(39);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
-	var _catalog__cards = __webpack_require__(50);
+	var _catalog__cards = __webpack_require__(60);
 	
 	var _catalog__cards2 = _interopRequireDefault(_catalog__cards);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var appUrl = void 0;
+	var messages = void 0;
+	
 	var form = void 0;
 	var quantity = void 0;
 	var modal = void 0;
@@ -6900,18 +9206,42 @@
 	  modal = remModal;
 	  form = modal.querySelector('*[data-formName]');
 	  quantity = form.querySelector('*[data-valid="quantity"]');
+	
 	  appUrl = window.appSettings[form.dataset.formname].UrlApi;
+	  messages = window.appSettings[form.dataset.formname].message;
 	};
 	
-	var callbackXhrSuccess = function callbackXhrSuccess() {
-	  $(modal).modal('hide');
-	  _formTools2.default.reset();
-	  _catalog__cards2.default.redrawCard();
+	var callbackXhrSuccess = function callbackXhrSuccess(response) {
+	  switch (response.status) {
+	    case 200:
+	      $(modal).modal('hide');
+	      _formTools2.default.reset();
+	      _catalog__cards2.default.redrawCard();
+	      break;
+	    case 400:
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'message': messages.mes400
+	      };
+	      break;
+	    case 271:
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'message': response.messages
+	      };
+	      break;
+	  }
 	};
 	
-	var callbackXhrError = function callbackXhrError() {
+	var callbackXhrError = function callbackXhrError(xhr) {
+	
 	  $(modal).modal('hide');
 	  _formTools2.default.reset();
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'ОШИБКА СВЯЗИ',
+	    'message': '\u041E\u0448\u0438\u0431\u043A\u0430 ' + xhr.status + ': ' + xhr.statusText
+	  };
 	};
 	
 	var submitForm = function submitForm() {
@@ -6943,7 +9273,7 @@
 	};
 
 /***/ }),
-/* 54 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6952,7 +9282,7 @@
 	  value: true
 	});
 	
-	var _xhr = __webpack_require__(5);
+	var _xhr = __webpack_require__(6);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
 	
@@ -6960,31 +9290,31 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _tools = __webpack_require__(6);
+	var _tools = __webpack_require__(7);
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _catalog__groups = __webpack_require__(34);
+	var _catalog__groups = __webpack_require__(35);
 	
 	var _catalog__groups2 = _interopRequireDefault(_catalog__groups);
 	
-	var _catalog__goods = __webpack_require__(39);
+	var _catalog__goods = __webpack_require__(40);
 	
 	var _catalog__goods2 = _interopRequireDefault(_catalog__goods);
 	
-	var _universalKeywords = __webpack_require__(31);
+	var _universalKeywords = __webpack_require__(32);
 	
 	var _universalKeywords2 = _interopRequireDefault(_universalKeywords);
 	
-	var _universalGoodsList = __webpack_require__(47);
+	var _universalGoodsList = __webpack_require__(48);
 	
 	var _universalGoodsList2 = _interopRequireDefault(_universalGoodsList);
 	
-	var _singleValidation = __webpack_require__(55);
+	var _singleValidation = __webpack_require__(64);
 	
 	var _singleValidation2 = _interopRequireDefault(_singleValidation);
 	
-	var _catalog__searchBarcode = __webpack_require__(56);
+	var _catalog__searchBarcode = __webpack_require__(65);
 	
 	var _catalog__searchBarcode2 = _interopRequireDefault(_catalog__searchBarcode);
 	
@@ -7171,7 +9501,7 @@
 	};
 
 /***/ }),
-/* 55 */
+/* 64 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -7237,7 +9567,7 @@
 	};
 
 /***/ }),
-/* 56 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7246,11 +9576,11 @@
 	  value: true
 	});
 	
-	var _tools = __webpack_require__(6);
+	var _tools = __webpack_require__(7);
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _catalog__searchBarcodeValid = __webpack_require__(57);
+	var _catalog__searchBarcodeValid = __webpack_require__(66);
 	
 	var _catalog__searchBarcodeValid2 = _interopRequireDefault(_catalog__searchBarcodeValid);
 	
@@ -7278,7 +9608,7 @@
 	};
 
 /***/ }),
-/* 57 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7291,21 +9621,27 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _formTools = __webpack_require__(38);
+	var _tools = __webpack_require__(7);
+	
+	var _tools2 = _interopRequireDefault(_tools);
+	
+	var _formTools = __webpack_require__(39);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
-	var _catalog__goods = __webpack_require__(39);
+	var _catalog__goods = __webpack_require__(40);
 	
 	var _catalog__goods2 = _interopRequireDefault(_catalog__goods);
 	
-	var _catalog__search = __webpack_require__(54);
+	var _catalog__search = __webpack_require__(63);
 	
 	var _catalog__search2 = _interopRequireDefault(_catalog__search);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var appUrl = void 0;
+	var messages = void 0;
+	
 	var form = void 0;
 	var field1 = void 0;
 	var modal = void 0;
@@ -7318,28 +9654,55 @@
 	  field1 = form.querySelector('*[data-valid="field1"]');
 	
 	  appUrl = window.appSettings[form.dataset.formname].UrlApi;
+	  messages = window.appSettings[form.dataset.formname].messages;
 	};
 	
 	var callbackXhrSuccess = function callbackXhrSuccess(response) {
+	  switch (response.status) {
+	    case 200:
+	      $(modal).modal('hide');
+	      _formTools2.default.reset();
 	
-	  $(modal).modal('hide');
-	  _formTools2.default.reset();
+	      // чОрное колдовство с автооткрытием карточки при одном найденном варианте
+	      if (response.data.length === 1) {
+	        $(modal).on('hidden.bs.modal', function (e) {
+	          _storage2.default.currentGoodId = response.data[0].id;
+	          _catalog__goods2.default.fill();
+	          response.data = 0;
+	        });
+	      } else if (response.data.length > 1) {
+	        _catalog__search2.default.drawResult(response.data);
+	      }
 	
-	  // чОрное колдовство с автооткрытием карточки при одном найденном варианте
-	  if (response.data.length === 1) {
-	    $(modal).on('hidden.bs.modal', function (e) {
-	      _storage2.default.currentGoodId = response.data[0].id;
-	      _catalog__goods2.default.fill();
-	      response.data = 0;
-	    });
-	  } else if (response.data.length > 1) {
-	    _catalog__search2.default.drawResult(response.data);
+	      break;
+	    case 400:
+	      $(modal).modal('hide');
+	      _formTools2.default.reset();
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'message': messages.mes400
+	      };
+	      break;
+	    case 271:
+	      $(modal).modal('hide');
+	      _formTools2.default.reset();
+	      _tools2.default.informationtModal = {
+	        'title': 'Error',
+	        'message': response.message
+	      };
+	      break;
 	  }
 	};
 	
-	var callbackXhrError = function callbackXhrError() {
+	var callbackXhrError = function callbackXhrError(xhr) {
+	
 	  $(modal).modal('hide');
 	  _formTools2.default.reset();
+	
+	  _tools2.default.informationtModal = {
+	    'title': 'ОШИБКА СВЯЗИ',
+	    'message': '\u041E\u0448\u0438\u0431\u043A\u0430 ' + xhr.status + ': ' + xhr.statusText
+	  };
 	};
 	
 	var submitFormAdd = function submitFormAdd() {
@@ -7370,7 +9733,7 @@
 	};
 
 /***/ }),
-/* 58 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7383,39 +9746,39 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _tools = __webpack_require__(43);
+	var _tools = __webpack_require__(44);
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _operationsServerTools = __webpack_require__(59);
+	var _operationsServerTools = __webpack_require__(68);
 	
 	var _operationsServerTools2 = _interopRequireDefault(_operationsServerTools);
 	
-	var _operationsLeftColumn = __webpack_require__(60);
+	var _operationsLeftColumn = __webpack_require__(69);
 	
 	var _operationsLeftColumn2 = _interopRequireDefault(_operationsLeftColumn);
 	
-	var _operationsRightColumn = __webpack_require__(62);
+	var _operationsRightColumn = __webpack_require__(71);
 	
 	var _operationsRightColumn2 = _interopRequireDefault(_operationsRightColumn);
 	
-	var _operationsHeader = __webpack_require__(63);
+	var _operationsHeader = __webpack_require__(72);
 	
 	var _operationsHeader2 = _interopRequireDefault(_operationsHeader);
 	
-	var _operationsGoodAdd = __webpack_require__(64);
+	var _operationsGoodAdd = __webpack_require__(73);
 	
 	var _operationsGoodAdd2 = _interopRequireDefault(_operationsGoodAdd);
 	
-	var _operations__tradeDiscount = __webpack_require__(65);
+	var _operations__tradeDiscount = __webpack_require__(74);
 	
 	var _operations__tradeDiscount2 = _interopRequireDefault(_operations__tradeDiscount);
 	
-	var _catalog__goods = __webpack_require__(39);
+	var _catalog__goods = __webpack_require__(40);
 	
 	var _catalog__goods2 = _interopRequireDefault(_catalog__goods);
 	
-	var _tools3 = __webpack_require__(6);
+	var _tools3 = __webpack_require__(7);
 	
 	var _tools4 = _interopRequireDefault(_tools3);
 	
@@ -7999,7 +10362,7 @@
 	};
 
 /***/ }),
-/* 59 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8008,7 +10371,7 @@
 	  value: true
 	});
 	
-	var _xhr = __webpack_require__(5);
+	var _xhr = __webpack_require__(6);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
 	
@@ -8134,7 +10497,7 @@
 	};
 
 /***/ }),
-/* 60 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8147,11 +10510,11 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _universalGroupsList = __webpack_require__(48);
+	var _universalGroupsList = __webpack_require__(49);
 	
 	var _universalGroupsList2 = _interopRequireDefault(_universalGroupsList);
 	
-	var _operation__trade = __webpack_require__(61);
+	var _operation__trade = __webpack_require__(70);
 	
 	var _operation__trade2 = _interopRequireDefault(_operation__trade);
 	
@@ -8363,7 +10726,7 @@
 	};
 
 /***/ }),
-/* 61 */
+/* 70 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -8404,7 +10767,7 @@
 	};
 
 /***/ }),
-/* 62 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8413,7 +10776,7 @@
 	  value: true
 	});
 	
-	var _operation__trade = __webpack_require__(61);
+	var _operation__trade = __webpack_require__(70);
 	
 	var _operation__trade2 = _interopRequireDefault(_operation__trade);
 	
@@ -8611,6 +10974,8 @@
 	  setKontragentList: function setKontragentList(kontragents) {
 	    var kontragentsList = _storage2.default.operationTradeType === '7' ? kontragentsListInventory : kontragentsListTrade;
 	
+	    kontragentsList.innerHTML = '';
+	
 	    kontragents.forEach(function (el) {
 	      kontragentsList.innerHTML = kontragentsList.innerHTML + ('<option value="' + el.id + '">' + el.name + '</option>');
 	    });
@@ -8625,7 +10990,7 @@
 	};
 
 /***/ }),
-/* 63 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8634,7 +10999,7 @@
 	  value: true
 	});
 	
-	var _operation__trade = __webpack_require__(61);
+	var _operation__trade = __webpack_require__(70);
 	
 	var _operation__trade2 = _interopRequireDefault(_operation__trade);
 	
@@ -8697,7 +11062,7 @@
 	};
 
 /***/ }),
-/* 64 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8706,7 +11071,7 @@
 	  value: true
 	});
 	
-	var _formTools = __webpack_require__(38);
+	var _formTools = __webpack_require__(39);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
@@ -8766,7 +11131,7 @@
 	};
 
 /***/ }),
-/* 65 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8775,7 +11140,7 @@
 	  value: true
 	});
 	
-	var _formTools = __webpack_require__(38);
+	var _formTools = __webpack_require__(39);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
@@ -8825,7 +11190,7 @@
 	};
 
 /***/ }),
-/* 66 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8838,35 +11203,35 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _tools = __webpack_require__(43);
+	var _tools = __webpack_require__(44);
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _operationsServerTools = __webpack_require__(59);
+	var _operationsServerTools = __webpack_require__(68);
 	
 	var _operationsServerTools2 = _interopRequireDefault(_operationsServerTools);
 	
-	var _operationsLeftColumn = __webpack_require__(60);
+	var _operationsLeftColumn = __webpack_require__(69);
 	
 	var _operationsLeftColumn2 = _interopRequireDefault(_operationsLeftColumn);
 	
-	var _operationsRightColumn = __webpack_require__(62);
+	var _operationsRightColumn = __webpack_require__(71);
 	
 	var _operationsRightColumn2 = _interopRequireDefault(_operationsRightColumn);
 	
-	var _operationsHeader = __webpack_require__(63);
+	var _operationsHeader = __webpack_require__(72);
 	
 	var _operationsHeader2 = _interopRequireDefault(_operationsHeader);
 	
-	var _operationsGoodAdd = __webpack_require__(64);
+	var _operationsGoodAdd = __webpack_require__(73);
 	
 	var _operationsGoodAdd2 = _interopRequireDefault(_operationsGoodAdd);
 	
-	var _catalog__goods = __webpack_require__(39);
+	var _catalog__goods = __webpack_require__(40);
 	
 	var _catalog__goods2 = _interopRequireDefault(_catalog__goods);
 	
-	var _tools3 = __webpack_require__(6);
+	var _tools3 = __webpack_require__(7);
 	
 	var _tools4 = _interopRequireDefault(_tools3);
 	

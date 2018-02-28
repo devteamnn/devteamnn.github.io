@@ -1,3 +1,4 @@
+@charset "UTF-8";
 #profile {
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#9bdcbf+0,60abf8+61,4a9ad1+100 */
   background: #9bdcbf;
@@ -35,6 +36,9 @@
   background-image: url("../img/user-male-filled-32.png");
   background-size: cover; }
 
+.btn:disabled {
+  opacity: 0.3; }
+
 .icon-btn {
   width: 42px;
   height: 42px;
@@ -65,12 +69,29 @@
   background-image: url(../img/trash-100.png);
   background-size: cover; }
 
+.icon-btn__delete--red {
+  background-image: url(../img/trash-red.png);
+  background-color: #fff;
+  background-size: cover; }
+
+.icon-btn__settings {
+  background-image: url(../img/menu_s.png);
+  background-size: cover; }
+
 .icon-btn__go {
   background-image: url(../img/arrow-right.png);
   background-size: cover; }
 
 .icon-btn__rgb {
   background-image: url(../img/rgb-circle-1-50.png);
+  background-size: cover; }
+
+.icon-btn__set-password {
+  background-image: url(../img/icons8-set-password.png);
+  background-size: cover; }
+
+.icon-btn__lock-user {
+  background-image: url(../img/icons8-lock-user.png);
   background-size: cover; }
 
 .icon-btn__return {
@@ -93,6 +114,24 @@
   background-color: mediumpurple;
   margin-right: 5px; }
 
+.icon-btn__delivery {
+  background-image: url(../img/suppliers.png);
+  background-size: cover;
+  background-color: transparent;
+  margin-right: 5px; }
+
+.icon-btn__pdf {
+  background-image: url(../img/pdf.png);
+  background-size: cover;
+  background-color: transparent;
+  margin-right: 5px; }
+
+.icon-btn__excel {
+  background-image: url(../img/excel.png);
+  background-size: cover;
+  background-color: transparent;
+  margin-right: 5px; }
+
 .icon-btn__view-tiles {
   background-image: url(../img/collage-96-3x.png);
   background-size: cover;
@@ -111,11 +150,6 @@
 .icon-btn__sort:hover {
   background-color: darksalmon; }
 
-.reference-string {
-  min-height: 35px;
-  border: 1px solid #ccc;
-  margin-bottom: -1px; }
-
 .reference-header {
   margin-bottom: 15px; }
 
@@ -125,6 +159,37 @@
 
 .reference-header h2 {
   margin-left: 5px; }
+
+.reference-string {
+  min-height: 35px;
+  border: 1px solid #ccc;
+  margin-bottom: -1px; }
+
+.reference-string {
+  height: 44px; }
+
+.reference-string:hover {
+  background-color: #ccc; }
+
+.reference-row-number {
+  display: inline-block;
+  width: 25px;
+  text-align: right;
+  margin-right: 5px;
+  font-weight: bold; }
+
+.enterprise-card-block {
+  margin-left: 55px;
+  margin-right: 55px;
+  margin-top: 55px; }
+
+#list-contractors-card > h3 {
+  margin-left: 54px; }
+
+.negative-switch {
+  width: 20px;
+  height: 20px;
+  margin-left: 10px; }
 
 .keywords-card-select-color-container div {
   display: flex;
@@ -267,41 +332,17 @@ input[name="express-sell-radio"]:checked + label {
   opacity: 0.8;
   border-radius: 10px; }
 
-.enterprise-card-block {
-  margin-left: 55px;
-  margin-right: 55px;
-  margin-top: 55px; }
-
-.reference-string {
-  height: 44px; }
-
-.reference-string:hover {
-  background-color: #ccc; }
-
-.btn:disabled {
-  opacity: 0.3; }
-
-#list-contractors-card > h3 {
-  margin-left: 54px; }
-
-input[name="contact"]:checked + label {
-  border: 1px solid black; }
-
-.reference-row-number {
-  display: inline-block;
-  width: 25px;
-  text-align: right;
-  margin-right: 5px;
-  font-weight: bold; }
-
-.negative-switch {
-  width: 20px;
-  height: 20px;
-  margin-left: 10px; }
+.goods-string {
+  display: flex;
+  justify-content: space-between;
+  min-height: 35px;
+  border: 1px solid #ccc;
+  margin-bottom: -1px; }
 
 .catalog-header {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
   margin-bottom: 15px; }
 
@@ -317,13 +358,6 @@ input[name="contact"]:checked + label {
 
 .catalog-header-buttons {
   display: flex; }
-
-.goods-string {
-  display: flex;
-  justify-content: space-between;
-  min-height: 35px;
-  border: 1px solid #ccc;
-  margin-bottom: -1px; }
 
 .informaion-light {
   display: flex;
@@ -346,6 +380,76 @@ input[name="contact"]:checked + label {
   top: 0px;
   right: 5px;
   z-index: 9999; }
+
+.manufacture-card-block,
+.balance-card-block {
+  display: flex;
+  justify-content: space-between; }
+
+.manufacture-card-column {
+  border: 1px solid gray;
+  width: 33%; }
+
+.manufacture-column-title {
+  display: flex;
+  justify-content: space-between; }
+
+.manufacture-nomenklature-card--muted {
+  opacity: 0.4;
+  background-color: lightgreen; }
+
+.manufacture-nomenklature-card--muted::after {
+  content: 'Добавлено'; }
+
+.balance-set-form {
+  display: flex;
+  justify-content: space-between; }
+
+.balance-set-form div:first-child {
+  width: 30%; }
+
+.balance-set-form div:last-child {
+  width: 60%; }
+
+input[name="contact"]:checked + label {
+  border: 1px solid black; }
+
+.user-status {
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  margin-right: 5px; }
+
+.user-permissions-string {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid gray; }
+
+.user-permissions-string > span {
+  display: inline-block;
+  width: 300px;
+  margin-right: auto; }
+
+.user-permissions-string > div {
+  display: flex;
+  justify-content: space-between;
+  width: 50px;
+  text-align: left; }
+
+.user-permissions-switch {
+  width: 15px;
+  height: 15px;
+  margin-left: 5px; }
+
+.user-permissions-stock {
+  display: inline-block;
+  border-radius: 8px;
+  margin: 5px;
+  padding: 5px;
+  cursor: pointer;
+  background-color: #17a2b8;
+  color: #fff;
+  opacity: 1; }
 
 /*
 @import "src/sass/components/app.scss";
