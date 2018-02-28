@@ -8242,7 +8242,7 @@
 	    tr.dataset['name'] = good.name;
 	    tr.dataset['count'] = count;
 	    tr.dataset['price'] = good.price;
-	    tr.innerHTML = _operation__trade2.default.leftColumnGoodsRowTrade(index, good.id, good.name, good.price, count);
+	    tr.innerHTML = _operation__trade2.default.leftColumnGoodsRowTrade(index, good.name, good.price, count);
 	
 	    tr.addEventListener('click', clickHandler);
 	
@@ -8295,7 +8295,7 @@
 	    tr.dataset['name'] = good.name;
 	    tr.dataset['count'] = count;
 	    tr.dataset['price'] = good.price;
-	    tr.innerHTML = _operation__trade2.default.leftColumnGoodsRowInventory(index, good.id, good.name, good.price, count);
+	    tr.innerHTML = _operation__trade2.default.leftColumnGoodsRowInventory(index, good.name, good.price, count);
 	
 	    tr.addEventListener('click', clickHandler);
 	
@@ -8386,11 +8386,11 @@
 	  leftColumnGoodsHeaderInventory: function leftColumnGoodsHeaderInventory() {
 	    return '<thead><tr><th scope="col" class="">#</th><th scope="col" class="w-50">Товар</th><th scope="col">Остаток</th><th scope="col"></th></tr></thead>';
 	  },
-	  leftColumnGoodsRowTrade: function leftColumnGoodsRowTrade(index, id, name, price, count) {
-	    return '\n      <th scope="row">' + (index + 1) + '</th>\n      <td>' + id + ' || ' + name + '</td>\n      <td>' + price + '</td>\n      <td>' + count + '</td>\n      <td>\n        <button class="button btn btn-danger mr-1" data-type="add">+1</button>\n      </td>\n      <td>\n        <button class="button btn btn-danger" data-type="card">i</button>\n      </td>\n    ';
+	  leftColumnGoodsRowTrade: function leftColumnGoodsRowTrade(index, name, price, count) {
+	    return '\n      <th scope="row">' + (index + 1) + '</th>\n      <td>' + name + '</td>\n      <td>' + price + '</td>\n      <td>' + count + '</td>\n      <td>\n        <button class="button btn btn-danger mr-1" data-type="add">+1</button>\n      </td>\n      <td>\n        <button class="button btn btn-danger" data-type="card">i</button>\n      </td>\n    ';
 	  },
-	  leftColumnGoodsRowInventory: function leftColumnGoodsRowInventory(index, id, name, price, count) {
-	    return '\n      <th scope="row">' + (index + 1) + '</th>\n      <td>' + id + ' || ' + name + '</td>\n      <td>' + count + '</td>\n      <td>\n        <button class="button btn btn-danger" data-type="card">i</button>\n      </td>\n    ';
+	  leftColumnGoodsRowInventory: function leftColumnGoodsRowInventory(index, name, price, count) {
+	    return '\n      <th scope="row">' + (index + 1) + '</th>\n      <td>' + name + '</td>\n      <td>' + count + '</td>\n      <td>\n        <button class="button btn btn-danger" data-type="card">i</button>\n      </td>\n    ';
 	  },
 	  rightColumnGoods: function rightColumnGoods(index, name, count, price) {
 	    return '\n      <th scope="row">' + (index + 1) + '</th>\n      <td>' + name + '</td>\n      <td>' + count + '</td>\n      <td>' + price + '</td>\n      <td>' + Number(price * count).toFixed(2) + '</td>\n    ';
