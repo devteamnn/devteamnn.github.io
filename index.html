@@ -263,71 +263,75 @@
               <h2>ЗАКУПКА</h2>
             </div>
             <div class="catalog-header-buttons w-50">
-              <select id="operations-purchase-stocks-list" form="operations-purchase-form" name="stock" class="form-control w-75  m-2"></select>
-              <button id="operations-purchase-submit" name="submit" form="operations-purchase-form" type="submit" class="btn btn-danger m-2 p-2 w-25" disabled>Выполнить</button>
+              <select id="operations-purchase-stocks-list" form="operations-purchase-form" name="stock" class="form-control w-75 m-2"></select>
+              <span class="">
+                <button id="operations-purchase-submit" name="submit" form="operations-purchase-form" type="submit" class="btn btn-danger m-2 p-2 w-100" disabled>Выполнить</button>
+                <div id="operation-purchase-submit-spinner" class="w-100 ml-2 mr-2"></div>
+              </span>
             </div>
           </div>
           <div class="d-flex justify-content-between">
             <div>
               <div class="d-flex justify-content-between w-75">
-                <div class="w-100">
-                  <select id="operations-purchase-kontragents-list" class="form-control w-100" name="kontragents" form="operations-purchase-form"></select>
+                <div>
+                  <select id="operations-purchase-kontragents-list" class="form-control" name="kontragents" form="operations-purchase-form" style="width: 300px; margin-right: 50px;"></select>
                 </div>
-                <div class="pl-2">
-                  <label class="rounded" style="display:inline-block; height:38px; width:60px; background: #DFB939;">
-                    <img src="/img/suppliers.png" width="38px" height="38px" >
-                    <input id="operations-purchase-delivery" type="checkbox" name="delivery" form="operations-purchase-form">
+                <div style="min-width: 60px; height: 40px; background-image: url('/img/suppliers.png'); background-color: #DFB939; background-position: left; background-size: 45px, 45px; background-repeat: no-repeat; border-radius: 5px;">
+                  <label style="min-width: 60px; height: 40px; padding-left: 43px;">
+                    <!-- <img src="/img/suppliers.png" width="38px" height="38px" > -->
+                    <input id="operations-purchase-delivery" type="checkbox" name="delivery" form="operations-purchase-form" style="margin-bottom: 0px; height: 40px;">
                   </label>
                 </div>
               </div>
               <div class="d-flex justify-content-between pt-3" style="bottom: 0px">
-                <button id="operations-purchase-clear-but" type="button" class="btn btn-danger" style="width: 40px; height: 40px; background-image: url('img/Cancel-96.png'); background-position: center; background-size: cover;"></button>
+                <button id="operations-purchase-clear-but" type="button" class="btn btn-danger mr-5" style="width: 40px; height: 40px; background-image: url('img/Cancel-96.png'); background-position: center; background-size: cover;"></button>
                 <form id="operations-purchase-search-barcode-form">
-                  <input id="operations-purchase-search-barcode" type="text" placeholder="Штрихкод" form="operations-purchase-search-barcode-form" name="barcode" tabindex="1">
-                  <button id="operations-purchase-search-barcode-submit" form="operations-purchase-search-barcode-form" type="submit" class="btn btn-danger" name="submit" style="width: 40px; height: 40px; background-image: url('img/Barcode-64.png'); background-position: center; background-size: cover;"></button>
+                  <input id="operations-purchase-search-barcode" type="text" placeholder="Штрихкод" form="operations-purchase-search-barcode-form" name="barcode" tabindex="1" style="height: 38px;">
+                  <button id="operations-purchase-search-barcode-submit" form="operations-purchase-search-barcode-form" type="submit" class="btn btn-danger" name="submit" style="width: 40px; height: 40px; background-image: url('img/Barcode-64.png'); background-position: center; background-size: cover; margin-bottom: 5px;"></button>
                 </form>
               </div>
             </div>
             <div>
               <div class="ml-5 pt-3">
-                <p id="operations-purchase-price" class='mx-auto h3 text-primary' style="font-size: 60px; font-stretch: ultra-condensed">XXXXXX.XX</p>
+                <p id="operations-purchase-price" class='mx-auto h3 text-primary' style="font-size: 60px; font-stretch: ultra-condensed"></p>
               </div>
             </div>
           </div>
           <!-- ========Таблица======= -->
 
-          <table id="operations-purchase-right" class="table table-hover">
-            <thead>
-              <tr>
-                <th scope="col" class="">№</th>
-                <th scope="col" class="w-50">Наименование:</th>
-                <th scope="col" class="w-50">Кол-во:</th>
-                <th scope="col" class="w-50">Цена закупки:</th>
-                <th scope="col">Сумма:</th>
-                <th scope="col">Текущая<br>наценка:</th>
-                <th scope="col">Рекомендуемая<br>наценка:</th>
-                <th scope="col">Цена<br>продажи:</th>
-                <th scope="col">Сумма<br>продажи:</th>
-              </tr>
-            </thead>
-            <tbody class="table table-hover"></tbody>
-            <tfoot>
-              <tr>
-                <td></td>
-                <td>
-                  <button id="operations-purchase-add-good" type="button" class="btn btn-success ml-auto" style="width: 40px; height: 40px; background-image: url('img/plus-math-50.png'); background-position: center; background-size: cover;"></button>
-                </td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-            </tfoot>
-          </table>
-
+          <form>
+            <table id="operations-purchase-right" class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col" class="align-middle">№</th>
+                  <th scope="col" class="w-50 align-middle">Наименование:</th>
+                  <th scope="col" class="w-50 align-middle">Кол-во:</th>
+                  <th scope="col" class="w-50 align-middle">Цена закупки:</th>
+                  <th scope="col" class="align-middle">Сумма:</th>
+                  <th scope="col" class="align-middle">Текущая<br>наценка:</th>
+                  <th scope="col" class="align-middle">Рекомендуемая<br>наценка:</th>
+                  <th scope="col" class="align-middle">Цена<br>продажи:</th>
+                  <th scope="col" class="align-middle">Сумма<br>продажи:</th>
+                </tr>
+              </thead>
+              <tbody class="table table-hover"></tbody>
+              <tfoot>
+                <tr>
+                  <td></td>
+                  <td style="text-align: right;">
+                    <button id="operations-purchase-add-good" type="button" class="btn btn-success ml-auto" style="width: 30px; height: 30px; background-image: url('img/plus-math-50.png'); background-position: center; background-size: cover;"></button>
+                  </td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+          </form>
         </div>
 
 <!-- =========================================== -->
@@ -1904,8 +1908,8 @@
 
   <!-- Операции / накладные / ЗАКУПКИ - группы товаров-->
   <div class="modal fade" id="operations-purchase-modal-goods" tabindex="-1" role="dialog" aria-labelledby="operations-trade-discount" aria-hidden="true" backdrop="static" data-cancel>
-    <div class="modal-dialog w-100" role="document">
-      <div class="modal-content">
+    <div class="modal-dialog" role="document" style="max-width: 1000px;">
+      <div class="modal-content" style="height: 93vh;">
         <div class="modal-header">
 
           <div>

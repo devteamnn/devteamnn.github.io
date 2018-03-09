@@ -9554,9 +9554,16 @@
 	  }
 	
 	  var span = parent.querySelector('*[data-validLabel=' + el.dataset.validlabelname + ']');
-	  span.innerHTML = '';
 	
-	  parent.querySelector('button[type="submit"]').disabled = false;
+	  if (span) {
+	    span.innerHTML = '';
+	  }
+	
+	  var submitBtn = parent.querySelector('button[type="submit"]');
+	
+	  if (submitBtn) {
+	    submitBtn.disabled = false;
+	  }
 	
 	  el.removeEventListener('input', formInpitHandler);
 	
@@ -9570,8 +9577,6 @@
 	  if (!pattern[el.dataset.valid].test(el.value)) {
 	    el.addEventListener('input', formInpitHandler);
 	
-	    console.log('HANDLER ADD');
-	
 	    el.classList.add('border');
 	    el.classList.add('border-danger');
 	
@@ -9582,13 +9587,19 @@
 	    }
 	
 	    var span = parent.querySelector('*[data-validLabel=' + el.dataset.validlabelname + ']');
-	    span.innerHTML = message[el.dataset.valid];
 	
-	    parent.querySelector('button[type="submit"]').disabled = true;
+	    if (span) {
+	      span.innerHTML = message[el.dataset.valid];
+	    }
+	
+	    var submitBtn = parent.querySelector('button[type="submit"]');
+	
+	    if (submitBtn) {
+	      submitBtn.disabled = true;
+	    }
 	
 	    return false;
 	  }
-	
 	  return true;
 	};
 	
@@ -9817,6 +9828,9 @@
 	var modalGroup = document.querySelector('#operations-purchase-modal-goods');
 	var modalAdd = document.querySelector('#operations-trade-add');
 	var modalAddCount = document.querySelector('#operations-trade-add-input');
+	var leftColumnNode = document.querySelector('#operations-purchase-left');
+	
+	var submitSpinner = document.querySelector('#operation-purchase-submit-spinner');
 	
 	var goodAddButton = document.querySelector('#operations-purchase-add-good');
 	var goodsCardNode = document.querySelector('#goods-card');
@@ -9842,16 +9856,13 @@
 	};
 	
 	var showGoodCard = function showGoodCard() {
-	  // $(modalAdd).on('shown.bs.modal', function () {
-	  //   $(modalAddCount).trigger('focus');
-	  // });
 	  var hideGoodCardHandler = function hideGoodCardHandler() {
-	    $(modalGroup).modal('show');
-	    // goodsCardNode.removeEventListener('hidden', hideGoodCardHandler);
 	    $(goodsCardNode).unbind('hidden.bs.modal');
+	    setTimeout(function () {
+	      $(modalGroup).modal('show');
+	    }, 500);
 	  };
 	
-	  // goodsCardNode.addEventListener('hidden.bs.modal', hideGoodCardHandler);
 	  $(goodsCardNode).on('hidden.bs.modal', hideGoodCardHandler);
 	
 	  setTimeout(function () {
@@ -9907,11 +9918,14 @@
 	};
 	
 	var tradeSubmitFormCallback = function tradeSubmitFormCallback() {
+	  submitSpinner.innerHTML = '';
 	  _operationsLeftColumn2.default.drawGroups(dataStore.all_groups, clickGroupsCallback, clichButtonBackCallback);
 	  _operationsRightColumn2.default.clear();
 	};
 	
 	var clickGroupsCallback = function clickGroupsCallback() {
+	  leftColumnNode.innerHTML = _tools4.default.getLoadSpinner('sp-2', 'Загрузка');
+	
 	  var groupe = _tools2.default.serachElements({
 	    'array': dataStore.all_groups,
 	    'property': 'id',
@@ -9931,11 +9945,12 @@
 	var clickRightGood = function clickRightGood(el) {
 	  var inputBlurHandler = function inputBlurHandler(evt) {
 	    evt.target.classList.add('d-none');
-	    evt.target.value = evt.target.dataset['oldvalue'];
+	    evt.target.placeholder = evt.target.dataset['oldvalue'];
 	
-	    var span = getSpan(el);
+	    var td = evt.target.nodeName === 'TD' ? evt.target : evt.target.parentNode;
+	    var span = td.querySelector('span');
+	
 	    span.classList.remove('d-none');
-	
 	    evt.target.removeEventListener('blur', inputBlurHandler);
 	  };
 	
@@ -10051,7 +10066,6 @@
 	      'count': value,
 	      'oldCount': oldCount,
 	      'sumSale': calcSumSale(sumSaleCount, _storage2.default.operationTradeCurrentGoodPriceSell),
-	      // 'startCount': stor.operationTradeCurrentGoodCount,
 	      'newRow': true
 	    });
 	  } else {
@@ -10071,11 +10085,6 @@
 	  tradeForm.submit.disabled = false;
 	};
 	
-	var getSpan = function getSpan(input) {
-	  var td = input.parentNode;
-	  return td.querySelector('span');
-	};
-	
 	var changeCount = function changeCount(value) {
 	  var goodId = _storage2.default.operationTradeCurrentGoodId;
 	
@@ -10090,8 +10099,8 @@
 	  nomCard[nomIndex].sumPurchase = calcSumPurchase(value, _storage2.default.operationTradeCurrentGoodPrice);
 	  nomCard[nomIndex].priceSell = _storage2.default.operationTradeCurrentGoodPriceSell;
 	  nomCard[nomIndex].markupGood = _storage2.default.operationTradeMarkupGood;
-	  nomCard[nomIndex].currMarkup = calcCurrMarkup(_storage2.default.newPriceSell, _storage2.default.operationTradeCurrentGoodPrice);
-	  nomCard[nomIndex].sumSale = calcSumSale(value, _storage2.default.newPriceSell);
+	  nomCard[nomIndex].currMarkup = calcCurrMarkup(_storage2.default.operationTradeCurrentGoodPriceSell, _storage2.default.operationTradeCurrentGoodPrice);
+	  nomCard[nomIndex].sumSale = calcSumSale(value, _storage2.default.operationTradeCurrentGoodPriceSell);
 	  nomCard[nomIndex].newRow = true;
 	
 	  redrawColumn();
@@ -10115,8 +10124,8 @@
 	  nomCard[nomIndex].sumPurchase = calcSumPurchase(_storage2.default.operationTradeCurrentGoodCount, _storage2.default.operationTradeCurrentGoodPrice);
 	  nomCard[nomIndex].priceSell = _storage2.default.operationTradeCurrentGoodPriceSell;
 	  nomCard[nomIndex].markupGood = _storage2.default.operationTradeMarkupGood;
-	  nomCard[nomIndex].currMarkup = calcCurrMarkup(_storage2.default.newPriceSell, _storage2.default.operationTradeCurrentGoodPrice);
-	  nomCard[nomIndex].sumSale = calcSumSale(_storage2.default.operationTradeCurrentGoodCount, _storage2.default.newPriceSell);
+	  nomCard[nomIndex].currMarkup = calcCurrMarkup(_storage2.default.operationTradeCurrentGoodPriceSell, _storage2.default.operationTradeCurrentGoodPrice);
+	  nomCard[nomIndex].sumSale = calcSumSale(_storage2.default.operationTradeCurrentGoodCount, _storage2.default.operationTradeCurrentGoodPriceSell);
 	  nomCard[nomIndex].newRow = true;
 	
 	  redrawColumn();
@@ -10244,7 +10253,7 @@
 	      break;
 	    case 'def':
 	      $(modalGroup).modal('hide');
-	      _operationsGoodAdd2.default.show(addLeftFormCallback, 'l');
+	      showModalAdd();
 	      break;
 	  }
 	};
@@ -10263,7 +10272,7 @@
 	      break;
 	    case 'def':
 	      $(modalGroup).modal('hide');
-	      _operationsGoodAdd2.default.show(addLeftFormCallback, 'l');
+	      showModalAdd();
 	      break;
 	  }
 	};
@@ -10297,8 +10306,25 @@
 	  focusBarcode();
 	};
 	
+	var showModalAdd = function showModalAdd() {
+	  var hideModalAddHandler = function hideModalAddHandler() {
+	    $(modalAdd).unbind('hidden.bs.modal');
+	    setTimeout(function () {
+	      $(modalGroup).modal('show');
+	    }, 160);
+	  };
+	
+	  setTimeout(function () {
+	    _operationsGoodAdd2.default.show(addLeftFormCallback, 'l');
+	  }, 160);
+	
+	  $(modalAdd).on('hidden.bs.modal', hideModalAddHandler);
+	};
+	
 	var addLeftFormCallback = function addLeftFormCallback(count) {
-	  $(modalGroup).modal('show');
+	  setTimeout(function () {
+	    $(modalGroup).modal('show');
+	  }, 160);
 	  addGoodToNomCard(count);
 	};
 	
@@ -10307,6 +10333,7 @@
 	};
 	
 	var sendTradeForm = function sendTradeForm() {
+	  submitSpinner.innerHTML = _tools4.default.getLoadSpinner('sp-1', 'Отправка');
 	  _operationsServerTools2.default.sendDataToServer({
 	    'stock': tradeForm.stock.value,
 	    'kontragent': tradeForm.kontragents.value,
@@ -10355,6 +10382,7 @@
 	
 	  tradeForm.addEventListener('submit', function (evt) {
 	    evt.preventDefault();
+	    tradeForm.submit.disabled = true;
 	    sendTradeForm();
 	  });
 	
@@ -10381,7 +10409,7 @@
 	      _storage2.default.operationTradeCurrentGoodName = dataFind[0].name;
 	      _storage2.default.operationTradeCurrentGoodCount = dataFind[0].count;
 	      _storage2.default.operationTradeCurrentGoodPrice = dataFind[0].price_purchase;
-	      _storage2.default.newPriceSell = dataFind[0].price_sell;
+	      _storage2.default.operationTradeCurrentGoodPriceSell = dataFind[0].price_sell;
 	      _storage2.default.operationTradeMarkupGood = dataFind[0].markup_good && dataFind[0].markup_good !== 'null' || dataFind[0].markup_good === '0' ? dataFind[0].markup_good : dataFind[0].markup_group;
 	
 	      addGoodToNomCard(1, true);
@@ -10958,7 +10986,9 @@
 	    return '\n      <td>' + (index + 1) + '</td>\n      <td>' + name + '</td>\n      <td>' + count + '</td>\n      <td>' + price + '</td>\n      <td></td>\n      <td></td>\n      <td></td>\n      <td></td>\n      <td></td>\n    ';
 	  },
 	  rightColumnGoodsPurchase: function rightColumnGoodsPurchase(id, index, name, count, price, sumPurchase, markupGood, priceSell, currMarkup, sumSale) {
-	    return '\n      <th scope="row">' + (index + 1) + '</th>\n      <td>' + name + '</td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">' + count + '</span>\n        <input type="text" class="w-100 d-none" value="' + count + '" name="count" data-oldValue=' + count + '">\n      </td>\n      <td>\n        <span data-name="price">\n          ' + price + '\n        </span>\n      </td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">\n          ' + sumPurchase + '\n        </span>\n        <input type="text" class="w-100 d-none" value="' + sumPurchase + '" name="sumPurchase" data-oldValue="' + sumPurchase + '">\n      </td>\n      <td data-click="true">\n       <span class="w-100" data-click="true">' + currMarkup + '%</span>\n       <input type="text" class="w-100 d-none" value="' + currMarkup + '" name="currMarkup" data-oldValue=' + currMarkup + '">\n      </td>\n      <td>' + markupGood + '%</td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">' + priceSell + '</span>\n        <input type="text" class="w-100 d-none" value="' + priceSell + '" name="priceSell" data-oldValue=' + priceSell + '>\n      </td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">' + sumSale + '</span>\n        <input type="text" class="w-100 d-none" value="' + sumSale + '" name="sumSale" data-oldValue=' + sumSale + '>\n      </td>\n    ';
+	    var markupColor = Number(currMarkup) < Number(markupGood) || Number(currMarkup) === Number(markupGood) ? 'text-info' : 'text-danger';
+	
+	    return '\n      <th scope="row">' + (index + 1) + '</th>\n      <td>' + name + '</td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">' + count + '</span>\n        <input type="text" class="w-100 d-none" placeholder=' + count + ' name="count" data-oldValue=' + count + ' data-valisettings="operationPurchase" data-valid="count">\n      </td>\n      <td class="text-secondary">\n        <span data-name="price">\n          ' + price + '\n        </span>\n      </td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">\n          ' + sumPurchase + '\n        </span>\n        <input type="text" class="w-100 d-none" placeholder=' + sumPurchase + ' name="sumPurchase" data-oldValue=' + sumPurchase + ' data-valisettings="operationPurchase" data-valid="PurchaseSum">\n      </td>\n      <td data-click="true" class="' + markupColor + '">\n       <span class="w-100" data-click="true">' + currMarkup + '%</span>\n       <input type="text" class="w-100 d-none" placeholder=' + currMarkup + ' name="currMarkup" data-oldValue=' + currMarkup + ' data-valisettings="operationPurchase" data-valid="currMarkup">\n      </td>\n      <td class="text-secondary">' + markupGood + '%</td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">' + priceSell + '</span>\n        <input type="text" class="w-100 d-none" placeholder=' + priceSell + ' name="priceSell" data-oldValue=' + priceSell + ' data-valisettings="operationPurchase" data-valid="sellPrice">\n      </td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">' + sumSale + '</span>\n        <input type="text" class="w-100 d-none" placeholder=' + sumSale + ' name="sumSale" data-oldValue=' + sumSale + ' data-valisettings="operationPurchase" data-valid="sellSum">\n      </td>\n    ';
 	  },
 	  rightColumnGoodsSale: function rightColumnGoodsSale(index, name, count, price) {
 	    return '\n      <th scope="row">' + (index + 1) + '</th>\n      <td>' + name + '</td>\n      <td>' + count + '</td>\n      <td>' + price + '</td>\n      <td>' + Number(price * count).toFixed(2) + '</td>\n    ';
@@ -10988,6 +11018,10 @@
 	var _storage = __webpack_require__(1);
 	
 	var _storage2 = _interopRequireDefault(_storage);
+	
+	var _singleValidation = __webpack_require__(64);
+	
+	var _singleValidation2 = _interopRequireDefault(_singleValidation);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -11043,12 +11077,14 @@
 	        break;
 	      // ENTER
 	      case 13:
-	        if (evt.target.value === evt.target.dataset['oldvalue']) {
-	          evt.target.blur();
-	          break;
+	        if (_singleValidation2.default.valid(evt.target)) {
+	          if (evt.target.value === evt.target.dataset['oldvalue']) {
+	            evt.target.blur();
+	            break;
+	          }
+	          setStor(evt.target);
+	          callback('key', evt.target);
 	        }
-	        setStor(evt.target);
-	        callback('key', evt.target);
 	        break;
 	    }
 	  };
@@ -11058,17 +11094,25 @@
 	  var fragment = document.createDocumentFragment();
 	
 	  nomenklature.forEach(function (position, index) {
+	
+	    var positionKeys = Object.keys(position);
+	
+	    positionKeys.forEach(function (key) {
+	      if (key !== 'id' && key !== 'name' && key !== 'newRow') {
+	        position[key] = Number(position[key]).toFixed(2);
+	      }
+	    });
+	
 	    var tr = document.createElement('tr');
 	    tr.dataset['id'] = position.id;
 	    tr.dataset['count'] = position.count;
 	    tr.dataset['price'] = position.price;
 	    tr.dataset['sumPurchase'] = position.sumPurchase;
 	    tr.dataset['name'] = position.name;
-	    // tr.dataset['startCount'] = position.startCount;
 	    tr.dataset['priceSell'] = position.priceSell;
+	    tr.dataset['currMarkup'] = position.currMarkup;
 	    tr.dataset['markupGood'] = position.markupGood;
 	    tr.dataset['oldCount'] = position.oldCount;
-	    tr.dataset['currMarkup'] = position.currMarkup;
 	    tr.dataset['sumSale'] = position.sumSale;
 	    tr.scope = 'row';
 	
