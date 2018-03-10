@@ -9822,8 +9822,16 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var listReceipt = document.querySelector('#list-receipt');
+	
 	var searchBarcodeForm = document.querySelector('#operations-purchase-search-barcode-form');
+	var searchBarcodeFormBarcode = document.querySelector('#operations-purchase-search-barcode');
+	
 	var tradeForm = document.querySelector('#operations-purchase-form');
+	var tradeFormStock = document.querySelector('#operations-purchase-stocks-list');
+	var tradeFormSubmit = document.querySelector('#operations-purchase-submit');
+	var tradeFormKontragents = document.querySelector('#operations-purchase-kontragents-list');
+	var tradeFormDelivery = document.querySelector('#operations-purchase-delivery');
+	
 	var searchForm = document.querySelector('#operations-purchase-search');
 	var modalGroup = document.querySelector('#operations-purchase-modal-goods');
 	var modalAdd = document.querySelector('#operations-trade-add');
@@ -9911,7 +9919,7 @@
 	    if (perm !== 'none') {
 	
 	      setTimeout(function () {
-	        searchBarcodeForm.barcode.focus();
+	        searchBarcodeFormBarcode.focus();
 	      }, 500);
 	    }
 	  }
@@ -9934,7 +9942,7 @@
 	  });
 	  _storage2.default.operationTradeMarkupGroup = groupe[0].markup_group;
 	
-	  _operationsServerTools2.default.getGoodsFromServer(_storage2.default.currentGroupId, tradeForm.stock.value, getGoodsCallback);
+	  _operationsServerTools2.default.getGoodsFromServer(_storage2.default.currentGroupId, tradeFormStock.value, getGoodsCallback);
 	};
 	
 	var clichButtonBackCallback = function clichButtonBackCallback() {
@@ -10082,7 +10090,7 @@
 	
 	  redrawColumn();
 	  focusBarcode();
-	  tradeForm.submit.disabled = false;
+	  tradeFormSubmit.disabled = false;
 	};
 	
 	var changeCount = function changeCount(value) {
@@ -10104,7 +10112,7 @@
 	  nomCard[nomIndex].newRow = true;
 	
 	  redrawColumn();
-	  tradeForm.submit.disabled = false;
+	  tradeFormSubmit.disabled = false;
 	};
 	
 	var changeSumPurchase = function changeSumPurchase(el) {
@@ -10129,7 +10137,7 @@
 	  nomCard[nomIndex].newRow = true;
 	
 	  redrawColumn();
-	  tradeForm.submit.disabled = false;
+	  tradeFormSubmit.disabled = false;
 	};
 	
 	var changeCurrMarkup = function changeCurrMarkup(el) {
@@ -10152,7 +10160,7 @@
 	  nomCard[nomIndex].newRow = true;
 	
 	  redrawColumn();
-	  tradeForm.submit.disabled = false;
+	  tradeFormSubmit.disabled = false;
 	};
 	
 	var changePriceSell = function changePriceSell(el) {
@@ -10174,7 +10182,7 @@
 	  nomCard[nomIndex].newRow = true;
 	
 	  redrawColumn();
-	  tradeForm.submit.disabled = false;
+	  tradeFormSubmit.disabled = false;
 	};
 	
 	var changePriceSum = function changePriceSum(el) {
@@ -10199,7 +10207,7 @@
 	  nomCard[nomIndex].newRow = true;
 	
 	  redrawColumn();
-	  tradeForm.submit.disabled = false;
+	  tradeFormSubmit.disabled = false;
 	};
 	
 	// noDiscount = true, если нужно рассчитать без скидкискидку
@@ -10235,7 +10243,7 @@
 	  nomCard.splice(nomIndex, 1);
 	
 	  if (nomCard.length === 0) {
-	    tradeForm.submit.disabled = true;
+	    tradeFormSubmit.disabled = true;
 	  }
 	  redrawColumn();
 	  focusBarcode();
@@ -10335,9 +10343,9 @@
 	var sendTradeForm = function sendTradeForm() {
 	  submitSpinner.innerHTML = _tools4.default.getLoadSpinner('sp-1', 'Отправка');
 	  _operationsServerTools2.default.sendDataToServer({
-	    'stock': tradeForm.stock.value,
-	    'kontragent': tradeForm.kontragents.value,
-	    'delivery': tradeForm.delivery.checked ? 1 : 0,
+	    'stock': tradeFormStock.value,
+	    'kontragent': tradeFormKontragents.value,
+	    'delivery': tradeFormDelivery.checked ? 1 : 0,
 	    'data': nomCard
 	  }, tradeSubmitFormCallback, dataStore.discount_id);
 	};
@@ -10369,20 +10377,20 @@
 	    if (evt.altKey && evt.code === 'Enter') {
 	      evt.preventDefault();
 	
-	      if (listReceipt.classList.contains('active') && !tradeForm.submit.disabled) {
+	      if (listReceipt.classList.contains('active') && !tradeFormSubmit.disabled) {
 	        sendTradeForm();
 	      }
 	    }
-	  }, true);
+	  });
 	
-	  tradeForm.stock.addEventListener('change', function () {
+	  tradeFormStock.addEventListener('change', function () {
 	    _storage2.default.operationTradeType = 0;
 	    _operationsRightColumn2.default.clear();
 	  });
 	
 	  tradeForm.addEventListener('submit', function (evt) {
 	    evt.preventDefault();
-	    tradeForm.submit.disabled = true;
+	    tradeFormSubmit.disabled = true;
 	    sendTradeForm();
 	  });
 	
@@ -10977,13 +10985,13 @@
 	    return '<thead><tr><th scope="col" class="">#</th><th scope="col" class="w-50">Товар</th><th scope="col">Цена</th><th scope="col">Остаток</th><th scope="col"></th><th scope="col"></th></tr></thead>';
 	  },
 	  leftColumnGoodsHeaderInventory: function leftColumnGoodsHeaderInventory() {
-	    return '<thead><tr><th scope="col" class="">#</th><th scope="col" class="w-50">Товар</th><th scope="col">Остаток</th><th scope="col"></th></tr></thead>';
+	    return '<thead><tr><th scope="col" class="">#</th><th scope="col" class="w-50">Товар</th><th scope="col">Остаток</th></tr></thead>';
 	  },
 	  leftColumnGoodsRowTrade: function leftColumnGoodsRowTrade(index, name, price, count) {
 	    return '\n      <th scope="row">' + (index + 1) + '</th>\n      <td>' + name + '</td>\n      <td>' + price + '</td>\n      <td>' + count + '</td>\n      <td>\n        <button class="button btn btn-danger mr-1" data-type="add">+1</button>\n      </td>\n      <td>\n        <button class="button btn btn-danger" data-type="card">i</button>\n      </td>\n    ';
 	  },
 	  leftColumnGoodsRowInventory: function leftColumnGoodsRowInventory(index, name, price, count) {
-	    return '\n      <td>' + (index + 1) + '</td>\n      <td>' + name + '</td>\n      <td>' + count + '</td>\n      <td>' + price + '</td>\n      <td></td>\n      <td></td>\n      <td></td>\n      <td></td>\n      <td></td>\n    ';
+	    return '\n      <td>' + (index + 1) + '</td>\n      <td>' + name + '</td>\n      <td>' + count + '</td>\n    ';
 	  },
 	  rightColumnGoodsPurchase: function rightColumnGoodsPurchase(id, index, name, count, price, sumPurchase, markupGood, priceSell, currMarkup, sumSale) {
 	    var markupColor = Number(currMarkup) < Number(markupGood) || Number(currMarkup) === Number(markupGood) ? 'text-info' : 'text-danger';
@@ -11563,8 +11571,16 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var listReceipt = document.querySelector('#list-receipt');
+	
 	var searchBarcodeForm = document.querySelector('#operations-sale-search-barcode-form');
+	var searchBarcodeFormBarcode = document.querySelector('#operations-sale-search-barcode');
+	
 	var tradeForm = document.querySelector('#operations-sale-form');
+	var tradeFormStock = document.querySelector('#operations-sale-stocks-list');
+	var tradeFormSubmit = document.querySelector('#operations-sale-submit');
+	var tradeFormKontragents = document.querySelector('#operations-sale-kontragents-list');
+	var tradeFormDelivery = document.querySelector('#operations-sale-delivery');
+	
 	var searchForm = document.querySelector('#operations-sale-search');
 	var modalAdd = document.querySelector('#operations-sale-add');
 	var modalAddCount = document.querySelector('#operations-sale-add-input');
@@ -11633,7 +11649,7 @@
 	
 	    if (perm !== 'none') {
 	
-	      searchBarcodeForm.barcode.focus();
+	      searchBarcodeFormBarcode.focus();
 	    }
 	  }
 	};
@@ -11644,7 +11660,7 @@
 	};
 	
 	var clickGroupsCallback = function clickGroupsCallback() {
-	  _operationsServerTools2.default.getGoodsFromServer(_storage2.default.currentGroupId, tradeForm.stock.value, getGoodsCallback);
+	  _operationsServerTools2.default.getGoodsFromServer(_storage2.default.currentGroupId, tradeFormStock.value, getGoodsCallback);
 	};
 	
 	var clichButtonBackCallback = function clichButtonBackCallback() {
@@ -11766,7 +11782,7 @@
 	
 	  calcDiscount();
 	  redrawColumn();
-	  tradeForm.submit.disabled = false;
+	  tradeFormSubmit.disabled = false;
 	  return true;
 	};
 	
@@ -11832,7 +11848,7 @@
 	  nomCard.splice(nomIndex, 1);
 	
 	  if (nomCard.length === 0 || nomCard.length === 1 && nomCard[0].discount) {
-	    tradeForm.submit.disabled = true;
+	    tradeFormSubmit.disabled = true;
 	  }
 	
 	  calcDiscount();
@@ -11891,7 +11907,7 @@
 	
 	  calcDiscount();
 	  redrawColumn();
-	  tradeForm.submit.disabled = false;
+	  tradeFormSubmit.disabled = false;
 	  return true;
 	};
 	
@@ -11986,9 +12002,9 @@
 	
 	var sendTradeForm = function sendTradeForm() {
 	  _operationsServerTools2.default.sendDataToServer({
-	    'stock': tradeForm.stock.value,
-	    'kontragent': tradeForm.kontragents.value,
-	    'delivery': tradeForm.delivery.checked ? 1 : 0,
+	    'stock': tradeFormStock.value,
+	    'kontragent': tradeFormKontragents.value,
+	    'delivery': tradeFormDelivery.checked ? 1 : 0,
 	    'data': nomCard
 	  }, tradeSubmitFormCallback, dataStore.discount_id);
 	};
@@ -12023,13 +12039,13 @@
 	    if (evt.altKey && evt.code === 'Enter') {
 	      evt.preventDefault();
 	
-	      if (listReceipt.classList.contains('active') && !tradeForm.submit.disabled) {
+	      if (listReceipt.classList.contains('active') && !tradeFormSubmit.disabled) {
 	        sendTradeForm();
 	      }
 	    }
 	  }, true);
 	
-	  tradeForm.stock.addEventListener('change', function () {
+	  tradeFormStock.addEventListener('change', function () {
 	    _storage2.default.operationTradeType = 1;
 	    _storage2.default.operationTradeDiscount = 0;
 	    _operationsRightColumn2.default.clear();
@@ -12247,8 +12263,14 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var searchBarcodeForm = document.querySelector('#operation-inventory-search-barcode-form');
+	var searchBarcodeFormBarcode = document.querySelector('#operations-inventory-search-barcode');
+	
 	var searchForm = document.querySelector('#operation-inventory-search');
+	
 	var inventoryForm = document.querySelector('#operation-inventory-form');
+	var inventoryFormStock = document.querySelector('#operation-inventory-stocks-list');
+	var inventoryFormSubmit = document.querySelector('#operation-inventory-submit');
+	
 	var listInventory = document.querySelector('#list-inventory');
 	var modalAdd = document.querySelector('#operations-trade-add');
 	var modalAddCount = document.querySelector('#operations-trade-add-input');
@@ -12310,7 +12332,7 @@
 	    });
 	
 	    if (perm !== 'none') {
-	      searchBarcodeForm.barcode.focus();
+	      searchBarcodeFormBarcode.focus();
 	    }
 	  }
 	};
@@ -12321,7 +12343,7 @@
 	};
 	
 	var clickGroupsCallback = function clickGroupsCallback() {
-	  _operationsServerTools2.default.getGoodsFromServer(_storage2.default.currentGroupId, inventoryForm.stock.value, getGoodsCallback);
+	  _operationsServerTools2.default.getGoodsFromServer(_storage2.default.currentGroupId, inventoryFormStock.value, getGoodsCallback);
 	};
 	
 	var clichButtonBackCallback = function clichButtonBackCallback() {
@@ -12414,7 +12436,7 @@
 	  }
 	
 	  redrawColumn();
-	  inventoryForm.submit.disabled = false;
+	  inventoryFormSubmit.disabled = false;
 	  return true;
 	};
 	
@@ -12430,7 +12452,7 @@
 	  nomCard.splice(numIndex, 1);
 	
 	  if (nomCard.length === 0 || nomCard.length === 1 && nomCard[0].discount) {
-	    inventoryForm.submit.disabled = true;
+	    inventoryFormSubmit.disabled = true;
 	  }
 	
 	  redrawColumn();
@@ -12498,15 +12520,15 @@
 	  dataStore = data;
 	  console.dir(dataStore);
 	  _operationsHeader2.default.setStocksList(dataStore.all_stocks);
-	  _operationsHeader2.default.setKontragentList(dataStore.all_kontr_agents);
+	  // appHeader.setKontragentList(dataStore.all_kontr_agents);
 	  _operationsLeftColumn2.default.drawGroups(dataStore.all_groups, clickGroupsCallback);
 	  focusBarcode();
 	};
 	
 	var sendInventoryForm = function sendInventoryForm() {
 	  _operationsServerTools2.default.sendDataToServer({
-	    'stock': inventoryForm.stock.value,
-	    'kontragent': inventoryForm.kontragents.value,
+	    'stock': inventoryFormStock.value,
+	    'kontragent': 0,
 	    'data': nomCard
 	  }, tradeSubmitFormCallback);
 	};
@@ -12530,28 +12552,29 @@
 	  document.querySelector('#operation-inventory-clear-but').addEventListener('click', function () {
 	    _operationsLeftColumn2.default.drawGroups(dataStore.all_groups, clickGroupsCallback, clichButtonBackCallback);
 	    _operationsRightColumn2.default.clear();
-	    inventoryForm.submit.disabled = true;
+	    inventoryFormSubmit.disabled = true;
 	  });
 	
 	  document.querySelector('body').addEventListener('keydown', function (evt) {
 	    if (evt.altKey && evt.code === 'Enter') {
 	      evt.preventDefault();
 	
-	      if (listInventory.classList.contains('active') && !inventoryForm.submit.disabled) {
+	      if (listInventory.classList.contains('active') && !inventoryFormSubmit.disabled) {
 	        sendInventoryForm();
 	      }
 	    }
 	  }, true);
 	
-	  inventoryForm.stock.addEventListener('change', function () {
+	  inventoryFormStock.addEventListener('change', function () {
 	    _storage2.default.operationTradeDiscount = 0;
 	    _operationsLeftColumn2.default.drawGroups(dataStore.all_groups, clickGroupsCallback, clichButtonBackCallback);
 	    _operationsRightColumn2.default.clear();
-	    inventoryForm.submit.disabled = true;
+	    inventoryFormSubmit.disabled = true;
 	  });
 	
 	  inventoryForm.addEventListener('submit', function (evt) {
 	    evt.preventDefault();
+	    console.log('!!!!');
 	    sendInventoryForm();
 	  });
 	
