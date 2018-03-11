@@ -9954,6 +9954,7 @@
 	  var inputBlurHandler = function inputBlurHandler(evt) {
 	    evt.target.classList.add('d-none');
 	    evt.target.placeholder = evt.target.dataset['oldvalue'];
+	    evt.target.value = "";
 	
 	    var td = evt.target.nodeName === 'TD' ? evt.target : evt.target.parentNode;
 	    var span = td.querySelector('span');
@@ -9990,10 +9991,12 @@
 	      }
 	      changeCount(el.value);
 	      break;
+	    case 'price':
+	      changePrice(el);
+	      break;
 	    case 'currMarkup':
 	      changeCurrMarkup(el);
 	      break;
-	
 	    case 'sumPurchase':
 	      changeSumPurchase(el);
 	      break;
@@ -10109,6 +10112,31 @@
 	  nomCard[nomIndex].markupGood = _storage2.default.operationTradeMarkupGood;
 	  nomCard[nomIndex].currMarkup = calcCurrMarkup(_storage2.default.operationTradeCurrentGoodPriceSell, _storage2.default.operationTradeCurrentGoodPrice);
 	  nomCard[nomIndex].sumSale = calcSumSale(value, _storage2.default.operationTradeCurrentGoodPriceSell);
+	  nomCard[nomIndex].newRow = true;
+	
+	  redrawColumn();
+	  tradeFormSubmit.disabled = false;
+	};
+	
+	var changePrice = function changePrice(el) {
+	  var goodId = _storage2.default.operationTradeCurrentGoodId;
+	
+	  nomCard = _operationsRightColumn2.default.getNomenklature();
+	  var nomIndex = searchGoodById(nomCard, goodId);
+	
+	  var newPrice = el.value;
+	  newPrice = Number(newPrice).toFixed(2);
+	
+	  _storage2.default.operationTradeCurrentGoodPrice = newPrice;
+	
+	  nomCard[nomIndex].count = _storage2.default.operationTradeCurrentGoodCount;
+	  nomCard[nomIndex].oldCount = _storage2.default.operationTradeCurrentGoodOldCount;
+	  nomCard[nomIndex].price = newPrice;
+	  nomCard[nomIndex].sumPurchase = calcSumPurchase(_storage2.default.operationTradeCurrentGoodCount, _storage2.default.operationTradeCurrentGoodPrice);
+	  nomCard[nomIndex].priceSell = _storage2.default.operationTradeCurrentGoodPriceSell;
+	  nomCard[nomIndex].markupGood = _storage2.default.operationTradeMarkupGood;
+	  nomCard[nomIndex].currMarkup = calcCurrMarkup(_storage2.default.operationTradeCurrentGoodPriceSell, _storage2.default.operationTradeCurrentGoodPrice);
+	  nomCard[nomIndex].sumSale = calcSumSale(_storage2.default.operationTradeCurrentGoodCount, _storage2.default.operationTradeCurrentGoodPriceSell);
 	  nomCard[nomIndex].newRow = true;
 	
 	  redrawColumn();
@@ -10307,7 +10335,6 @@
 	
 	var getDataCallback = function getDataCallback(data) {
 	  dataStore = data;
-	  console.dir(dataStore);
 	  _operationsHeader2.default.setStocksList(dataStore.all_stocks);
 	  _operationsHeader2.default.setKontragentList(dataStore.all_kontr_agents);
 	  _operationsLeftColumn2.default.drawGroups(dataStore.all_groups, clickGroupsCallback);
@@ -10584,15 +10611,6 @@
 	      xhrData = 'token=' + cred.token + '&stock=' + stock;
 	      break;
 	  }
-	
-	  var req = {
-	    'url': '/lopos_directory/' + cred.directory + '/operator/' + cred.operatorId + '/business/' + cred.currentBusiness + '/operation/' + oper,
-	    'metod': 'POST',
-	    'data': xhrData,
-	    'callbackSuccess': getDataXhrCallbackSuccess
-	  };
-	
-	  console.dir(req);
 	
 	  _xhr2.default.request = {
 	    'url': '/lopos_directory/' + cred.directory + '/operator/' + cred.operatorId + '/business/' + cred.currentBusiness + '/operation/' + oper,
@@ -10996,7 +11014,7 @@
 	  rightColumnGoodsPurchase: function rightColumnGoodsPurchase(id, index, name, count, price, sumPurchase, markupGood, priceSell, currMarkup, sumSale) {
 	    var markupColor = Number(currMarkup) < Number(markupGood) || Number(currMarkup) === Number(markupGood) ? 'text-info' : 'text-danger';
 	
-	    return '\n      <th scope="row">' + (index + 1) + '</th>\n      <td>' + name + '</td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">' + count + '</span>\n        <input type="text" class="w-100 d-none" placeholder=' + count + ' name="count" data-oldValue=' + count + ' data-valisettings="operationPurchase" data-valid="count">\n      </td>\n      <td class="text-secondary">\n        <span data-name="price">\n          ' + price + '\n        </span>\n      </td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">\n          ' + sumPurchase + '\n        </span>\n        <input type="text" class="w-100 d-none" placeholder=' + sumPurchase + ' name="sumPurchase" data-oldValue=' + sumPurchase + ' data-valisettings="operationPurchase" data-valid="PurchaseSum">\n      </td>\n      <td data-click="true" class="' + markupColor + '">\n       <span class="w-100" data-click="true">' + currMarkup + '%</span>\n       <input type="text" class="w-100 d-none" placeholder=' + currMarkup + ' name="currMarkup" data-oldValue=' + currMarkup + ' data-valisettings="operationPurchase" data-valid="currMarkup">\n      </td>\n      <td class="text-secondary">' + markupGood + '%</td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">' + priceSell + '</span>\n        <input type="text" class="w-100 d-none" placeholder=' + priceSell + ' name="priceSell" data-oldValue=' + priceSell + ' data-valisettings="operationPurchase" data-valid="sellPrice">\n      </td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">' + sumSale + '</span>\n        <input type="text" class="w-100 d-none" placeholder=' + sumSale + ' name="sumSale" data-oldValue=' + sumSale + ' data-valisettings="operationPurchase" data-valid="sellSum">\n      </td>\n    ';
+	    return '\n      <th scope="row">' + (index + 1) + '</th>\n      <td>' + name + '</td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">' + count + '</span>\n        <input type="text" class="w-100 d-none" placeholder=' + count + ' name="count" data-oldValue=' + count + ' data-valisettings="operationPurchase" data-valid="count">\n      </td>\n      <td>\n        <span class="w-100" data-click="true">' + price + '</span>\n        <input type="text" class="w-100 d-none" placeholder=' + price + ' name="price" data-oldValue=' + price + ' data-valisettings="operationPurchase" data-valid="price">\n      </td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">\n          ' + sumPurchase + '\n        </span>\n        <input type="text" class="w-100 d-none" placeholder=' + sumPurchase + ' name="sumPurchase" data-oldValue=' + sumPurchase + ' data-valisettings="operationPurchase" data-valid="PurchaseSum">\n      </td>\n      <td data-click="true" class="' + markupColor + '">\n       <span class="w-100" data-click="true">' + currMarkup + '%</span>\n       <input type="text" class="w-100 d-none" placeholder=' + currMarkup + ' name="currMarkup" data-oldValue=' + currMarkup + ' data-valisettings="operationPurchase" data-valid="currMarkup">\n      </td>\n      <td class="text-secondary">' + markupGood + '%</td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">' + priceSell + '</span>\n        <input type="text" class="w-100 d-none" placeholder=' + priceSell + ' name="priceSell" data-oldValue=' + priceSell + ' data-valisettings="operationPurchase" data-valid="sellPrice">\n      </td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">' + sumSale + '</span>\n        <input type="text" class="w-100 d-none" placeholder=' + sumSale + ' name="sumSale" data-oldValue=' + sumSale + ' data-valisettings="operationPurchase" data-valid="sellSum">\n      </td>\n    ';
 	  },
 	  rightColumnGoodsSale: function rightColumnGoodsSale(index, name, count, price) {
 	    return '\n      <th scope="row">' + (index + 1) + '</th>\n      <td>' + name + '</td>\n      <td>' + count + '</td>\n      <td>' + price + '</td>\n      <td>' + Number(price * count).toFixed(2) + '</td>\n    ';

@@ -332,6 +332,7 @@ window.appSettings = {
   'operationPurchase': {
     'validPatterns': {
       'count': /(^\d*$)|(^-?\d*\.\d*$)/,
+      'price': /(^$)|(^\d+$)|(^\d+[.]\d{1,2}$)/,
       'PurchaseSum': /(^$)|(^\d+$)|(^\d+[.]\d{1,2}$)/,
       'currMarkup': /(^-?\d*$)|(^-?\d*\.\d*$)/,
       'sellPrice': /(^$)|(^\d+$)|(^\d+[.]\d{1,2}$)/,
