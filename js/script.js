@@ -209,7 +209,7 @@
 	
 	var mainMenuButtons = [_online__profile2.default, _log2.default, _reference__enterprises2.default, _reference__points2.default, _reference__contractors2.default, _reference__keywords2.default, _catalog__groups2.default, _catalog__cards2.default,
 	// cardsResourcesButton,
-	_catalog__search2.default, _reference__debitCredit2.default, _operations__manufacture2.default, _operations__balance2.default, _online__users2.default, _accounting__allDocs2.default, _operations__purchase2.default, _operations__sale2.default, _operations__inventory2.default];
+	_catalog__search2.default, _reference__debitCredit2.default, _operations__manufacture2.default, _operations__balance2.default, _online__users2.default, _accounting__allDocs2.default];
 	
 	// ========== ОБНОВЛЕНИЕ/ОТКРЫТИЕ СТРАНИЦЫ ==========
 	var start = function start() {
@@ -228,6 +228,10 @@
 	    _reference__contractorsAdd2.default.start();
 	    _reference__keywordsAdd2.default.start();
 	    _reference__keywordsEdit2.default.start();
+	
+	    _operations__purchase2.default.start();
+	    _operations__sale2.default.start();
+	    _operations__inventory2.default.start();
 	
 	    _permissions2.default.read();
 	  } else {
