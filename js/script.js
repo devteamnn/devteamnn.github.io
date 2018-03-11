@@ -9954,7 +9954,7 @@
 	  var inputBlurHandler = function inputBlurHandler(evt) {
 	    evt.target.classList.add('d-none');
 	    evt.target.placeholder = evt.target.dataset['oldvalue'];
-	    evt.target.value = "";
+	    evt.target.value = '';
 	
 	    var td = evt.target.nodeName === 'TD' ? evt.target : evt.target.parentNode;
 	    var span = td.querySelector('span');
