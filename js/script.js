@@ -8440,7 +8440,7 @@
 	  drawDataInContainer: function drawDataInContainer(cardsData, container) {
 	    var _this = this;
 	
-	    container.innerHTML = '\n      <div class="reference-header">\n          <div class="reference-column">\u041D\u043E\u043C\u0435\u0440</div>\n          <div class="reference-column">\u041A\u0430\u0440\u0442\u043E\u0447\u043A\u0430 \u0442\u043E\u0432\u0430\u0440\u0430</div>\n      </div>\n    ';
+	    container.innerHTML = '\n      <div class="reference-header">\n          <div class="reference-column">\u2116</div>\n          <div class="reference-column">\u041A\u0430\u0440\u0442\u043E\u0447\u043A\u0430 \u0442\u043E\u0432\u0430\u0440\u0430</div>\n      </div>\n    ';
 	    if (cardsData.length > 0) {
 	      cardsData.forEach(function (item, index) {
 	        return container.insertAdjacentHTML('beforeend', _this.getElement(item, index));
