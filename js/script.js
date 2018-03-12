@@ -10265,7 +10265,6 @@
 	    });
 	
 	    if (perm !== 'none') {
-	
 	      setTimeout(function () {
 	        searchBarcodeFormBarcode.focus();
 	      }, 500);
@@ -12025,8 +12024,9 @@
 	    });
 	
 	    if (perm !== 'none') {
-	
-	      searchBarcodeFormBarcode.focus();
+	      setTimeout(function () {
+	        searchBarcodeFormBarcode.focus();
+	      }, 500);
 	    }
 	  }
 	};
@@ -12368,7 +12368,6 @@
 	
 	var getDataCallback = function getDataCallback(data) {
 	  dataStore = data;
-	  console.dir(dataStore);
 	  _operationsHeader2.default.setStocksList(dataStore.all_stocks);
 	  _operationsRightColumn2.default.setKontragentList(dataStore.all_kontr_agents);
 	  _operationsLeftColumn2.default.drawGroups(dataStore.all_groups, clickGroupsCallback);
@@ -12643,7 +12642,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var searchBarcodeForm = document.querySelector('#operation-inventory-search-barcode-form');
+	var searchBarcodeForm = document.querySelector('#operations-inventory-search-barcode-form');
 	var searchBarcodeFormBarcode = document.querySelector('#operations-inventory-search-barcode');
 	
 	var searchForm = document.querySelector('#operation-inventory-search');
@@ -12716,7 +12715,9 @@
 	    });
 	
 	    if (perm !== 'none') {
-	      searchBarcodeFormBarcode.focus();
+	      setTimeout(function () {
+	        searchBarcodeFormBarcode.focus();
+	      }, 500);
 	    }
 	  }
 	};
@@ -12904,7 +12905,6 @@
 	
 	var getDataCallback = function getDataCallback(data) {
 	  dataStore = data;
-	  console.dir(dataStore);
 	  _operationsHeader2.default.setStocksList(dataStore.all_stocks);
 	  // appHeader.setKontragentList(dataStore.all_kontr_agents);
 	  _operationsLeftColumn2.default.drawGroups(dataStore.all_groups, clickGroupsCallback);
@@ -12937,7 +12937,7 @@
 	    _operationsServerTools2.default.getDataFromServer(_storage2.default.data.currentStock, getDataCallback);
 	  });
 	
-	  document.querySelector('#operation-inventory-clear-but').addEventListener('click', function () {
+	  document.querySelector('#operations-inventory-clear-but').addEventListener('click', function () {
 	    _operationsLeftColumn2.default.drawGroups(dataStore.all_groups, clickGroupsCallback, clichButtonBackCallback);
 	    _operationsRightColumn2.default.clear();
 	    inventoryFormSubmit.disabled = true;
@@ -12962,7 +12962,6 @@
 	
 	  inventoryForm.addEventListener('submit', function (evt) {
 	    evt.preventDefault();
-	    console.log('!!!!');
 	    sendInventoryForm();
 	  });
 	
