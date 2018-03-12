@@ -274,26 +274,25 @@
             <div>
               <div class="d-flex justify-content-between w-75">
                 <div>
-                  <select id="operations-purchase-kontragents-list" class="form-control" name="kontragents" form="operations-purchase-form" style="width: 300px; margin-right: 50px;"></select>
+                  <select id="operations-purchase-kontragents-list" class="form-control operations-purchase-kontragents" name="kontragents" form="operations-purchase-form"></select>
                 </div>
-                <div style="min-width: 60px; height: 40px; background-image: url('/img/suppliers.png'); background-color: #DFB939; background-position: left; background-size: 45px, 45px; background-repeat: no-repeat; border-radius: 5px;">
-                  <label style="min-width: 60px; height: 40px; padding-left: 43px;">
-                    <!-- <img src="/img/suppliers.png" width="38px" height="38px" > -->
-                    <input id="operations-purchase-delivery" type="checkbox" name="delivery" form="operations-purchase-form" style="margin-bottom: 0px; height: 40px;">
+                <div class="operations-trade-delivery">
+                  <label>
+                    <input id="operations-purchase-delivery" type="checkbox" name="delivery" form="operations-purchase-form">
                   </label>
                 </div>
               </div>
-              <div class="d-flex justify-content-between pt-3" style="bottom: 0px">
-                <button id="operations-purchase-clear-but" type="button" class="btn btn-danger mr-5" style="width: 40px; height: 40px; background-image: url('img/Cancel-96.png'); background-position: center; background-size: cover;"></button>
+              <div class="d-flex justify-content-between pt-3">
+                <button id="operations-purchase-clear-but" type="button" class="btn btn-danger mr-5 otButtons otBtnClear"></button>
                 <form id="operations-purchase-search-barcode-form">
-                  <input id="operations-purchase-search-barcode" type="text" placeholder="Штрихкод" form="operations-purchase-search-barcode-form" name="barcode" tabindex="1" style="height: 38px;">
-                  <button id="operations-purchase-search-barcode-submit" form="operations-purchase-search-barcode-form" type="submit" class="btn btn-danger" name="submit" style="width: 40px; height: 40px; background-image: url('img/Barcode-64.png'); background-position: center; background-size: cover; margin-bottom: 5px;"></button>
+                  <input id="operations-purchase-search-barcode" type="text" placeholder="Штрихкод" form="operations-purchase-search-barcode-form" name="barcode" tabindex="1" style="">
+                  <button id="operations-purchase-search-barcode-submit" form="operations-purchase-search-barcode-form" type="submit" class="btn btn-danger otButtons otBtnBarcode" name="submit"></button>
                 </form>
               </div>
             </div>
             <div>
               <div class="ml-5 pt-3">
-                <p id="operations-purchase-price" class='mx-auto h3 text-primary' style="font-size: 60px; font-stretch: ultra-condensed"></p>
+                <p id="operations-purchase-price" class='mx-auto h3 text-primary otPrice'></p>
               </div>
             </div>
           </div>
@@ -318,8 +317,8 @@
               <tfoot>
                 <tr>
                   <td></td>
-                  <td style="text-align: right;">
-                    <button id="operations-purchase-add-good" type="button" class="btn btn-success ml-auto" style="width: 30px; height: 30px; background-image: url('img/plus-math-50.png'); background-position: center; background-size: cover;"></button>
+                  <td>
+                    <button id="operations-purchase-add-good" type="button" class="btn btn-success ml-auto otButtons otBtnAddRow"></button>
                   </td>
                   <td></td>
                   <td></td>
@@ -344,17 +343,19 @@
             </div>
             <div class="catalog-header-buttons w-50">
               <select id="operations-sale-stocks-list" form="operations-sale-form" name="stock" class="form-control w-75  m-2"></select>
-              <button id="operations-sale-submit" name="submit" form="operations-sale-form" type="submit" class="btn btn-success m-2 p-2 w-25" disabled>Выполнить</button>
+              <span class="">
+                <button id="operations-sale-submit" name="submit" form="operations-sale-form" type="submit" class="btn btn-success m-2 p-2 w-100" disabled>Выполнить</button>
+                <div id="operation-sale-submit-spinner" class="w-100 ml-2 mr-2"></div>
+              </span>
             </div>
           </div>
 
           <div class="d-flex align-items-stretch">
             <div class="border w-50 px-2">
               <div id="operations-sale-left-header"></div>
-
               <form id="operations-sale-search" class="catalog-header">
                 <div class="catalog-header-title">
-                  <button type="submit" class="btn btn-secondary" style="width: 40px; height: 40px; background-image: url('img/icons8-search-26.png'); background-position: center; background-size: cover;"></button>
+                  <button type="submit" class="btn btn-secondary otButtons otBtnFind"></button>
                   <input type="text" name="name" placeholder="Поиск" class="ml-3">
                 </div>
               </form>
@@ -367,16 +368,17 @@
                   <div>
                     <select id="operations-sale-kontragents-list" class="form-control w-100  m-2" name="kontragents" form="operations-sale-form"></select>
                   </div>
-                  <div class="p-2">
-                    <button id="operations-sale-discountBtn" type="button" class="btn btn-danger" data-toggle="modal" data-target="#operations-trade-discount" style="width: 40px; height: 40px; background-image: url('img/percent.png'); background-position: center; background-size: cover;"></button>
-                    <label class="rounded" style="display:inline-block; height:38px; width:60px; background: #DFB939;">
-                      <img src="/img/suppliers.png" width="38px" height="38px" >
-                      <input id="operations-sale-delivery" type="checkbox" name="delivery" form="operations-sale-form">
-                    </label>
+                  <div class="p-2 d-flex">
+                    <button id="operations-sale-discountBtn" type="button" class="btn btn-danger otButtons otBtnDiscount mr-2" data-toggle="modal" data-target="#operations-trade-discount"></button>
+                    <div class="operations-trade-delivery">
+                      <label>
+                        <input id="operations-sale-delivery" type="checkbox" name="delivery" form="operations-sale-form">
+                      </label>
+                    </div>
                   </div>
                 </div>
                 <div class="ml-5 pt-3">
-                  <p id="operations-sale-price" class='mx-auto h3 text-primary align-middle' style="font-size: 60px; font-stretch: ultra-condensed"></p>
+                  <p id="operations-sale-price" class='mx-auto h3 text-primary align-middle otPrice'></p>
                 </div>
               </div>
               <div style="overflow-y: auto; height: 600px;">
@@ -394,11 +396,11 @@
                   <tfoot id="operations-sale-right-tfoot" class="table table-hover font-weight-bold text-danger"></tfoot>
                 </table>
               </div>
-              <div class="d-flex justify-content-between pt-3" style="bottom: 0px">
-                <button id="operations-sale-clear-but" type="button" class="btn btn-danger" style="width: 40px; height: 40px; background-image: url('img/Cancel-96.png'); background-position: center; background-size: cover;"></button>
+              <div class="d-flex justify-content-between pt-3">
+                <button id="operations-sale-clear-but" type="button" class="btn btn-danger otButtons otBtnClear" ></button>
                 <form id="operations-sale-search-barcode-form">
                   <input id="operations-sale-search-barcode" type="text" placeholder="Штрихкод" form="operations-sale-search-barcode-form" name="barcode" tabindex="1">
-                  <button id="operations-sale-search-barcode-submit" form="operations-sale-search-barcode-form" type="submit" class="btn btn-danger" name="submit" style="width: 40px; height: 40px; background-image: url('img/Barcode-64.png'); background-position: center; background-size: cover;"></button>
+                  <button id="operations-sale-search-barcode-submit" form="operations-sale-search-barcode-form" type="submit" class="btn btn-danger otButtons otBtnBarcode" name="submit"></button>
                 </form>
               </div>
             </div>
@@ -414,7 +416,10 @@
               </div>
               <div class="catalog-header-buttons w-50">
               <select id="operation-inventory-stocks-list" form="operation-inventory-form" name="stock" class="form-control w-75  m-2" id="exampleFormControlSelect1"></select>
-              <button id="operation-inventory-submit" name="submit" form="operation-inventory-form" type="submit" class="btn btn-primary m-2 p-2 w-25" disabled>Выполнить</button>
+              <span class="">
+                <button id="operation-inventory-submit" name="submit" form="operation-inventory-form" type="submit" class="btn btn-primary m-2 p-2 w-100" disabled>Выполнить</button>
+                <div id="operation-inventory-submit-spinner" class="w-100 ml-2 mr-2"></div>
+              </span>
             </div>
           </div>
 
@@ -424,7 +429,7 @@
 
               <form id="operation-inventory-search" class="catalog-header">
                 <div class="catalog-header-title">
-                  <button type="submit" class="btn btn-secondary" style="width: 40px; height: 40px; background-image: url('img/icons8-search-26.png'); background-position: center; background-size: cover;"></button>
+                  <button type="submit" class="btn btn-secondary otButtons otBtnFind"></button>
                   <input type="text" name="name" placeholder="Поиск" class="ml-3">
                 </div>
               </form>
@@ -449,11 +454,11 @@
                   <tfoot id="operation-inventory-right-tfoot" class="table table-hover font-weight-bold text-danger"></tfoot>
                 </table>
               </div>
-              <div class="d-flex justify-content-between pt-3" style="bottom: 0px">
-                <button id="operation-inventory-clear-but" type="button" class="btn btn-danger" style="width: 40px; height: 40px; background-image: url('img/Cancel-96.png'); background-position: center; background-size: cover;"></button>
+              <div class="d-flex justify-content-between pt-3">
+                <button id="operation-inventory-clear-but" type="button" class="btn btn-danger otButtons otBtnClear"></button>
                 <form id="operation-inventory-search-barcode-form">
                   <input id="operations-inventory-search-barcode" type="text" placeholder="Штрихкод" form="operation-inventory-search-barcode-form" name="barcode">
-                  <button id="operation-inventory-search-barcode-submit" form="operation-inventory-search-barcode-form"; type="submit" class="btn btn-danger" name="submit" style="width: 40px; height: 40px; background-image: url('img/Barcode-64.png'); background-position: center; background-size: cover;"></button>
+                  <button id="operation-inventory-search-barcode-submit" form="operation-inventory-search-barcode-form"; type="submit" class="btn btn-danger otButtons otBtnBarcode" name="submit"></button>
                 </form>
               </div>
             </div>
@@ -1916,7 +1921,7 @@
             <div id="operations-purchase-left-header"></div>
             <form id="operations-purchase-search" class="catalog-header">
               <div class="catalog-header-title">
-                <button type="submit" class="btn btn-secondary" style="width: 40px; height: 40px; background-image: url('img/icons8-search-26.png'); background-position: center; background-size: cover;"></button>
+                <button type="submit" class="btn btn-secondary otButtons otBtnFind"></button>
                 <input type="text" name="name" placeholder="Поиск" class="ml-3">
               </div>
             </form>

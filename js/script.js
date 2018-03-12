@@ -9840,8 +9840,8 @@
 	var modalGroup = document.querySelector('#operations-purchase-modal-goods');
 	var modalAdd = document.querySelector('#operations-trade-add');
 	var modalAddCount = document.querySelector('#operations-trade-add-input');
-	var leftColumnNode = document.querySelector('#operations-purchase-left');
 	
+	var leftColumnNode = document.querySelector('#operations-purchase-left');
 	var submitSpinner = document.querySelector('#operation-purchase-submit-spinner');
 	
 	var goodAddButton = document.querySelector('#operations-purchase-add-good');
@@ -11016,7 +11016,15 @@
 	    return '\n      <td>' + (index + 1) + '</td>\n      <td>' + name + '</td>\n      <td>' + count + '</td>\n    ';
 	  },
 	  rightColumnGoodsPurchase: function rightColumnGoodsPurchase(id, index, name, count, price, sumPurchase, markupGood, priceSell, currMarkup, sumSale) {
-	    var markupColor = Number(currMarkup) < Number(markupGood) || Number(currMarkup) === Number(markupGood) ? 'text-info' : 'text-danger';
+	    var markupColor = void 0;
+	    currMarkup = Number(currMarkup);
+	    markupGood = Number(markupGood);
+	
+	    if (currMarkup >= 0) {
+	      markupColor = currMarkup <= markupGood ? 'text-info' : 'operation-trade-marckup-orange';
+	    } else {
+	      markupColor = 'text-danger';
+	    }
 	
 	    return '\n      <th scope="row">' + (index + 1) + '</th>\n      <td>' + name + '</td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">' + count + '</span>\n        <input type="text" class="w-100 d-none" placeholder=' + count + ' name="count" data-oldValue=' + count + ' data-valisettings="operationPurchase" data-valid="count">\n      </td>\n      <td>\n        <span class="w-100" data-click="true">' + price + '</span>\n        <input type="text" class="w-100 d-none" placeholder=' + price + ' name="price" data-oldValue=' + price + ' data-valisettings="operationPurchase" data-valid="price">\n      </td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">\n          ' + sumPurchase + '\n        </span>\n        <input type="text" class="w-100 d-none" placeholder=' + sumPurchase + ' name="sumPurchase" data-oldValue=' + sumPurchase + ' data-valisettings="operationPurchase" data-valid="PurchaseSum">\n      </td>\n      <td data-click="true" class="' + markupColor + '">\n       <span class="w-100" data-click="true">' + currMarkup + '%</span>\n       <input type="text" class="w-100 d-none" placeholder=' + currMarkup + ' name="currMarkup" data-oldValue=' + currMarkup + ' data-valisettings="operationPurchase" data-valid="currMarkup">\n      </td>\n      <td class="text-secondary">' + markupGood + '%</td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">' + priceSell + '</span>\n        <input type="text" class="w-100 d-none" placeholder=' + priceSell + ' name="priceSell" data-oldValue=' + priceSell + ' data-valisettings="operationPurchase" data-valid="sellPrice">\n      </td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">' + sumSale + '</span>\n        <input type="text" class="w-100 d-none" placeholder=' + sumSale + ' name="sumSale" data-oldValue=' + sumSale + ' data-valisettings="operationPurchase" data-valid="sellSum">\n      </td>\n    ';
 	  },
@@ -11603,6 +11611,9 @@
 	var tradeFormKontragents = document.querySelector('#operations-sale-kontragents-list');
 	var tradeFormDelivery = document.querySelector('#operations-sale-delivery');
 	
+	var leftColumn = document.querySelector('#operations-sale-left');
+	var submitSpinner = document.querySelector('#operation-sale-submit-spinner');
+	
 	var searchForm = document.querySelector('#operations-sale-search');
 	var modalAdd = document.querySelector('#operations-sale-add');
 	var modalAddCount = document.querySelector('#operations-sale-add-input');
@@ -11677,11 +11688,13 @@
 	};
 	
 	var tradeSubmitFormCallback = function tradeSubmitFormCallback() {
+	  submitSpinner.innerHTML = '';
 	  _operationsLeftColumn2.default.drawGroups(dataStore.all_groups, clickGroupsCallback, clichButtonBackCallback);
 	  _operationsRightColumn2.default.clear();
 	};
 	
 	var clickGroupsCallback = function clickGroupsCallback() {
+	  leftColumn.innerHTML = _tools4.default.getLoadSpinner('sp-2', 'Загрузка');
 	  _operationsServerTools2.default.getGoodsFromServer(_storage2.default.currentGroupId, tradeFormStock.value, getGoodsCallback);
 	};
 	
@@ -12019,10 +12032,12 @@
 	};
 	
 	var getData = function getData() {
+	  leftColumn.innerHTML = _tools4.default.getLoadSpinner('sp-2', 'Загрузка');
 	  _operationsServerTools2.default.getDataFromServer(_storage2.default.data.currentStock, getDataCallback);
 	};
 	
 	var sendTradeForm = function sendTradeForm() {
+	  submitSpinner.innerHTML = _tools4.default.getLoadSpinner('sp-1', 'Отправка');
 	  _operationsServerTools2.default.sendDataToServer({
 	    'stock': tradeFormStock.value,
 	    'kontragent': tradeFormKontragents.value,
@@ -12293,6 +12308,9 @@
 	var inventoryFormStock = document.querySelector('#operation-inventory-stocks-list');
 	var inventoryFormSubmit = document.querySelector('#operation-inventory-submit');
 	
+	var submitSpinner = document.querySelector('#operation-inventory-submit-spinner');
+	var leftColumnNode = document.querySelector('#operation-inventory-left');
+	
 	var listInventory = document.querySelector('#list-inventory');
 	var modalAdd = document.querySelector('#operations-trade-add');
 	var modalAddCount = document.querySelector('#operations-trade-add-input');
@@ -12360,11 +12378,13 @@
 	};
 	
 	var tradeSubmitFormCallback = function tradeSubmitFormCallback() {
+	  submitSpinner.innerHTML = '';
 	  _operationsLeftColumn2.default.drawGroups(dataStore.all_groups, clickGroupsCallback, clichButtonBackCallback);
 	  _operationsRightColumn2.default.clear();
 	};
 	
 	var clickGroupsCallback = function clickGroupsCallback() {
+	  leftColumnNode.innerHTML = _tools4.default.getLoadSpinner('sp-2', 'Загрузка');
 	  _operationsServerTools2.default.getGoodsFromServer(_storage2.default.currentGroupId, inventoryFormStock.value, getGoodsCallback);
 	};
 	
@@ -12548,6 +12568,7 @@
 	};
 	
 	var sendInventoryForm = function sendInventoryForm() {
+	  submitSpinner.innerHTML = _tools4.default.getLoadSpinner('sp-1', 'Отправка');
 	  _operationsServerTools2.default.sendDataToServer({
 	    'stock': inventoryFormStock.value,
 	    'kontragent': 0,
@@ -12568,6 +12589,7 @@
 	  document.querySelector('#list-inventory-list').addEventListener('click', function () {
 	    _storage2.default.operationTradeType = 7;
 	    _operationsRightColumn2.default.clear();
+	    leftColumnNode.innerHTML = _tools4.default.getLoadSpinner('sp-2', 'Загрузка');
 	    _operationsServerTools2.default.getDataFromServer(_storage2.default.data.currentStock, getDataCallback);
 	  });
 	
