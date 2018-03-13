@@ -134,23 +134,27 @@
 	
 	var _accounting__allDocs2 = _interopRequireDefault(_accounting__allDocs);
 	
-	var _catalog__cards = __webpack_require__(59);
+	var _accounting__reports = __webpack_require__(59);
+	
+	var _accounting__reports2 = _interopRequireDefault(_accounting__reports);
+	
+	var _catalog__cards = __webpack_require__(60);
 	
 	var _catalog__cards2 = _interopRequireDefault(_catalog__cards);
 	
-	var _catalog__search = __webpack_require__(62);
+	var _catalog__search = __webpack_require__(63);
 	
 	var _catalog__search2 = _interopRequireDefault(_catalog__search);
 	
-	var _operations__purchase = __webpack_require__(66);
+	var _operations__purchase = __webpack_require__(67);
 	
 	var _operations__purchase2 = _interopRequireDefault(_operations__purchase);
 	
-	var _operations__sale = __webpack_require__(73);
+	var _operations__sale = __webpack_require__(74);
 	
 	var _operations__sale2 = _interopRequireDefault(_operations__sale);
 	
-	var _operations__inventory = __webpack_require__(75);
+	var _operations__inventory = __webpack_require__(76);
 	
 	var _operations__inventory2 = _interopRequireDefault(_operations__inventory);
 	
@@ -162,8 +166,6 @@
 	// import cardsResourcesButton from './buttons/catalog__cards--add-resource.js';
 	
 	console.log('3D3 (07.02.18_13:30)');
-	// import reportsButton from './buttons/accounting__reports.js';
-	
 	
 	// import goodsButtonFormEdit from './buttons/catalog__goods--edit.js';
 	
@@ -211,7 +213,7 @@
 	
 	var mainMenuButtons = [_online__profile2.default, _log2.default, _reference__enterprises2.default, _reference__points2.default, _reference__contractors2.default, _reference__keywords2.default, _catalog__groups2.default, _catalog__cards2.default,
 	// cardsResourcesButton,
-	_catalog__search2.default, _reference__debitCredit2.default, _operations__manufacture2.default, _operations__balance2.default, _online__users2.default, _accounting__allDocs2.default];
+	_catalog__search2.default, _reference__debitCredit2.default, _operations__manufacture2.default, _operations__balance2.default, _online__users2.default, _accounting__allDocs2.default, _accounting__reports2.default];
 	
 	// ========== ОБНОВЛЕНИЕ/ОТКРЫТИЕ СТРАНИЦЫ ==========
 	var start = function start() {
@@ -3867,14 +3869,14 @@
 	
 	    /*
 	    return `
-	     <input type="radio" id="${item.id}" data-stock-id="${item.id}" name="contact" value="email" class="d-none">
-	     <label style="padding-left: 34px;" for="${item.id}"  class="d-flex justify-content-between align-items-center reference-string" data-stock-id="${item.id}" data-stock-name="${item.name}">
+	      <input type="radio" id="${item.id}" data-stock-id="${item.id}" name="contact" value="email" class="d-none">
+	      <label style="padding-left: 34px;" for="${item.id}"  class="d-flex justify-content-between align-items-center reference-string" data-stock-id="${item.id}" data-stock-name="${item.name}">
 	      <div><span class="reference-row-number">${index + 1}</span> ${item.name}</div>
 	      <div class="d-flex justify-content-between align-items-center">
 	        ${currentStockFlag}
 	      </div>
 	      </label>`;
-	     */
+	      */
 	    return '\n    <input type="radio" id="' + item.id + '" data-stock-id="' + item.id + '" name="contact" value="email" class="d-none">\n\n    <label class="reference-header" for="' + item.id + '" data-stock-id="' + item.id + '" data-stock-name="' + item.name + '">\n        <div class="reference-column">' + (index + 1) + '</div>\n        <div class="reference-column">' + item.name + currentStockFlag + '</div>\n    </label>\n';
 	  },
 	  drawDataInContainer: function drawDataInContainer(enterprisesData) {
@@ -4531,10 +4533,10 @@
 	    return '\n        <div class="reference-header" data-buyer-id="' + item.id + '" data-index="' + index + '">\n            <div class="reference-column">' + item.id + '</div>\n            <div class="reference-column">' + item.name + '</div>\n        </div>\n';
 	    /*
 	    return `
-	       <div class="d-flex justify-content-between align-items-center reference-string"  data-buyer-id="${item.id}"  data-index="${index}">
+	        <div class="d-flex justify-content-between align-items-center reference-string"  data-buyer-id="${item.id}"  data-index="${index}">
 	        <div style="padding-left: 34px;"><span class="reference-row-number">${index + 1}</span> <span>${item.name}</span></div>
 	        <div class="d-flex justify-content-between align-items-center">
-	          </div>
+	            </div>
 	    </div>`;
 	    */
 	  },
@@ -9083,6 +9085,383 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
+	var _universalGroupsList = __webpack_require__(51);
+	
+	var _universalGroupsList2 = _interopRequireDefault(_universalGroupsList);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	// import 'date-input-polyfill';
+	var reportsList = document.querySelector('#list-reports-list');
+	var reportsGroupMainSwitch = document.querySelector('#report-groups-main-switch');
+	var reportsGroupMainSwitchTurn = document.querySelector('#report-groups-turn-main-switch');
+	var reportsDashboard = document.querySelector('#reports-dashboard');
+	
+	var reportsGoodsLeft = document.querySelector('#report-goods-left');
+	var reportsGoodsLeftModal = document.querySelector('#report-goods-left-modal');
+	var reportsGoodsLeftModalStock = document.querySelector('#report-goods-left-modal-stock');
+	var reportsGoodsLeftModalSwitchesBody = document.querySelector('#report-goods-left-modal-switch');
+	var reportsGoodsLeftModalBody = document.querySelector('#report-goods-left-modal-body');
+	var reportsGoodsLeftModalPDFBtn = document.querySelector('#report-goods-left-modal-pdf');
+	var reportsGoodsLeftModalExcelBtn = document.querySelector('#report-goods-left-modal-excel');
+	
+	var reportsGoodsTurn = document.querySelector('#report-goods-turn');
+	var reportsGoodsTurnModal = document.querySelector('#report-goods-turn-modal');
+	var reportsGoodsTurnModalStock = document.querySelector('#report-goods-turn-modal-stock');
+	var reportsGoodsTurnModalBody = document.querySelector('#report-goods-turn-modal-body');
+	var reportsGoodsTurnModalPDFBtn = document.querySelector('#report-goods-turn-modal-pdf');
+	var reportsGoodsTurnModalExcelBtn = document.querySelector('#report-goods-turn-modal-excel');
+	
+	var reportTurnFrom = document.querySelector('#report-turn-from');
+	var reportTurnTo = document.querySelector('#report-turn-to');
+	
+	var reportsGoodsProfit = document.querySelector('#report-profit-retail');
+	var reportsGoodsProfitModal = document.querySelector('#report-goods-profit-modal');
+	var reportsGoodsProfitModalStock = document.querySelector('#report-goods-profit-modal-stock');
+	var reportsGoodsProfitModalPDFBtn = document.querySelector('#report-goods-profit-modal-pdf');
+	var reportsGoodsProfitModalExcelBtn = document.querySelector('#report-goods-profit-modal-excel');
+	
+	var reportProfitFrom = document.querySelector('#report-profit-from');
+	var reportProfitTo = document.querySelector('#report-profit-to');
+	
+	var reportLink = document.querySelector('#report-link');
+	var reportLinkGoogle = document.querySelector('#report-link-google');
+	var reportLinkTurn = document.querySelector('#report-link-turn');
+	var reportLinkTurnGoogle = document.querySelector('#report-link-turn-google');
+	var reportLinkProfit = document.querySelector('#report-link-profit');
+	var reportLinkProfitGoogle = document.querySelector('#report-link-profit-google');
+	
+	var reportsStocks = document.querySelector('#reports-stocks');
+	
+	// ############################## РАЗМЕТКА ДАШБОРДА #############
+	var dashboardTypes = {
+	  money: 'Баланс',
+	  form: 'Закупки',
+	  proceeds: 'Выручка',
+	  profit: 'Кол-во продаж',
+	  purchase: 'Прибыль'
+	};
+	
+	var getDashboardItem = function getDashboardItem(item) {
+	  console.log(item);
+	  return '\n    <div class="dashboard-item">\n      <div class="dashboard-status"></div>\n      <div>\n        <p>' + dashboardTypes[item[0]] + '</p>\n        <span>' + item[1] + '</span>\n      </div>\n    </div>';
+	};
+	
+	// ############################## ОТЧЕТ / ОСТАТОК ТОВАРА     ##############################
+	
+	var onPDFLoadSuccess = function onPDFLoadSuccess(data) {
+	  console.log(data);
+	
+	  // reportLink.href = data.data;
+	  // reportLink.innerHTML = `Скачать ${auth.currentReportType}`;
+	
+	  // reportLinkGoogle.href = `https://docs.google.com/viewer?url=${data.data}&embedded=false`;
+	  // reportLinkGoogle.innerHTML = `Смотреть ${auth.currentReportType} на Google `;
+	  reportLink.classList.remove('disabled');
+	  reportLinkGoogle.classList.remove('disabled');
+	  reportLink.href = data.data;
+	  reportLinkGoogle.href = 'https://docs.google.com/viewer?url=' + data.data + '&embedded=false';
+	  // reportLink.innerHTML = '<img src="./img/report-download.png" style="height: 34px;" title="Скачать на компьютер">';
+	  // reportLinkGoogle.innerHTML = '<img src="./img/report-google.png" style="height: 34px;" title="Смотреть на Google">';
+	};
+	
+	var getReportLink = function getReportLink() {
+	  console.log('stock-->', _storage2.default.currentStockId);
+	
+	  var params = [];
+	  var listOfGroups = [];
+	
+	  reportsGoodsLeftModalSwitchesBody.querySelectorAll('.report-goods-left-modal-switch').forEach(function (switchParam) {
+	    if (switchParam.checked) {
+	      params.push(switchParam.value);
+	    }
+	  });
+	
+	  reportsGoodsLeftModalBody.querySelectorAll('.report-groups-switch').forEach(function (switchGroups) {
+	    if (switchGroups.checked) {
+	      listOfGroups.push(switchGroups.value);
+	    }
+	  });
+	
+	  console.log('parameters-->', params);
+	  console.log('listOfGroups-->', listOfGroups);
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.data.operatorId + '/business/' + _storage2.default.data.currentBusiness + '/report/remains/export/' + _storage2.default.currentReportType,
+	    data: 'token=' + _storage2.default.data.token + '&parameters=[' + params + ']&list_of_groups=[' + listOfGroups + ']' + (_storage2.default.currentStockId === 'all' ? '' : '&stock=' + _storage2.default.currentStockId),
+	    callbackSuccess: onPDFLoadSuccess
+	  };
+	};
+	
+	reportsGoodsLeftModalPDFBtn.addEventListener('click', function () {
+	  _storage2.default.currentReportType = 'pdf';
+	  reportLink.classList.add('disabled');
+	  reportLinkGoogle.classList.add('disabled');
+	  getReportLink();
+	});
+	
+	reportsGoodsLeftModalExcelBtn.addEventListener('click', function () {
+	  _storage2.default.currentReportType = 'excel';
+	  reportLink.classList.add('disabled');
+	  reportLinkGoogle.classList.add('disabled');
+	  getReportLink();
+	});
+	
+	reportsGroupMainSwitch.addEventListener('change', function (evt) {
+	  document.querySelectorAll('.report-groups-switch').forEach(function (switchElement) {
+	    switchElement.checked = evt.target.checked;
+	  });
+	  console.log(evt.target.checked);
+	});
+	
+	var onSuccessGoodsLeftLoad = function onSuccessGoodsLeftLoad(goodData) {
+	  console.log(goodData);
+	  $(reportsGoodsLeftModal).modal('show');
+	  reportsGoodsLeftModalStock.value = reportsStocks.value;
+	
+	  _universalGroupsList2.default.drawReports(goodData.data, reportsGoodsLeftModalBody, null);
+	};
+	
+	var onReportsGoodsLeftClick = function onReportsGoodsLeftClick() {
+	  reportLink.classList.add('disabled');
+	  reportLinkGoogle.classList.add('disabled');
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.data.operatorId + '/business/' + _storage2.default.data.currentBusiness + '/group',
+	    data: 'view_last=0&token=' + _storage2.default.data.token,
+	    callbackSuccess: onSuccessGoodsLeftLoad
+	  };
+	};
+	
+	reportsGoodsLeft.addEventListener('click', onReportsGoodsLeftClick);
+	
+	// ############################## ОТЧЕТ / ОБОРОТ ТОВАРА      ##############################
+	
+	var onPDFLoadSuccessTurn = function onPDFLoadSuccessTurn(data) {
+	  console.log(data);
+	
+	  reportLinkTurn.href = data.data;
+	  reportLinkTurn.classList.remove('disabled');
+	  reportLinkTurnGoogle.classList.remove('disabled');
+	  reportLinkTurnGoogle.href = 'https://docs.google.com/viewer?url=' + data.data + '&embedded=false';
+	};
+	
+	var getReportLinkTurn = function getReportLinkTurn() {
+	  console.log('stock-->', _storage2.default.currentStockId);
+	  var params = [];
+	  var listOfGroups = [];
+	
+	  document.querySelectorAll('.report-goods-turn-modal-switch').forEach(function (switchParam) {
+	    if (switchParam.checked) {
+	      params.push(switchParam.value);
+	    }
+	  });
+	
+	  reportsGoodsTurnModalBody.querySelectorAll('.report-groups-switch').forEach(function (switchGroups) {
+	    if (switchGroups.checked) {
+	      listOfGroups.push(switchGroups.value);
+	    }
+	  });
+	
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.data.operatorId + '/business/' + _storage2.default.data.currentBusiness + '/report/turnover/export/' + _storage2.default.currentReportType,
+	    data: 'token=' + _storage2.default.data.token + '&parameters=[' + params + ']&list_of_groups=[' + listOfGroups + '&time_start=' + Date.parse(reportTurnFrom.value) / 1000 + '&time_end=' + Date.parse(reportTurnTo.value) / 1000 + (_storage2.default.currentStockId === 'all' ? '' : '&stock=' + _storage2.default.currentStockId),
+	    callbackSuccess: onPDFLoadSuccessTurn
+	  };
+	};
+	
+	reportsGoodsTurnModalPDFBtn.addEventListener('click', function () {
+	  _storage2.default.currentReportType = 'pdf';
+	  reportLinkTurn.classList.add('disabled');
+	  reportLinkTurnGoogle.classList.add('disabled');
+	  getReportLinkTurn();
+	});
+	
+	reportsGoodsTurnModalExcelBtn.addEventListener('click', function () {
+	  _storage2.default.currentReportType = 'excel';
+	  reportLinkTurn.classList.add('disabled');
+	  reportLinkTurnGoogle.classList.add('disabled');
+	  getReportLinkTurn();
+	});
+	
+	reportsGroupMainSwitchTurn.addEventListener('change', function (evt) {
+	  reportsGoodsTurnModalBody.querySelectorAll('.report-groups-switch').forEach(function (switchElement) {
+	    switchElement.checked = evt.target.checked;
+	  });
+	  console.log(evt.target.checked);
+	});
+	
+	var onSuccessGoodsTurnLoad = function onSuccessGoodsTurnLoad(goodData) {
+	  console.log(goodData);
+	  $(reportsGoodsTurnModal).modal('show');
+	  reportLinkTurn.classList.add('disabled');
+	  reportLinkTurnGoogle.classList.add('disabled');
+	  reportsGoodsTurnModalStock.value = reportsStocks.value;
+	
+	  _universalGroupsList2.default.drawReports(goodData.data, reportsGoodsTurnModalBody, null);
+	};
+	
+	var onReportsGoodsTurnClick = function onReportsGoodsTurnClick() {
+	  // reportLinkTurn.innerHTML = '';
+	  reportTurnFrom.value = new Date().toISOString().slice(0, 8) + '01';
+	  reportTurnTo.value = new Date().toISOString().slice(0, 10);
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.data.operatorId + '/business/' + _storage2.default.data.currentBusiness + '/group',
+	    data: 'view_last=0&token=' + _storage2.default.data.token,
+	    callbackSuccess: onSuccessGoodsTurnLoad
+	  };
+	};
+	
+	reportsGoodsTurn.addEventListener('click', onReportsGoodsTurnClick);
+	// ############################## ОТЧЕТ / ПРИБЫЛЬ С РОЗНИЦЫ  ##############################
+	
+	var onPDFLoadSuccessProfit = function onPDFLoadSuccessProfit(data) {
+	  reportLinkProfit.classList.remove('disabled');
+	  reportLinkProfitGoogle.classList.remove('disabled');
+	  reportLinkProfit.href = data.data;
+	  reportLinkProfitGoogle.href = 'https://docs.google.com/viewer?url=' + data.data + '&embedded=false';
+	};
+	
+	var getReportLinkProfit = function getReportLinkProfit() {
+	  console.log('stock-->', _storage2.default.currentStockId);
+	  var params = [];
+	
+	  document.querySelectorAll('.report-goods-profit-modal-switch').forEach(function (switchParam) {
+	    if (switchParam.checked) {
+	      params.push(switchParam.value);
+	    }
+	  });
+	
+	  console.log('parameters-->', params);
+	
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.data.operatorId + '/business/' + _storage2.default.data.currentBusiness + '/report/profit/export/' + _storage2.default.currentReportType,
+	    data: 'token=' + _storage2.default.data.token + '&parameters=[' + params + ']&ime_start=' + Date.parse(reportProfitFrom.value) / 1000 + '&time_end=' + Date.parse(reportProfitTo.value) / 1000 + (_storage2.default.currentStockId === 'all' ? '' : '&stock=' + _storage2.default.currentStockId),
+	    callbackSuccess: onPDFLoadSuccessProfit
+	  };
+	};
+	
+	reportsGoodsProfitModalPDFBtn.addEventListener('click', function () {
+	  _storage2.default.currentReportType = 'pdf';
+	  reportLinkProfit.classList.add('disabled');
+	  reportLinkProfitGoogle.classList.add('disabled');
+	  getReportLinkProfit();
+	});
+	
+	reportsGoodsProfitModalExcelBtn.addEventListener('click', function () {
+	  _storage2.default.currentReportType = 'excel';
+	  reportLinkProfit.classList.add('disabled');
+	  reportLinkProfitGoogle.classList.add('disabled');
+	  getReportLinkProfit();
+	});
+	
+	var onReportsProfitClick = function onReportsProfitClick() {
+	  // reportLinkProfit.innerHTML = '';
+	  // reportLinkProfitGoogle.innerHTML = '';
+	  $(reportsGoodsProfitModal).modal('show');
+	  reportsGoodsProfitModalStock.value = reportsStocks.value;
+	  reportLinkProfit.classList.add('disabled');
+	  reportLinkProfitGoogle.classList.add('disabled');
+	  reportProfitFrom.value = new Date().toISOString().slice(0, 8) + '01';
+	  reportProfitTo.value = new Date().toISOString().slice(0, 10);
+	};
+	
+	reportsGoodsProfit.addEventListener('click', onReportsProfitClick);
+	
+	reportsStocks.addEventListener('change', function (evt) {
+	  _storage2.default.currentStockId = evt.target.value;
+	  getReports();
+	});
+	
+	var onChangeStockModal = function onChangeStockModal(evt) {
+	  _storage2.default.currentStockId = evt.target.value;
+	};
+	
+	reportsGoodsLeftModalStock.addEventListener('change', onChangeStockModal);
+	reportsGoodsTurnModalStock.addEventListener('change', onChangeStockModal);
+	reportsGoodsProfitModalStock.addEventListener('change', onChangeStockModal);
+	
+	var onSuccessReportsLoad = function onSuccessReportsLoad(reportsData) {
+	  console.log(reportsData);
+	  var dashboard = {
+	    money: reportsData.data.balance_money,
+	    form: reportsData.data.today_count_forms,
+	    proceeds: reportsData.data.today_total_proceeds,
+	    profit: reportsData.data.today_total_profit,
+	    purchase: reportsData.data.today_total_purchase
+	  };
+	
+	  if (_storage2.default.currentStockId === 'all') {
+	
+	    reportsStocks.innerHTML = reportsData.data.all_stocks.map(function (item) {
+	      return '<option value="' + item.id + '">' + item.name + '</option>';
+	    }).join('');
+	    reportsGoodsLeftModalStock.innerHTML = reportsData.data.all_stocks.map(function (item) {
+	      return '<option value="' + item.id + '">' + item.name + '</option>';
+	    }).join('');
+	    reportsGoodsTurnModalStock.innerHTML = reportsData.data.all_stocks.map(function (item) {
+	      return '<option value="' + item.id + '">' + item.name + '</option>';
+	    }).join('');
+	    reportsGoodsProfitModalStock.innerHTML = reportsData.data.all_stocks.map(function (item) {
+	      return '<option value="' + item.id + '">' + item.name + '</option>';
+	    }).join('');
+	
+	    if (reportsData.data.all_stocks.length > 1) {
+	      reportsStocks.innerHTML += '<option value="all" selected>Все склады</option';
+	      reportsGoodsLeftModalStock.innerHTML += '<option value="all" selected>Все склады</option';
+	      reportsGoodsTurnModalStock.innerHTML += '<option value="all" selected>Все склады</option';
+	      reportsGoodsProfitModalStock.innerHTML += '<option value="all" selected>Все склады</option';
+	    }
+	  }
+	
+	  reportsDashboard.innerHTML = Object.entries(dashboard).map(function (dash) {
+	    return getDashboardItem(dash);
+	  }).join('');
+	};
+	
+	var getReports = function getReports() {
+	
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.data.operatorId + '/business/' + _storage2.default.data.currentBusiness + '/dashboard',
+	    data: 'view_last=0&token=' + _storage2.default.data.token + (_storage2.default.currentStockId === 'all' ? '' : '&stock=' + _storage2.default.currentStockId),
+	    callbackSuccess: onSuccessReportsLoad
+	  };
+	};
+	
+	exports.default = {
+	  start: function start() {
+	    reportsList.addEventListener('click', getReports);
+	    _storage2.default.currentStockId = 'all';
+	  },
+	  stop: function stop() {
+	    reportsList.removeEventListener('click', getReports);
+	  },
+	
+	  goodsLeft: onReportsGoodsLeftClick
+	};
+
+/***/ }),
+/* 60 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _xhr = __webpack_require__(6);
+	
+	var _xhr2 = _interopRequireDefault(_xhr);
+	
+	var _storage = __webpack_require__(1);
+	
+	var _storage2 = _interopRequireDefault(_storage);
+	
 	var _catalogCards = __webpack_require__(56);
 	
 	var _catalogCards2 = _interopRequireDefault(_catalogCards);
@@ -9091,11 +9470,11 @@
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _catalog__cardsAddEdit = __webpack_require__(60);
+	var _catalog__cardsAddEdit = __webpack_require__(61);
 	
 	var _catalog__cardsAddEdit2 = _interopRequireDefault(_catalog__cardsAddEdit);
 	
-	var _catalog__cardsAddResource = __webpack_require__(61);
+	var _catalog__cardsAddResource = __webpack_require__(62);
 	
 	var _catalog__cardsAddResource2 = _interopRequireDefault(_catalog__cardsAddResource);
 	
@@ -9412,7 +9791,7 @@
 	};
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -9433,7 +9812,7 @@
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
-	var _catalog__cards = __webpack_require__(59);
+	var _catalog__cards = __webpack_require__(60);
 	
 	var _catalog__cards2 = _interopRequireDefault(_catalog__cards);
 	
@@ -9546,7 +9925,7 @@
 	};
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -9567,7 +9946,7 @@
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
-	var _catalog__cards = __webpack_require__(59);
+	var _catalog__cards = __webpack_require__(60);
 	
 	var _catalog__cards2 = _interopRequireDefault(_catalog__cards);
 	
@@ -9651,7 +10030,7 @@
 	};
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -9688,11 +10067,11 @@
 	
 	var _universalGoodsList2 = _interopRequireDefault(_universalGoodsList);
 	
-	var _singleValidation = __webpack_require__(63);
+	var _singleValidation = __webpack_require__(64);
 	
 	var _singleValidation2 = _interopRequireDefault(_singleValidation);
 	
-	var _catalog__searchBarcode = __webpack_require__(64);
+	var _catalog__searchBarcode = __webpack_require__(65);
 	
 	var _catalog__searchBarcode2 = _interopRequireDefault(_catalog__searchBarcode);
 	
@@ -9879,7 +10258,7 @@
 	};
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -9956,7 +10335,7 @@
 	};
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -9969,7 +10348,7 @@
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _catalog__searchBarcodeValid = __webpack_require__(65);
+	var _catalog__searchBarcodeValid = __webpack_require__(66);
 	
 	var _catalog__searchBarcodeValid2 = _interopRequireDefault(_catalog__searchBarcodeValid);
 	
@@ -9997,7 +10376,7 @@
 	};
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -10022,7 +10401,7 @@
 	
 	var _catalog__goods2 = _interopRequireDefault(_catalog__goods);
 	
-	var _catalog__search = __webpack_require__(62);
+	var _catalog__search = __webpack_require__(63);
 	
 	var _catalog__search2 = _interopRequireDefault(_catalog__search);
 	
@@ -10122,7 +10501,7 @@
 	};
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -10139,23 +10518,23 @@
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _operationsServerTools = __webpack_require__(67);
+	var _operationsServerTools = __webpack_require__(68);
 	
 	var _operationsServerTools2 = _interopRequireDefault(_operationsServerTools);
 	
-	var _operationsLeftColumn = __webpack_require__(68);
+	var _operationsLeftColumn = __webpack_require__(69);
 	
 	var _operationsLeftColumn2 = _interopRequireDefault(_operationsLeftColumn);
 	
-	var _operationsRightColumn = __webpack_require__(70);
+	var _operationsRightColumn = __webpack_require__(71);
 	
 	var _operationsRightColumn2 = _interopRequireDefault(_operationsRightColumn);
 	
-	var _operationsHeader = __webpack_require__(71);
+	var _operationsHeader = __webpack_require__(72);
 	
 	var _operationsHeader2 = _interopRequireDefault(_operationsHeader);
 	
-	var _operationsGoodAdd = __webpack_require__(72);
+	var _operationsGoodAdd = __webpack_require__(73);
 	
 	var _operationsGoodAdd2 = _interopRequireDefault(_operationsGoodAdd);
 	
@@ -10265,6 +10644,7 @@
 	    });
 	
 	    if (perm !== 'none') {
+	
 	      setTimeout(function () {
 	        searchBarcodeFormBarcode.focus();
 	      }, 500);
@@ -10883,7 +11263,7 @@
 	};
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11022,7 +11402,7 @@
 	};
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11039,7 +11419,7 @@
 	
 	var _universalGroupsList2 = _interopRequireDefault(_universalGroupsList);
 	
-	var _operation__trade = __webpack_require__(69);
+	var _operation__trade = __webpack_require__(70);
 	
 	var _operation__trade2 = _interopRequireDefault(_operation__trade);
 	
@@ -11329,7 +11709,7 @@
 	};
 
 /***/ }),
-/* 69 */
+/* 70 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -11383,7 +11763,7 @@
 	};
 
 /***/ }),
-/* 70 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11392,7 +11772,7 @@
 	  value: true
 	});
 	
-	var _operation__trade = __webpack_require__(69);
+	var _operation__trade = __webpack_require__(70);
 	
 	var _operation__trade2 = _interopRequireDefault(_operation__trade);
 	
@@ -11400,7 +11780,7 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _singleValidation = __webpack_require__(63);
+	var _singleValidation = __webpack_require__(64);
 	
 	var _singleValidation2 = _interopRequireDefault(_singleValidation);
 	
@@ -11740,7 +12120,7 @@
 	};
 
 /***/ }),
-/* 71 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11823,7 +12203,7 @@
 	};
 
 /***/ }),
-/* 72 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11892,7 +12272,7 @@
 	};
 
 /***/ }),
-/* 73 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11909,27 +12289,27 @@
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _operationsServerTools = __webpack_require__(67);
+	var _operationsServerTools = __webpack_require__(68);
 	
 	var _operationsServerTools2 = _interopRequireDefault(_operationsServerTools);
 	
-	var _operationsLeftColumn = __webpack_require__(68);
+	var _operationsLeftColumn = __webpack_require__(69);
 	
 	var _operationsLeftColumn2 = _interopRequireDefault(_operationsLeftColumn);
 	
-	var _operationsRightColumn = __webpack_require__(70);
+	var _operationsRightColumn = __webpack_require__(71);
 	
 	var _operationsRightColumn2 = _interopRequireDefault(_operationsRightColumn);
 	
-	var _operationsHeader = __webpack_require__(71);
+	var _operationsHeader = __webpack_require__(72);
 	
 	var _operationsHeader2 = _interopRequireDefault(_operationsHeader);
 	
-	var _operationsGoodAdd = __webpack_require__(72);
+	var _operationsGoodAdd = __webpack_require__(73);
 	
 	var _operationsGoodAdd2 = _interopRequireDefault(_operationsGoodAdd);
 	
-	var _operations__tradeDiscount = __webpack_require__(74);
+	var _operations__tradeDiscount = __webpack_require__(75);
 	
 	var _operations__tradeDiscount2 = _interopRequireDefault(_operations__tradeDiscount);
 	
@@ -12024,9 +12404,8 @@
 	    });
 	
 	    if (perm !== 'none') {
-	      setTimeout(function () {
-	        searchBarcodeFormBarcode.focus();
-	      }, 500);
+	
+	      searchBarcodeFormBarcode.focus();
 	    }
 	  }
 	};
@@ -12368,6 +12747,7 @@
 	
 	var getDataCallback = function getDataCallback(data) {
 	  dataStore = data;
+	  console.dir(dataStore);
 	  _operationsHeader2.default.setStocksList(dataStore.all_stocks);
 	  _operationsRightColumn2.default.setKontragentList(dataStore.all_kontr_agents);
 	  _operationsLeftColumn2.default.drawGroups(dataStore.all_groups, clickGroupsCallback);
@@ -12536,7 +12916,7 @@
 	};
 
 /***/ }),
-/* 74 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12595,7 +12975,7 @@
 	};
 
 /***/ }),
-/* 75 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12612,23 +12992,23 @@
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _operationsServerTools = __webpack_require__(67);
+	var _operationsServerTools = __webpack_require__(68);
 	
 	var _operationsServerTools2 = _interopRequireDefault(_operationsServerTools);
 	
-	var _operationsLeftColumn = __webpack_require__(68);
+	var _operationsLeftColumn = __webpack_require__(69);
 	
 	var _operationsLeftColumn2 = _interopRequireDefault(_operationsLeftColumn);
 	
-	var _operationsRightColumn = __webpack_require__(70);
+	var _operationsRightColumn = __webpack_require__(71);
 	
 	var _operationsRightColumn2 = _interopRequireDefault(_operationsRightColumn);
 	
-	var _operationsHeader = __webpack_require__(71);
+	var _operationsHeader = __webpack_require__(72);
 	
 	var _operationsHeader2 = _interopRequireDefault(_operationsHeader);
 	
-	var _operationsGoodAdd = __webpack_require__(72);
+	var _operationsGoodAdd = __webpack_require__(73);
 	
 	var _operationsGoodAdd2 = _interopRequireDefault(_operationsGoodAdd);
 	
@@ -12642,7 +13022,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var searchBarcodeForm = document.querySelector('#operations-inventory-search-barcode-form');
+	var searchBarcodeForm = document.querySelector('#operation-inventory-search-barcode-form');
 	var searchBarcodeFormBarcode = document.querySelector('#operations-inventory-search-barcode');
 	
 	var searchForm = document.querySelector('#operation-inventory-search');
@@ -12715,9 +13095,7 @@
 	    });
 	
 	    if (perm !== 'none') {
-	      setTimeout(function () {
-	        searchBarcodeFormBarcode.focus();
-	      }, 500);
+	      searchBarcodeFormBarcode.focus();
 	    }
 	  }
 	};
@@ -12905,6 +13283,7 @@
 	
 	var getDataCallback = function getDataCallback(data) {
 	  dataStore = data;
+	  console.dir(dataStore);
 	  _operationsHeader2.default.setStocksList(dataStore.all_stocks);
 	  // appHeader.setKontragentList(dataStore.all_kontr_agents);
 	  _operationsLeftColumn2.default.drawGroups(dataStore.all_groups, clickGroupsCallback);
@@ -12937,7 +13316,7 @@
 	    _operationsServerTools2.default.getDataFromServer(_storage2.default.data.currentStock, getDataCallback);
 	  });
 	
-	  document.querySelector('#operations-inventory-clear-but').addEventListener('click', function () {
+	  document.querySelector('#operation-inventory-clear-but').addEventListener('click', function () {
 	    _operationsLeftColumn2.default.drawGroups(dataStore.all_groups, clickGroupsCallback, clichButtonBackCallback);
 	    _operationsRightColumn2.default.clear();
 	    inventoryFormSubmit.disabled = true;
@@ -12962,6 +13341,7 @@
 	
 	  inventoryForm.addEventListener('submit', function (evt) {
 	    evt.preventDefault();
+	    console.log('!!!!');
 	    sendInventoryForm();
 	  });
 	

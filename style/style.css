@@ -436,7 +436,7 @@ input[name="express-sell-radio"]:checked + label {
   overflow-y: auto;
   height: 600px; }
 
-.otRightColumnInventory {
+.otRightColumnInv {
   overflow-y: auto;
   height: 695px; }
 
