@@ -102,15 +102,15 @@
 	
 	var _reference__keywords2 = _interopRequireDefault(_reference__keywords);
 	
-	var _reference__keywordsAdd = __webpack_require__(36);
+	var _reference__keywordsAdd = __webpack_require__(38);
 	
 	var _reference__keywordsAdd2 = _interopRequireDefault(_reference__keywordsAdd);
 	
-	var _reference__keywordsEdit = __webpack_require__(37);
+	var _reference__keywordsEdit = __webpack_require__(39);
 	
 	var _reference__keywordsEdit2 = _interopRequireDefault(_reference__keywordsEdit);
 	
-	var _catalog__groups = __webpack_require__(38);
+	var _catalog__groups = __webpack_require__(40);
 	
 	var _catalog__groups2 = _interopRequireDefault(_catalog__groups);
 	
@@ -122,11 +122,11 @@
 	
 	var _operations__manufacture2 = _interopRequireDefault(_operations__manufacture);
 	
-	var _operations__balance = __webpack_require__(57);
+	var _operations__balance = __webpack_require__(58);
 	
 	var _operations__balance2 = _interopRequireDefault(_operations__balance);
 	
-	var _online__users = __webpack_require__(58);
+	var _online__users = __webpack_require__(59);
 	
 	var _online__users2 = _interopRequireDefault(_online__users);
 	
@@ -134,27 +134,27 @@
 	
 	var _accounting__allDocs2 = _interopRequireDefault(_accounting__allDocs);
 	
-	var _accounting__reports = __webpack_require__(59);
+	var _accounting__reports = __webpack_require__(60);
 	
 	var _accounting__reports2 = _interopRequireDefault(_accounting__reports);
 	
-	var _catalog__cards = __webpack_require__(60);
+	var _catalog__cards = __webpack_require__(61);
 	
 	var _catalog__cards2 = _interopRequireDefault(_catalog__cards);
 	
-	var _catalog__search = __webpack_require__(63);
+	var _catalog__search = __webpack_require__(64);
 	
 	var _catalog__search2 = _interopRequireDefault(_catalog__search);
 	
-	var _operations__purchase = __webpack_require__(67);
+	var _operations__purchase = __webpack_require__(68);
 	
 	var _operations__purchase2 = _interopRequireDefault(_operations__purchase);
 	
-	var _operations__sale = __webpack_require__(74);
+	var _operations__sale = __webpack_require__(75);
 	
 	var _operations__sale2 = _interopRequireDefault(_operations__sale);
 	
-	var _operations__inventory = __webpack_require__(76);
+	var _operations__inventory = __webpack_require__(77);
 	
 	var _operations__inventory2 = _interopRequireDefault(_operations__inventory);
 	
@@ -243,6 +243,25 @@
 	    _main_login_window2.default.init();
 	  }
 	};
+	
+	// ========== ВЫХОД ==========
+	var wideScreenBtn = document.querySelector('#widescreen-mode-btn');
+	
+	var onWideScreenBtnClick = function onWideScreenBtnClick() {
+	  var screenWidth = document.body.clientWidth;
+	  if (!wideScreenBtn.classList.contains('icon-btn__widescreen--active') && screenWidth > 1300) {
+	    wideScreenBtn.classList.add('icon-btn__widescreen--active');
+	    app.style.maxWidth = screenWidth - 50 + 'px';
+	  } else if (wideScreenBtn.classList.contains('icon-btn__widescreen--active') && screenWidth > 1300) {
+	    app.style.maxWidth = '1140px';
+	    console.log(document.body.clientWidth);
+	    wideScreenBtn.classList.remove('icon-btn__widescreen--active');
+	  }
+	  console.log(wideScreenBtn.classList.contains('icon-btn__widescreen--active') && screenWidth > 1300);
+	};
+	
+	wideScreenBtn.addEventListener('click', onWideScreenBtnClick);
+	// ==========  ==========
 	
 	// ========== ВЫХОД ==========
 	var stop = function stop() {
@@ -2227,7 +2246,7 @@
 	var drawSet = count / 4;
 	
 	// отрисовка порции карточек
-	listLogBody.innerHTML = '\n    <div class="reference-header">\n        <div class="reference-column"></div>\n        <div class="reference-column">\u041E\u043F\u0435\u0440\u0430\u0446\u0438\u044F</div>\n        <div class="reference-column">\u0412\u0440\u0435\u043C\u044F</div>\n        <div class="reference-column">\u041F\u0440\u043E\u0441\u043C.</div>\n    </div>\n';
+	listLogBody.innerHTML = '\n    <div class="reference-header">\n        <div class="reference-column-3"></div>\n        <div class="reference-column">\u041E\u043F\u0435\u0440\u0430\u0446\u0438\u044F</div>\n        <div class="reference-column">\u0412\u0440\u0435\u043C\u044F</div>\n        <div class="reference-column">\u041F\u0440\u043E\u0441\u043C.</div>\n    </div>\n';
 	var drawCardSet = function drawCardSet() {
 	  logCardNodes.splice(0, drawSet).forEach(_log2.default.addCardToContainer);
 	};
@@ -2385,7 +2404,7 @@
 	
 	    var cardHeader = item.ha_comment.split('\n');
 	    cardHeader[1] = cardHeader[1] ? cardHeader[1] : '';
-	    return '\n    <div class="reference-header" data-link="' + imgName + '" ' + (imgName === 'admission' || imgName === 'sale' ? 'data-naklad=' + item.ha_naklad_id_fk : '') + ' ' + (imgName === 'expenses' || imgName === 'revenue' ? 'data-balance=' + item.ha_balance_act_id_fk : '') + '>\n      <div class="reference-column">\n        <img class="mr-3 rounded-circle p-1" src="img/user-male-filled-32.png" title="' + item.ha_operator_name + '" style="background-color: #' + getIconColor + '" width="30" alt="' + item.ha_operator_name + '">\n      </div>\n      <div class="reference-column">\n\n      <div class="online-user">\n        <img class="mr-3" src="img/' + imgName + '.png" width="30" alt="Generic placeholder image">\n        <b>' + cardHeader[0] + '</b>\n        ' + cardHeader[1] + '\n      </div>\n\n\n      </div>\n      <div class="reference-column">\n          <div class="badge text-right text-muted float-right">' + new Date(+(item.ha_time + '000')).toLocaleString() + '</div>\n      </div>\n      <div class="reference-column">\n          <div class="badge text-right text-muted float-right">' + (imgName === 'admission' || imgName === 'sale' || imgName === 'expenses' || imgName === 'revenue' ? '>' : '') + '</div>\n      </div>\n    </div>';
+	    return '\n    <div class="reference-header" data-link="' + imgName + '" ' + (imgName === 'admission' || imgName === 'sale' ? 'data-naklad=' + item.ha_naklad_id_fk : '') + ' ' + (imgName === 'expenses' || imgName === 'revenue' ? 'data-balance=' + item.ha_balance_act_id_fk : '') + '>\n      <div class="reference-column-3">\n        <div style="background-color: #' + getIconColor + ';   border-radius: 10px 10px 10px 10px;" width="60" >\n          <img  src="img/user-male-filled-32.png" style="margin-left:1px; title="' + item.ha_operator_name + '"  width="24" height="24" alt="' + item.ha_operator_name + '">\n          <span style="margin-right:2px; color:#ffffff;">' + item.ha_operator_id + '</span>\n        </div>\n      </div>\n      <div class="reference-column">\n\n      <div class="online-user">\n        <img class="mr-3" src="img/' + imgName + '.png" width="30" alt="Generic placeholder image">\n        <b>' + cardHeader[0] + '</b>\n        ' + cardHeader[1] + '\n      </div>\n\n\n      </div>\n      <div class="reference-column">\n          <div >' + new Date(+(item.ha_time + '000')).toLocaleString() + '</div>\n      </div>\n      <div class="reference-column">\n          <div>' + (imgName === 'admission' || imgName === 'sale' || imgName === 'expenses' || imgName === 'revenue' ? '<img src="img/icons8-preview.png">' : '') + '</div>\n      </div>\n    </div>';
 	  },
 	  addCardToContainer: function addCardToContainer(cardMarkupItem) {
 	    console.log(cardMarkupItem);
@@ -2436,7 +2455,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var START_YEAR = 2015;
+	var START_YEAR = 2017;
 	// import goods from './universal-goods-list.js';
 	// import uValid from './universal-validity-micro.js';
 	
@@ -2456,6 +2475,7 @@
 	var docsReturnBtn = document.querySelector('#docs-return-btn');
 	var billCard = document.querySelector('#bill-card');
 	
+	var billCardTotal = document.querySelector('#bill-card-total');
 	var billCardType = document.querySelector('#bill-card-type');
 	var billCardStock = document.querySelector('#bill-card-stock');
 	var billCardId = document.querySelector('#bill-card-id');
@@ -2464,12 +2484,15 @@
 	var billCardGoods = document.querySelector('#bill-card-goods');
 	var billDeliveryBtn = document.querySelector('#bill-delivery-btn');
 	var billDeleteBtn = document.querySelector('#bill-delete-btn');
+	var billMakePdfBtn = document.querySelector('#bill-pdf-btn');
 	
 	var balanceCard = document.querySelector('#balance-act-card');
 	
 	var balanceCardStock = document.querySelector('#balance-act-card-stock');
 	var balanceCardId = document.querySelector('#balance-act-card-id');
 	var balanceCardUser = document.querySelector('#balance-act-card-user');
+	var balanceCardKontragentUser = document.querySelector('#bill-card-kontragent-name');
+	
 	var balanceCardTime = document.querySelector('#balance-act-card-time');
 	var balanceCardTotal = document.querySelector('#balance-act-total');
 	var balanceCardReason = document.querySelector('#balance-act-reason');
@@ -2478,7 +2501,7 @@
 	
 	// ############################## РАЗМЕТКА ТОВАРОВ #############
 	var getGoodString = function getGoodString(item, index) {
-	  return '\n  <div class="goods-string"">\n    <div>\n      <span class="reference-row-number">' + (index + 1) + '</span> <span>\u2116 ' + item.good + '</span>\n    </div>\n    <div>\n      ' + Number(item.count).toFixed(2) + ' x ' + Number(item.price).toFixed(2) + ' = ' + Number(item.count).toFixed(2) * Number(item.price).toFixed(2) + '\n    </div>\n  </div>';
+	  return '\n    <div class="reference-header">\n        <div class="reference-column-7">' + (index + 1) + '</div>\n        <div class="reference-column-7">' + item.good + '</div>\n        <div class="reference-column-7">' + Number(item.count).toFixed(2) + '</div>\n        <div class="reference-column-7">x</div>\n        <div class="reference-column-7">' + Number(item.price).toFixed(2) + '</div>\n        <div class="reference-column-7">=</div>\n        <div class="reference-column-7">' + Number(item.count).toFixed(2) * Number(item.price).toFixed(2) + '</div>\n    </div>';
 	};
 	
 	// ############################## ОБРАБОТЧИКИ КЛИКОВ ПРИ ВЫВОДЕ ЗА ДЕНЬ#############
@@ -2488,7 +2511,9 @@
 	  console.log(answer);
 	  var _answer$data = answer.data,
 	      id = _answer$data.id,
+	      total = _answer$data.total,
 	      operatorName = _answer$data.operator_name,
+	      kaname = _answer$data.ka_name,
 	      stockName = _answer$data.stock_name,
 	      time = _answer$data.time,
 	      type = _answer$data.type,
@@ -2496,12 +2521,13 @@
 	  // billStatus = status;
 	
 	  billCardStock.innerHTML = stockName;
-	  billCardType.src = 'img/' + _universalBillsList2.default.BillTypes['type' + type] + '.png';
+	  billCardType.innerHTML = _universalBillsList2.default.BillTypesName[type];
 	  billCardId.innerHTML = '№' + id;
-	  billCardTime.innerHTML = '|| ' + new Date(+(time + '000')).toLocaleString();
-	  billCardUser.title = operatorName;
-	
-	  billCardGoods.innerHTML = '';
+	  billCardTime.innerHTML = new Date(+(time + '000')).toLocaleString();
+	  billCardUser.innerHTML = operatorName;
+	  balanceCardKontragentUser.innerHTML = kaname;
+	  billCardTotal.innerHTML = total;
+	  billCardGoods.innerHTML = '\n        <div class="reference-header">\n            <div class="reference-column-7">\u2116</div>\n            <div class="reference-column-7">\u041D\u0430\u0438\u043C\u0435\u043D\u043E\u0432\u0430\u043D\u0438\u0435:</div>\n            <div class="reference-column-7">\u041A\u043E\u043B-\u0432\u043E</div>\n            <div class="reference-column-7"></div>\n            <div class="reference-column-7">\u0426\u0435\u043D\u0430</div>\n            <div class="reference-column-7"></div>\n            <div class="reference-column-7">\u0421\u0443\u043C\u043C\u0430</div>\n        </div>';
 	  goodsContent.forEach(function (good, index) {
 	    return billCardGoods.insertAdjacentHTML('beforeend', getGoodString(good, index));
 	  });
@@ -2543,6 +2569,24 @@
 	    message: '\u0412\u044B \u0442\u043E\u0447\u043D\u043E \u0445\u043E\u0442\u0438\u0442\u0435 \u0443\u0434\u0430\u043B\u0438\u0442\u044C \u043D\u0430\u043A\u043B\u0430\u0434\u043D\u0443\u044E <b>' + _storage2.default.currentBillId + '</b>?',
 	    submitCallback: setRequestToDeleteBill
 	  };
+	});
+	
+	// ############################## ФОРМИРОВАНИЕ PDF #############
+	var onSuccessBillMakePdf = function onSuccessBillMakePdf(answer) {
+	  window.open(answer.data);
+	};
+	
+	var setRequestToMakePdfBill = function setRequestToMakePdfBill() {
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.data.operatorId + '/business/' + _storage2.default.data.currentBusiness + '/naklad/' + _storage2.default.currentBillId + '/export/pdf',
+	    data: 'token=' + _storage2.default.data.token,
+	    callbackSuccess: onSuccessBillMakePdf
+	  };
+	};
+	
+	billMakePdfBtn.addEventListener('click', function () {
+	  setRequestToMakePdfBill();
 	});
 	
 	// ############################## ЗАВЕРШЕНИЕ ДОСТАВКИ #############
@@ -2631,7 +2675,7 @@
 	  balanceCardReason.innerHTML = reasonName;
 	  balanceCardComment.innerHTML = comment;
 	  balanceCardId.innerHTML = '№' + id;
-	  balanceCardTime.innerHTML = '|| ' + new Date(+(time + '000')).toLocaleString();
+	  balanceCardTime.innerHTML = new Date(+(time + '000')).toLocaleString();
 	  balanceCardUser.title = operatorName;
 	
 	  $(balanceCard).modal('show');
@@ -2730,10 +2774,13 @@
 	  if (billsData.data.length > 0) {
 	
 	    if (billsData.data[0].month_number) {
+	      docsBody.innerHTML = '\n      <div class="alldocs-header">\n        <div class="alldocs-4-column"></div>\n        <div class="alldocs-4-column">\u0414\u0430\u0442\u0430</div>\n        <div class="alldocs-4-column">\u041A\u043E\u043B-\u0432\u043E \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432</div>\n        <div class="alldocs-4-column">\u0421\u0443\u043C\u043C\u0430</div>\n      </div>';
 	      _universalBillsList2.default.drawYear(billsData.data, docsBody, onYearClick);
 	    } else if (billsData.data[0].day_number) {
+	      docsBody.innerHTML = '\n      <div class="alldocs-header">\n        <div class="alldocs-4-column"></div>\n        <div class="alldocs-4-column">\u0414\u0430\u0442\u0430</div>\n        <div class="alldocs-4-column">\u041A\u043E\u043B-\u0432\u043E \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432</div>\n        <div class="alldocs-4-column">\u0421\u0443\u043C\u043C\u0430</div>\n      </div>';
 	      _universalBillsList2.default.drawMonth(billsData.data, docsBody, onMonthClick);
 	    } else if ((billsData.data[0].stock_name || billsData.data[0].stock_name === 'null') && _storage2.default.allDocsOperationType === 'naklad') {
+	      docsBody.innerHTML = '\n      <div class="alldocs-header">\n        <div class="alldocs-3-column"></div>\n        <div class="alldocs-3-column">\u0414\u0430\u0442\u0430</div>\n        <div class="alldocs-3-column">\u0421\u0443\u043C\u043C\u0430</div>\n      </div>';
 	      billsData.data.sort(function (a, b) {
 	        return +b.id - +a.id;
 	      });
@@ -2742,9 +2789,10 @@
 	      lastId = billsData.data[billsData.data.length - 1].id;
 	      prevData = billsData.data.slice(0);
 	
-	      docsBody.insertAdjacentHTML('beforeend', '<button type="button" class="btn btn-primary">Загрузить еще</button>');
+	      docsBody.insertAdjacentHTML('beforeend', '<button type="button" class="btn btn-primary" style="margin-top:10px">Загрузить еще</button>');
 	      docsBody.lastChild.addEventListener('click', onClickLoadMore);
 	    } else if ((billsData.data[0].stock_name || billsData.data[0].stock_name === 'null') && _storage2.default.allDocsOperationType === 'balance') {
+	      docsBody.innerHTML = '\n      <div class="alldocs-header">\n        <div class="alldocs-3-column"></div>\n        <div class="alldocs-3-column">\u0414\u0430\u0442\u0430</div>\n        <div class="alldocs-3-column">\u0421\u0443\u043C\u043C\u0430</div>\n      </div>';
 	      // billsData.data.sort((a, b) => +b.id - +a.id);
 	      // bills.drawDay(billsData.data, docsBody, onBillClick);
 	
@@ -2760,7 +2808,7 @@
 	      docsBody.lastChild.addEventListener('click', onClickLoadMore);
 	    }
 	  } else {
-	    docsBody.innerHTML = _storage2.default.allDocsOperationType === 'naklad' ? 'Накладных нет' : 'Балансовых операций нет';
+	    docsBody.innerHTML = _storage2.default.allDocsOperationType === 'naklad' ? '<div class="docs-empty-container"><img src="../img/empty_state_docs.png" alt="Накладных не обнаружено" class="docs-empty-img"></div>' : '<div class="docs-empty-container"><img src="../img/empty_state_docs.png" alt="Балансовых операций не обнаружено" class="docs-empty-img"></div>';
 	  }
 	};
 	var getDocs = function getDocs(year, month, day, type) {
@@ -2893,7 +2941,17 @@
 	  'type1': 'admission',
 	  'type2': 'buyers',
 	  'type3': 'sale',
-	  'type8': 'ic_my_production'
+	  'type8': 'ic_my_production',
+	  'type15': 'inventory'
+	};
+	
+	var BillTypesName = {
+	  '0': 'Доставка-поступление',
+	  '1': 'Поступление',
+	  '2': 'Доставка-продажа',
+	  '3': 'Продажа',
+	  '8': 'Производство',
+	  '15': 'Инвентаризация'
 	};
 	
 	var months = {
@@ -2912,19 +2970,19 @@
 	};
 	
 	var getYearElement = function getYearElement(item, index) {
-	  return '\n\n  <div class="alldocs-year">\n    <div class="alldocs-year-column">\n      <img src="img/ic_agree.png" alt="">\n      <span>' + months[item.month_number - 1] + ' ' + document.querySelector('#docs-year').value + ' \u0433\u043E\u0434\u0430</span>\n    </div>\n    <div class="alldocs-year-column">\n      <span>' + item.total + '</span>\n    </div>\n    <div class="alldocs-year-column">\n      <span>' + item.count_documents + '</span><br>\n    </div>';
+	  return '\n\n  <div class="alldocs-row">\n    <div class="alldocs-row-3-column">\n      <img src="img/ic_agree.png" alt="">\n      <span>' + months[item.month_number - 1] + ' ' + document.querySelector('#docs-year').value + ' \u0433\u043E\u0434\u0430</span>\n    </div>\n    <div class="alldocs-row-3-column">\n      <span>' + item.count_documents + '</span><br>\n    </div>\n    <div class="alldocs-row-3-column">\n      <span>' + item.total + '</span>\n    </div>\n';
 	};
 	
 	var getMonthElement = function getMonthElement(item, index) {
-	  return '\n\n  <div class="alldocs-year">\n    <div class="alldocs-year-column">\n      <img src="img/ic_agree.png" alt="">\n      <span></b>' + (+item.day_number < 10 ? '0' + item.day_number : item.day_number) + '.' + (+document.querySelector('#docs-month').value + 1 < 10 ? '0' + (+document.querySelector('#docs-month').value + 1) : +document.querySelector('#docs-month').value + 1) + '.' + document.querySelector('#docs-year').value + '</span>\n    </div>\n    <div class="alldocs-year-column">\n      <span>' + item.total + '</span>\n    </div>\n    <div class="alldocs-year-column">\n      <span>' + item.count_documents + '</span><br>\n    </div>';
+	  return '\n\n  <div class="alldocs-row">\n    <div class="alldocs-row-3-column">\n      <img src="img/ic_agree.png" alt="">\n      <span></b>' + (+item.day_number < 10 ? '0' + item.day_number : item.day_number) + '.' + (+document.querySelector('#docs-month').value + 1 < 10 ? '0' + (+document.querySelector('#docs-month').value + 1) : +document.querySelector('#docs-month').value + 1) + '.' + document.querySelector('#docs-year').value + '</span>\n    </div>\n    <div class="alldocs-row-3-column">\n      <span>' + item.count_documents + '</span><br>\n    </div>\n    <div class="alldocs-row-3-column">\n      <span>' + item.total + '</span>\n    </div>\n';
 	};
 	
 	var getDayElement = function getDayElement(item, index) {
-	  return '\n\n  <div class="alldocs-year">\n    <div class="alldocs-year-column">\n      <img class="mr-3" src="img/' + BillTypes['type' + item.type] + '.png" width="30" alt="">\n      <span> \u2116 ' + item.id + ' \u0432 ' + new Date(+(item.time + '000')).toLocaleTimeString() + '</span>\n    </div>\n    <div class="alldocs-year-column">\n      <span>' + item.total + '</span>\n    </div>\n    <div class="alldocs-year-column">\n      <img class="mr-3 rounded-circle" src="img/user-male-filled-32.png" style="background-color: #' + item.operator_color + '" width="30" alt="">\n    </div>';
+	  return '\n\n  <div class="alldocs-row">\n    <div class="alldocs-row-2-column">\n      <div style="background-color: #' + item.operator_color + ';   border-radius: 10px 10px 10px 10px;" width="60px;" >\n          <img  src="img/user-male-filled-32.png" style="margin-left:1px;   width="24px; height=24;"  >\n          <span style="margin-right:2px; color:#ffffff;">' + item.operator_id + '</span>\n      </div>\n\n      <img  class="alldocs-row-2-column-img" src="img/' + BillTypes['type' + item.type] + '.png"  alt="">\n      <span> \u2116 ' + item.id + ' \u0432 ' + new Date(+(item.time + '000')).toLocaleTimeString() + '</span>\n    </div>\n    \n    <div class="alldocs-row-2-column">\n      <span>' + item.total + '</span>\n    </div>\n';
 	};
 	
 	var getDayBalanceElement = function getDayBalanceElement(item, index) {
-	  return '\n\n  <div class="alldocs-year">\n    <div class="alldocs-year-column">\n      <img class="mr-3" src="img/' + (+item.total < 0 ? 'expenses' : 'revenue') + '.png" width="30" alt="">\n      <span> \u2116 ' + item.id + ' \u0432 ' + new Date(+(item.time + '000')).toLocaleTimeString() + '</span>\n    </div>\n    <div class="alldocs-year-column">\n      <span>' + item.total + '</span>\n    </div>\n    <div class="alldocs-year-column">\n      <img class="mr-3 rounded-circle" src="img/user-male-filled-32.png" style="background-color: #' + item.operator_color + '" width="30" alt="">\n    </div>';
+	  return '\n\n  <div class="alldocs-row">\n    <div class="alldocs-row-2-column">\n     <div style="background-color: #' + item.operator_color + ';   border-radius: 10px 10px 10px 10px;" width="60px;" >\n          <img  src="img/user-male-filled-32.png" style="margin-left:1px;   width="24px; height=24;"  >\n          <span style="margin-right:2px; color:#ffffff;">' + item.operator_id + '</span>\n      </div>\n\n\n      <img class="alldocs-row-2-column-img" src="img/' + (+item.total < 0 ? 'expenses' : 'revenue') + '.png" width="30" alt="">\n      <span> \u2116 ' + item.id + ' \u0432 ' + new Date(+(item.time + '000')).toLocaleTimeString() + '</span>\n    </div>\n    <div class="alldocs-row-2-column">\n      <span>' + item.total + '</span>\n    </div>\n   ';
 	};
 	
 	var markup = {
@@ -2971,7 +3029,8 @@
 	  drawMonth: markup.drawBillsMonth,
 	  drawDay: markup.drawBillsDay,
 	  drawDayBalance: markup.drawBalanceDay,
-	  BillTypes: BillTypes
+	  BillTypes: BillTypes,
+	  BillTypesName: BillTypesName
 	};
 
 /***/ }),
@@ -3018,7 +3077,7 @@
 	var listProfile = document.querySelector('#list-profile');
 	
 	var prepareProfileMarkup = function prepareProfileMarkup() {
-	  return '\n  <div id="profile" class="card p-3 w-50 text-dark">\n    <h3>\u041B\u0438\u0447\u043D\u044B\u0439 \u043A\u0430\u0431\u0438\u043D\u0435\u0442</h3>\n    <p><span>\u0418\u043C\u044F: </span><span>' + _storage2.default.data.nickname + '</span></p>\n    <p><span>\u0412\u0440\u0435\u043C\u044F \u043F\u043E\u0441\u043B\u0435\u0434\u043D\u0435\u0433\u043E \u0432\u0445\u043E\u0434\u0430: </span><span>' + _storage2.default.data.lastLogin + '</span></p>\n    <p><span></span>\u041A\u0430\u0442\u0430\u043B\u043E\u0433: <span>' + _storage2.default.data.directory + '</span></p>\n    <p><span></span>\u041F\u043E\u0447\u0442\u0430: <span>' + _storage2.default.data.email + '</span></p>\n  </div>';
+	  return '\n                    <table >\n                       <tr>\n                          <th><h3>\u041B\u0438\u0447\u043D\u044B\u0439 \u043A\u0430\u0431\u0438\u043D\u0435\u0442:</h3></th>\n                          <th> </th> \n                       \n                        </tr>\n                        <tr>\n                           <td><span>\u0418\u043C\u044F:</span></td>\n                            <td><span>' + _storage2.default.data.nickname + '</span></td>\n                        </tr>\n                         <tr>\n                           <td><span>\u041F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0439 \u0432\u0445\u043E\u0434\u0430:</span></td>\n                            <td><span>' + _storage2.default.data.lastLogin + '</span></td>\n                        </tr>\n                         <tr>\n                           <td><span>\u041A\u0430\u0442\u0430\u043B\u043E\u0433:</span></td>\n                            <td><span>' + _storage2.default.data.directory + '</span></td>\n                        </tr>\n                         <tr>\n                           <td><span>\u041F\u043E\u0447\u0442\u0430:</span></td>\n                            <td><span>' + _storage2.default.data.email + '</span></td>\n                        </tr>\n                         <tr>\n                           <td><span>\u0422\u0430\u0440\u0438\u0444:</span></td>\n                            <td><span>\u0411\u0435\u0441\u043F\u043B\u0430\u0442\u043D\u0430\u044F \u0432\u0435\u0441\u043D\u0430</span></td>\n                        </tr>\n                    </table>';
 	};
 	
 	exports.default = {
@@ -3029,6 +3088,17 @@
 	    listProfile.innerHTML = '';
 	  }
 	};
+	
+	/*
+	
+	  <div id="profile" class="card p-3 w-50 text-dark">
+	    <h3>Личный кабинет</h3>
+	    <p><span>Имя: </span><span>${auth.data.nickname}</span></p>
+	    <p><span>Время последнего входа: </span><span>${auth.data.lastLogin}</span></p>
+	    <p><span></span>Каталог: <span>${auth.data.directory}</span></p>
+	    <p><span></span>Почта: <span>${auth.data.email}</span></p>
+	  </div>
+	  */
 
 /***/ }),
 /* 21 */
@@ -3781,10 +3851,10 @@
 	listPointsBody.addEventListener('change', function (evt) {
 	  console.log(evt);
 	  if (selectedString) {
-	    selectedString.classList.remove('bg-light');
+	    selectedString.classList.remove('bg-light-selected');
 	  }
 	  selectedString = evt.target.labels ? evt.target.labels[0] : evt.target;
-	  selectedString.classList.add('bg-light');
+	  selectedString.classList.add('bg-light-selected');
 	  _storage2.default.currentStockId = selectedString.dataset.stockId;
 	  enableCheckEditButtons();
 	});
@@ -3877,7 +3947,7 @@
 	      </div>
 	      </label>`;
 	      */
-	    return '\n    <input type="radio" id="' + item.id + '" data-stock-id="' + item.id + '" name="contact" value="email" class="d-none">\n\n    <label class="reference-header" for="' + item.id + '" data-stock-id="' + item.id + '" data-stock-name="' + item.name + '">\n        <div class="reference-column">' + (index + 1) + '</div>\n        <div class="reference-column">' + item.name + currentStockFlag + '</div>\n    </label>\n';
+	    return '\n    \n    <label class="reference-header" for="' + item.id + '" data-stock-id="' + item.id + '" data-stock-name="' + item.name + '">\n        <div class="reference-column">' + (index + 1) + '</div>\n        <div class="reference-column">' + item.name + currentStockFlag + '</div>\n\n        <input type="radio" id="' + item.id + '" data-stock-id="' + item.id + '" name="contact" value="email" class="d-none">\n    </label>\n';
 	  },
 	  drawDataInContainer: function drawDataInContainer(enterprisesData) {
 	    var _this = this;
@@ -4530,7 +4600,7 @@
 	  },
 	  getElement: function getElement(item, index) {
 	
-	    return '\n        <div class="reference-header" data-buyer-id="' + item.id + '" data-index="' + index + '">\n            <div class="reference-column">' + item.id + '</div>\n            <div class="reference-column">' + item.name + '</div>\n        </div>\n';
+	    return '\n        <div class="reference-header" data-buyer-id="' + item.id + '" data-index="' + index + '">\n            <div class="reference-column">' + (index + 1) + '</div>\n            <div class="reference-column">' + item.name + '</div>\n        </div>\n';
 	    /*
 	    return `
 	        <div class="d-flex justify-content-between align-items-center reference-string"  data-buyer-id="${item.id}"  data-index="${index}">
@@ -4561,38 +4631,63 @@
 
 /***/ }),
 /* 31 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var listContractorsCardBody = document.querySelector('#list-contractors-card-body');
 	
-	var BillTypes = {
+	var _storage = __webpack_require__(1);
+	
+	var _storage2 = _interopRequireDefault(_storage);
+	
+	var _accounting__allDocs = __webpack_require__(17);
+	
+	var _accounting__allDocs2 = _interopRequireDefault(_accounting__allDocs);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var listContractorsCardBody = document.querySelector('#list-contractors-card-body');
+	/*
+	const BillTypes = {
 	  'type0': 'suppliers',
 	  'type1': 'admission',
 	  'type2': 'buyers',
 	  'type3': 'sale',
-	  'type8': 'ic_my_production'
+	  'type8': 'ic_my_production',
 	};
-	
+	*/
 	exports.default = {
 	  cleanContainer: function cleanContainer() {
 	    listContractorsCardBody.innerHTML = '';
 	  },
 	  getElement: function getElement(item) {
+	    var hasMinusInComments = item.total.includes('-');
+	    var imgName = 'expenses';
 	
-	    return '\n    <div id="log-row" class="card mb-0 p-1 rounded-0" style="width: 100%">\n      <div class="media">\n        <img class="mr-3" src="img/' + BillTypes['type' + item.type] + '.png" width="30" alt="Generic placeholder image">\n        <div class="media-body">\n          <b>ID: </b>' + item.id + '\n          <b> \u0421\u0442\u0430\u0442\u0443\u0441: </b>' + item.status + '\n          <b> \u0412\u0440\u0435\u043C\u044F: </b>' + new Date(+(item.time_activity + '000')).toLocaleString() + '\n          <b> \u0412\u0441\u0435\u0433\u043E: </b>' + item.total + '\n          <b> \u0422\u0438\u043F: </b>' + item.type + '\n        </div>\n      </div>';
+	    if (hasMinusInComments) {
+	      imgName = 'admission';
+	    } else {
+	      imgName = 'sale';
+	    }
+	
+	    return '\n     <div class="reference-header" data-link="' + item.id + '" data-naklad=' + item.id + '  >\n      <div class="reference-column-3">\n\n      </div>\n      <div class="reference-column">\n\n      <div class="online-user">\n        <img class="mr-3" src="img/' + imgName + '.png" width="30" alt="Generic placeholder image">\n        <b>' + item.total + '</b>\n      </div>\n\n\n      </div>\n      <div class="reference-column">\n          <div >' + new Date(+(item.time_activity + '000')).toLocaleString() + '</div>\n      </div>\n      <div class="reference-column">\n          <div><img src="img/icons8-preview.png"></div>\n      </div>\n    </div>\n';
 	  },
 	  drawDataInContainer: function drawDataInContainer(buyersCardData) {
 	    var _this = this;
 	
-	    console.log(buyersCardData);
+	    var listContractorsCardBodyClickHandler = function listContractorsCardBodyClickHandler(evt) {
+	      _storage2.default.currentBillId = evt.currentTarget.dataset.naklad;
+	      _accounting__allDocs2.default.onBillClick();
+	    };
+	
 	    if (buyersCardData) {
+	      listContractorsCardBody.innerHTML = '\n        <div class="reference-header">\n            <div class="reference-column-3"></div>\n            <div class="reference-column">\u041E\u043F\u0435\u0440\u0430\u0446\u0438\u044F</div>\n            <div class="reference-column">\u0412\u0440\u0435\u043C\u044F</div>\n            <div class="reference-column">\u041F\u0440\u043E\u0441\u043C.</div>\n        </div>';
 	      buyersCardData.forEach(function (item) {
-	        return listContractorsCardBody.insertAdjacentHTML('beforeend', _this.getElement(item));
+	        listContractorsCardBody.insertAdjacentHTML('beforeend', _this.getElement(item));
+	        listContractorsCardBody.lastElementChild.addEventListener('click', listContractorsCardBodyClickHandler);
 	      });
 	    } else {
 	      listContractorsCardBody.insertAdjacentHTML('beforeend', '<p class="border">Накладных нет</p>');
@@ -4906,6 +5001,18 @@
 	
 	var _universalKeywords2 = _interopRequireDefault(_universalKeywords);
 	
+	var _universalSearch = __webpack_require__(32);
+	
+	var _universalSearch2 = _interopRequireDefault(_universalSearch);
+	
+	var _universalGoodsList = __webpack_require__(36);
+	
+	var _universalGoodsList2 = _interopRequireDefault(_universalGoodsList);
+	
+	var _universalGroupsList = __webpack_require__(37);
+	
+	var _universalGroupsList2 = _interopRequireDefault(_universalGroupsList);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var listKeywords = document.querySelector('#list-keywords-list');
@@ -4919,6 +5026,181 @@
 	var listKeywordsBody = document.querySelector('#list-keywords-body');
 	var listKeywordsCard = document.querySelector('#list-keywords-card');
 	var listKeywordsCardEdit = document.querySelector('#list-keywords-card-edit');
+	var listKeywordsLinks = document.querySelector('#list-keywords-links');
+	
+	// /////////////////////////////////
+	
+	/*
+	const cardResources = document.querySelector('#card-resources');
+	const cardResourcesReturnBtn = document.querySelector('#card-resources-return-btn');
+	const cardResourcesDeleteBtn = document.querySelector('#card-resources-delete-btn');
+	const cardName = document.querySelector('#card-resources-name');
+	
+	const cardResourcesResources = document.querySelector('#card-resources-body-resources');
+	const cardResourcesProduct = document.querySelector('#card-resources-body-product');
+	
+	const cardResourcesOldCost = document.querySelector('#card-resources-old-cost');
+	const cardResourcesNewPrice = document.querySelector('#card-resources-new-price');
+	
+	const resourcesAddBtn = document.querySelector('#resources-add-btn');
+	const productAddBtn = document.querySelector('#product-add-btn');
+	*/
+	
+	
+	var cardResourcesGroupModal = document.querySelector('#card-resources-group');
+	var cardResourcesGroupModalTitle = document.querySelector('#card-resources-title');
+	var cardResourcesGroupModalBody = document.querySelector('#card-resources-groups-body');
+	var cardResourcesGroupModalReturnBtn = document.querySelector('#card-resources-modal-return-btn');
+	
+	var addResourcesModal = document.querySelector('#add-resources-modal');
+	// const addResourcesModalLabel = document.querySelector('#add-resources-modal-label');
+	
+	var loadedGoods = [];
+	var loadedGroups = [];
+	
+	var fastEditFlag = false;
+	
+	// поиск по товару внутри группы
+	var cardResourcesSearchInput = document.querySelector('#card-resources-search-input');
+	
+	var onSuccessAddLink = function onSuccessAddLink(answer) {
+	  console.log(answer);
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/1/business/' + _storage2.default.data.currentBusiness + '/tag/' + _storage2.default.currentKeywordId + '/compare_meta',
+	    data: 'view_last=0&token=' + _storage2.default.data.token,
+	    callbackSuccess: showKeywordLinks
+	  };
+	};
+	
+	var onGoodClick = function onGoodClick(good) {
+	  // $(cardResourcesGroupModal).modal('hide');
+	  // $(addResourcesModal).modal('show');
+	  // addResourcesModalLabel.innerHTML = good.name;
+	  // resourceAdd.start(addResourcesModal);
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/1/business/' + _storage2.default.data.currentBusiness + '/tag/' + _storage2.default.currentKeywordId + '/compare_meta',
+	    data: 'good=' + _storage2.default.currentGoodId + '&token=' + _storage2.default.data.token,
+	    callbackSuccess: onSuccessAddLink
+	  };
+	};
+	
+	var drawGoods = function drawGoods(data) {
+	  cardResourcesGroupModalReturnBtn.classList.remove('invisible');
+	  cardResourcesSearchInput.addEventListener('input', onGoodsSearch);
+	  cardResourcesSearchInput.removeEventListener('input', onGroupsSearch);
+	  _universalGoodsList2.default.draw(data, cardResourcesGroupModalBody, onGoodClick, 'search');
+	};
+	
+	var onGroupClick = function onGroupClick() {
+	
+	  cardResourcesSearchInput.focus();
+	  cardResourcesSearchInput.value = '';
+	
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/1/business/' + _storage2.default.data.currentBusiness + '/group/' + _storage2.default.currentGroupId + '/goods_light',
+	    data: 'view_last=0&token=' + _storage2.default.data.token,
+	    callbackSuccess: onSuccessGroupGood
+	  };
+	};
+	
+	var drawGroups = function drawGroups(groupsData) {
+	  console.log(groupsData);
+	  cardResourcesGroupModalReturnBtn.classList.add('invisible');
+	  cardResourcesSearchInput.removeEventListener('input', onGoodsSearch);
+	  cardResourcesSearchInput.addEventListener('input', onGroupsSearch);
+	  _universalGroupsList2.default.draw(groupsData, cardResourcesGroupModalBody, onGroupClick);
+	};
+	
+	var onGoodsSearch = function onGoodsSearch(evt) {
+	  drawGoods(_universalSearch2.default.make(loadedGoods.data, cardResourcesSearchInput.value));
+	};
+	
+	var onGroupsSearch = function onGroupsSearch(evt) {
+	  drawGroups(_universalSearch2.default.make(loadedGroups.data, cardResourcesSearchInput.value));
+	};
+	
+	var onSuccessGroupGood = function onSuccessGroupGood(goodsData) {
+	  loadedGoods = goodsData;
+	  cardResourcesGroupModalTitle.innerHTML = '\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0442\u043E\u0432\u0430\u0440 \u0432 \u0433\u0440\u0443\u043F\u043F\u0435 "' + _storage2.default.currentGroupName + '"';
+	  cardResourcesGroupModalReturnBtn.addEventListener('click', getGroups);
+	  drawGoods(goodsData.data);
+	};
+	
+	$(addResourcesModal).on('hidden.bs.modal', function () {
+	  if (fastEditFlag === false) {
+	    $(cardResourcesGroupModal).modal('show');
+	  }
+	});
+	
+	var onSuccessGroupsLoad = function onSuccessGroupsLoad(groupsData) {
+	  loadedGroups = groupsData;
+	  cardResourcesGroupModalBody.innerHTML = '';
+	  cardResourcesGroupModalTitle.innerHTML = 'Выберите группу';
+	  cardResourcesSearchInput.focus();
+	  drawGroups(groupsData.data);
+	};
+	
+	var getGroups = function getGroups() {
+	  _storage2.default.currentGroupId = false;
+	  cardResourcesSearchInput.value = '';
+	  $(cardResourcesGroupModal).modal('show');
+	  fastEditFlag = false;
+	
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/1/business/' + _storage2.default.data.currentBusiness + '/group',
+	    data: 'view_last=0&token=' + _storage2.default.data.token,
+	    callbackSuccess: onSuccessGroupsLoad
+	  };
+	};
+	
+	var onResourcesAddBtn = function onResourcesAddBtn() {
+	  _storage2.default.currentCardOperation = -1;
+	  getGroups();
+	};
+	
+	// ///////////////////////////////////////
+	
+	var getKeywordsLinkString = function getKeywordsLinkString(index, id, name) {
+	
+	  return '\n      <div class="catalog-groups-header">\n        <div class="catalog-groups-column">' + (index + 1) + '</div>\n        <div class="catalog-groups-column">' + name + '</div>\n        <div class="catalog-groups-column">\n          <button id="add-keyword-link-btn" type="button" class="btn btn-success p-0 icon-btn icon-btn__unlink"></button>\n        </div>\n      </div>';
+	};
+	
+	var onDeleteLink = function onDeleteLink(answer) {
+	  console.log(answer);
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/1/business/' + _storage2.default.data.currentBusiness + '/tag/' + _storage2.default.currentKeywordId + '/compare_meta',
+	    data: 'view_last=0&token=' + _storage2.default.data.token,
+	    callbackSuccess: showKeywordLinks
+	  };
+	};
+	
+	var showKeywordLinks = function showKeywordLinks(data) {
+	  console.log(data);
+	
+	  listKeywordsLinks.innerHTML = '';
+	  listKeywordsLinks.insertAdjacentHTML('afterbegin', '\n    <div class="catalog-header">\n      <h6>\u0422\u043E\u0432\u0430\u0440\u044B, \u043A \u043A\u043E\u0442\u043E\u0440\u044B\u043C \u043F\u0440\u0438\u0432\u044F\u0437\u0430\u043D\u043E \u043A\u043B\u044E\u0447\u0435\u0432\u043E\u0435 \u0441\u043B\u043E\u0432\u043E</h6>\n      <button id="add-keyword-link-btn" type="button" class="btn btn-success p-0 icon-btn icon-btn__add"></button>\n    </div>\n    <div class="catalog-groups-header" style="background-color: #94E0DD;   font-weight: 700;">\n      <div class="catalog-groups-column">\u2116</div>\n      <div class="catalog-groups-column">\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435</div>\n      <div class="catalog-groups-column"></div>\n    </div>\n  ');
+	
+	  listKeywordsLinks.querySelector('#add-keyword-link-btn').addEventListener('click', onResourcesAddBtn);
+	
+	  data.data.forEach(function (link, index) {
+	    listKeywordsLinks.insertAdjacentHTML('beforeend', getKeywordsLinkString(index, link.id, link.name));
+	    console.log(listKeywordsCardEdit);
+	    console.log(listKeywordsCardEdit.lastChild);
+	    listKeywordsLinks.lastChild.lastElementChild.addEventListener('click', function () {
+	      _xhr2.default.request = {
+	        metod: 'DELETE',
+	        url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/1/business/' + _storage2.default.data.currentBusiness + '/tag/' + _storage2.default.currentKeywordId + '/compare_meta',
+	        data: 'good=' + link.id + '&token=' + _storage2.default.data.token,
+	        callbackSuccess: onDeleteLink
+	      };
+	    });
+	  });
+	};
 	
 	// функция прячет страницу "справочники -> ключевые слова"
 	var hideReferenceKeywordsMain = function hideReferenceKeywordsMain() {
@@ -4943,11 +5225,19 @@
 	// обработчик
 	var onKeywordClick = function onKeywordClick(evt) {
 	  var clickedKeywordNode = evt.target;
+	  listKeywordsLinks.innerHTML = '';
 	  _storage2.default.currentKeywordId = clickedKeywordNode.dataset.keywordId;
 	  _storage2.default.currentKeywordName = clickedKeywordNode.innerText.slice(1);
 	  _storage2.default.currentKeywordRgb = clickedKeywordNode.dataset.keywordRgb;
 	  hideReferenceKeywordsMain();
 	  showEditKeywordCard();
+	
+	  _xhr2.default.request = {
+	    metod: 'POST',
+	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/1/business/' + _storage2.default.data.currentBusiness + '/tag/' + _storage2.default.currentKeywordId + '/compare_meta',
+	    data: 'view_last=0&token=' + _storage2.default.data.token,
+	    callbackSuccess: showKeywordLinks
+	  };
 	};
 	
 	// ================== удаление ключевго слова ============================
@@ -5129,6 +5419,227 @@
 
 /***/ }),
 /* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _storage = __webpack_require__(1);
+	
+	var _storage2 = _interopRequireDefault(_storage);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var markup = {
+	  getGoodString: function getGoodString(item, index) {
+	
+	    return '\n      <div class="catalog-groups-header" data-good-id="' + item.id + '">\n        <div class="catalog-groups-column">' + (index + 1) + '</div>\n        <div class="catalog-groups-column">' + item.name + '</div>\n        <div class="catalog-groups-column">' + (Number(item.count) ? Number(item.count).toFixed(2) : '') + '</div>\n        <div class="catalog-groups-column"><button type="button" class="btn p-0 bg-white icon-btn icon-btn__go"></button></div>\n      </div>';
+	  },
+	  getGoodStringSearch: function getGoodStringSearch(item, index) {
+	
+	    return '\n      <div class="catalog-groups-header" data-good-id="' + item.id + '">\n        <div class="catalog-groups-column">' + (index + 1) + '</div>\n        <div class="catalog-groups-column">' + item.name + '</div>\n\n      </div>';
+	  },
+	  getGoodTile: function getGoodTile(item, index) {
+	
+	    var getImg = function getImg(imgUrl) {
+	      return imgUrl ? 'https://lopos.bidone.ru/users/600a5357/images/' + imgUrl + '_preview150.jpg' : './img/not-available.png';
+	    };
+	
+	    return '\n    <div class="card goods-tile-card" data-good-id="' + item.id + '">\n      <img class="card-img-top" src="' + getImg(item.img_url) + '" alt="' + item.name + '" title="' + item.name + '">\n      <div class="card-body ' + (Number(item.count) ? 'goods-tile-title' : '') + '">\n        <p class="card-text">' + (Number(item.count) ? Number(item.count).toFixed(2) : '') + '</p>\n      </div>\n    </div>';
+	  },
+	  drawGoodsTable: function drawGoodsTable(goodsData, container, handler) {
+	    var _this = this;
+	
+	    container.innerHTML = '\n      <div class="catalog-groups-header">\n        <div class="catalog-groups-column">\u2116</div>\n        <div class="catalog-groups-column">\u0422\u043E\u0432\u0430\u0440</div>\n        <div class="catalog-groups-column">\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E</div>\n        <div class="catalog-groups-column">\u0420\u0435\u0434.</div>\n      </div>\n    ';
+	    if (goodsData) {
+	      goodsData.forEach(function (good, index) {
+	        container.insertAdjacentHTML('beforeend', _this.getGoodString(good, index));
+	        container.lastChild.addEventListener('click', function () {
+	          _storage2.default.currentGoodId = good.id;
+	          handler(good);
+	        });
+	      });
+	    } else {
+	      container.innerHTML = 'Пусто';
+	    }
+	  },
+	  drawGoodsSearch: function drawGoodsSearch(goodsData, container, handler) {
+	    var _this2 = this;
+	
+	    container.innerHTML = '\n      <div class="catalog-groups-header">\n        <div class="catalog-groups-column">\u2116</div>\n        <div class="catalog-groups-column">\u0422\u043E\u0432\u0430\u0440</div>\n      </div>\n    ';
+	    if (goodsData) {
+	      goodsData.forEach(function (good, index) {
+	        container.insertAdjacentHTML('beforeend', _this2.getGoodStringSearch(good, index));
+	        container.lastChild.addEventListener('click', function () {
+	          _storage2.default.currentGoodId = good.id;
+	          handler(good);
+	        });
+	      });
+	    } else {
+	      container.innerHTML = 'Пусто';
+	    }
+	  },
+	  drawGoodsMetro: function drawGoodsMetro(goodsData, container, handler) {
+	    var _this3 = this;
+	
+	    if (goodsData) {
+	      container.innerHTML = '<div class="goods-tile"></div>';
+	      goodsData.forEach(function (good, index) {
+	        container.firstChild.insertAdjacentHTML('beforeend', _this3.getGoodTile(good, index));
+	        container.firstChild.lastChild.addEventListener('click', function () {
+	          _storage2.default.currentGoodId = good.id;
+	          handler(good);
+	        });
+	      });
+	    } else {
+	      container.innerHTML = 'Пусто';
+	    }
+	  }
+	};
+	
+	// отрисовка списка товаров по данным
+	var drawGoods = function drawGoods(goodsList, container, handler, viewFlag) {
+	  console.log(goodsList);
+	  if (viewFlag === 'search') {
+	    markup.drawGoodsSearch(goodsList, container, handler);
+	  } else if (_storage2.default.goodsViewMode === 'string' || viewFlag === 'string') {
+	    markup.drawGoodsTable(goodsList, container, handler);
+	  } else if (_storage2.default.goodsViewMode === 'metro') {
+	    markup.drawGoodsMetro(goodsList, container, handler);
+	  }
+	};
+	
+	exports.default = {
+	  draw: drawGoods
+	};
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _storage = __webpack_require__(1);
+	
+	var _storage2 = _interopRequireDefault(_storage);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var markup = {
+	  getElement: function getElement(item, index) {
+	    return '\n    <div class="catalog-groups-header">\n        <div class="catalog-groups-column">' + (index + 1) + '</div>\n        <div class="catalog-groups-column">' + item.name + '</div>\n        <div class="catalog-groups-column">' + (item.count ? item.count : '') + '</div>\n    </div>';
+	    /*
+	    return `
+	    <div class="d-flex justify-content-between align-items-center reference-string" data-group-id="${item.id}" data-group-index="${index}" data-group-level="${item.level}" data-group-name="${item.name}">
+	      <div style="padding-left: 34px;">
+	        <span class="reference-row-number">${index + 1}</span>
+	        <span>${item.name}</span>
+	      </div>
+	      <div class="d-flex justify-content-between align-items-center" style="padding-right: 34px;">
+	        <span> ${(item.count) ? item.count : ''} </span>
+	      </div>
+	    </div>`;
+	    */
+	  },
+	  getElementExtended: function getElementExtended(item, index) {
+	    return '\n    <div class="catalog-groups-header">\n        <div class="catalog-groups-column">' + (index + 1) + '</div>\n        <div class="catalog-groups-column">' + item.name + '</div>\n        <div class="catalog-groups-column">' + item.markup_group + '%</div>\n        <div class="catalog-groups-column">' + (item.count ? item.count : '') + '</div>\n        <div class="catalog-groups-column">\n          <button type="button" class="btn p-0 icon-btn icon-btn__edit--black"></button>\n        </div>\n    </div>';
+	  },
+	  getElementReports: function getElementReports(item, index) {
+	    return '\n    <div class="d-flex justify-content-between align-items-center reference-string" data-group-id="' + item.id + '">\n      <div style="padding-left: 20px;">\n        <span class="reference-row-number">' + (index + 1) + '</span>\n        <span>' + item.name + '</span>\n      </div>\n      <div class="d-flex justify-content-between align-items-center" style="padding-right: 20px;">\n        <div><input class="form-check-input position-static report-groups-switch" type="checkbox" value="' + item.id + '" checked></div>\n      </div>\n    </div>';
+	  },
+	  drawDataInContainer: function drawDataInContainer(groupsData, container, handler) {
+	    var _this = this;
+	
+	    groupsData.forEach(function (group, index) {
+	      container.insertAdjacentHTML('beforeend', _this.getElement(group, index));
+	      container.lastChild.addEventListener('click', function () {
+	        _storage2.default.currentGroupId = group.id;
+	        _storage2.default.currentGroupName = group.name;
+	        _storage2.default.currentGroupLevel = group.level;
+	        handler();
+	      });
+	    });
+	  },
+	  drawDataInContainerExtended: function drawDataInContainerExtended(groupsData, container, handler) {
+	    var _this2 = this;
+	
+	    groupsData.forEach(function (group, index) {
+	      container.insertAdjacentHTML('beforeend', _this2.getElementExtended(group, index));
+	      container.lastChild.addEventListener('click', function (evt) {
+	        _storage2.default.currentGroupId = group.id;
+	        _storage2.default.currentGroupName = group.name;
+	        _storage2.default.currentGroupLevel = group.level;
+	        _storage2.default.currentGroupMarkup = group.markup_group;
+	        _storage2.default.currentGroupCount = group.count;
+	        handler(evt);
+	      });
+	    });
+	  },
+	  drawDataInContainerReports: function drawDataInContainerReports(groupsData, container) {
+	    var _this3 = this;
+	
+	    groupsData.forEach(function (group, index) {
+	      container.insertAdjacentHTML('beforeend', _this3.getElementReports(group, index));
+	    });
+	  }
+	};
+	
+	// отрисовка списка групп по данным
+	var drawGroups = function drawGroups(groupsList, container, handler) {
+	  container.innerHTML = '\n    <div class="catalog-groups-header">\n        <div class="catalog-groups-column">\u2116</div>\n        <div class="catalog-groups-column">\u041D\u0430\u0438\u043C\u0435\u043D\u043E\u0432\u0430\u043D\u0438\u0435</div>\n        <div class="catalog-groups-column"></div>\n    </div>';
+	  if (groupsList.length > 0) {
+	    markup.drawDataInContainer(groupsList, container, handler);
+	  } else {
+	    container.innerHTML = 'Списка групп для этого предприятия еще нет';
+	  }
+	};
+	
+	var drawGroupsWithoutCount = function drawGroupsWithoutCount(groupsList, container, handler) {
+	  container.innerHTML = '\n    <div class="catalog-groups-header">\n        <div class="catalog-groups-column">\u041D\u0430\u0438\u043C\u0435\u043D\u043E\u0432\u0430\u043D\u0438\u0435</div>\n        <div class="catalog-groups-column">\u041D\u0430\u0446\u0435\u043D\u043A\u0430</div>\n        <div class="catalog-groups-column"></div>\n    </div>';
+	  if (groupsList.length > 0) {
+	    markup.drawDataInContainer(groupsList, container, handler);
+	  } else {
+	    container.innerHTML = 'Списка групп для этого предприятия еще нет';
+	  }
+	};
+	
+	// расширенная отрисовка списка групп для страницы КАТАЛОГ/ГРУППЫ ТОВАРОВ
+	var drawGroupsExtended = function drawGroupsExtended(groupsList, container, handler) {
+	  container.innerHTML = '\n    <div class="catalog-groups-header">\n        <div class="catalog-groups-column">\u2116</div>\n        <div class="catalog-groups-column">\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435</div>\n        <div class="catalog-groups-column">\u041D\u0430\u0446\u0435\u043D\u043A\u0430</div>\n        <div class="catalog-groups-column">\u041A\u043E\u043B-\u0432\u043E \u0442\u043E\u0432\u0430\u0440\u043E\u0432</div>\n        <div class="catalog-groups-column">\u0420\u0435\u0434.</div>\n    </div>';
+	
+	  if (groupsList.length > 0) {
+	    markup.drawDataInContainerExtended(groupsList, container, handler);
+	  } else {
+	    container.innerHTML = 'Списка групп для этого предприятия еще нет';
+	  }
+	};
+	
+	// отрисовка списка групп по данным
+	var drawGroupsReports = function drawGroupsReports(groupsList, container, handler) {
+	  container.innerHTML = '';
+	  if (groupsList.length > 0) {
+	    markup.drawDataInContainerReports(groupsList, container);
+	  } else {
+	    container.innerHTML = 'Списка групп для этого предприятия еще нет';
+	  }
+	};
+	
+	exports.default = {
+	  draw: drawGroups,
+	  drawSimple: drawGroupsWithoutCount,
+	  drawCatalog: drawGroupsExtended,
+	  drawReports: drawGroupsReports
+	};
+
+/***/ }),
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5328,7 +5839,7 @@
 	};
 
 /***/ }),
-/* 37 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5526,7 +6037,7 @@
 	};
 
 /***/ }),
-/* 38 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5551,19 +6062,19 @@
 	
 	var _universalSearch2 = _interopRequireDefault(_universalSearch);
 	
-	var _catalog__groupsDelete = __webpack_require__(39);
+	var _catalog__groupsDelete = __webpack_require__(41);
 	
 	var _catalog__groupsDelete2 = _interopRequireDefault(_catalog__groupsDelete);
 	
-	var _catalog__groupsAdd = __webpack_require__(40);
+	var _catalog__groupsAdd = __webpack_require__(42);
 	
 	var _catalog__groupsAdd2 = _interopRequireDefault(_catalog__groupsAdd);
 	
-	var _catalog__goods = __webpack_require__(42);
+	var _catalog__goods = __webpack_require__(44);
 	
 	var _catalog__goods2 = _interopRequireDefault(_catalog__goods);
 	
-	var _universalGroupsList = __webpack_require__(51);
+	var _universalGroupsList = __webpack_require__(37);
 	
 	var _universalGroupsList2 = _interopRequireDefault(_universalGroupsList);
 	
@@ -5739,7 +6250,7 @@
 	};
 
 /***/ }),
-/* 39 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5760,7 +6271,7 @@
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _catalog__groups = __webpack_require__(38);
+	var _catalog__groups = __webpack_require__(40);
 	
 	var _catalog__groups2 = _interopRequireDefault(_catalog__groups);
 	
@@ -5816,7 +6327,7 @@
 	};
 
 /***/ }),
-/* 40 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5833,11 +6344,11 @@
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _formTools = __webpack_require__(41);
+	var _formTools = __webpack_require__(43);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
-	var _catalog__groups = __webpack_require__(38);
+	var _catalog__groups = __webpack_require__(40);
 	
 	var _catalog__groups2 = _interopRequireDefault(_catalog__groups);
 	
@@ -5920,7 +6431,7 @@
 	};
 
 /***/ }),
-/* 41 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6189,7 +6700,7 @@
 	};
 
 /***/ }),
-/* 42 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6206,35 +6717,35 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _catalog__goodsExpress = __webpack_require__(43);
+	var _catalog__goodsExpress = __webpack_require__(45);
 	
 	var _catalog__goodsExpress2 = _interopRequireDefault(_catalog__goodsExpress);
 	
-	var _catalog__goodsStock = __webpack_require__(44);
+	var _catalog__goodsStock = __webpack_require__(46);
 	
 	var _catalog__goodsStock2 = _interopRequireDefault(_catalog__goodsStock);
 	
-	var _catalog__goodsEdit = __webpack_require__(45);
+	var _catalog__goodsEdit = __webpack_require__(47);
 	
 	var _catalog__goodsEdit2 = _interopRequireDefault(_catalog__goodsEdit);
 	
-	var _catalog__groups = __webpack_require__(38);
+	var _catalog__groups = __webpack_require__(40);
 	
 	var _catalog__groups2 = _interopRequireDefault(_catalog__groups);
 	
-	var _catalog__goodsGetStock = __webpack_require__(47);
+	var _catalog__goodsGetStock = __webpack_require__(49);
 	
 	var _catalog__goodsGetStock2 = _interopRequireDefault(_catalog__goodsGetStock);
 	
-	var _catalog__goodsGetKeywords = __webpack_require__(48);
+	var _catalog__goodsGetKeywords = __webpack_require__(50);
 	
 	var _catalog__goodsGetKeywords2 = _interopRequireDefault(_catalog__goodsGetKeywords);
 	
-	var _catalog__goodsAdd = __webpack_require__(49);
+	var _catalog__goodsAdd = __webpack_require__(51);
 	
 	var _catalog__goodsAdd2 = _interopRequireDefault(_catalog__goodsAdd);
 	
-	var _universalGoodsList = __webpack_require__(50);
+	var _universalGoodsList = __webpack_require__(36);
 	
 	var _universalGoodsList2 = _interopRequireDefault(_universalGoodsList);
 	
@@ -6254,7 +6765,7 @@
 	var goodsCardImageUpload = document.querySelector('#goods-card-image-upload');
 	var goodsCardPurchase = document.querySelector('#goods-card-price-purchase');
 	var goodsCardSell = document.querySelector('#goods-card-price-sell');
-	var goodsCardExtra = document.querySelector('#goods-card-price-extra');
+	// const goodsCardExtra = document.querySelector('#goods-card-price-extra');
 	var goodsStock = document.querySelector('#goods-stock-body');
 	var goodsCardKeywordsModal = document.querySelector('#goods-card-keywords');
 	
@@ -6575,7 +7086,7 @@
 	  goodsCardBarcode.value = barcode;
 	  goodsCardPurchase.value = purchasePrice;
 	  goodsCardSell.value = sellingPrice;
-	  goodsCardExtra.innerHTML = ((+sellingPrice - +purchasePrice) / (+purchasePrice / 100)).toFixed(2) + '%';
+	  // goodsCardExtra.innerHTML = ((+sellingPrice - +purchasePrice) / (+purchasePrice / 100)).toFixed(2) + '%';
 	  goodsCardGroup.innerHTML = allGroups.map(function (item) {
 	    return '<option value="' + item.id + '" ' + (item.id === groupId ? 'selected' : '') + '>' + item.name + '</option>';
 	  }).join('');
@@ -6753,7 +7264,7 @@
 	};
 
 /***/ }),
-/* 43 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6770,7 +7281,7 @@
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _formTools = __webpack_require__(41);
+	var _formTools = __webpack_require__(43);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
@@ -6861,7 +7372,7 @@
 	};
 
 /***/ }),
-/* 44 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6878,7 +7389,7 @@
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _formTools = __webpack_require__(41);
+	var _formTools = __webpack_require__(43);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
@@ -6963,7 +7474,7 @@
 	};
 
 /***/ }),
-/* 45 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6980,15 +7491,15 @@
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _formTools = __webpack_require__(41);
+	var _formTools = __webpack_require__(43);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
-	var _tools3 = __webpack_require__(46);
+	var _tools3 = __webpack_require__(48);
 	
 	var _tools4 = _interopRequireDefault(_tools3);
 	
-	var _catalog__goods = __webpack_require__(42);
+	var _catalog__goods = __webpack_require__(44);
 	
 	var _catalog__goods2 = _interopRequireDefault(_catalog__goods);
 	
@@ -7026,7 +7537,7 @@
 	  priceBlock = form.querySelector('#goods-card-price-block');
 	  purchase = form.querySelector('#goods-card-price-purchase');
 	  sell = form.querySelector('#goods-card-price-sell');
-	  percent = form.querySelector('#goods-card-price-extra');
+	  percent = form.querySelector('#goods-card-markup');
 	  barcode = form.querySelector('#goods-card-barcode');
 	  barcode = form.querySelector('#goods-card-barcode');
 	
@@ -7166,7 +7677,7 @@
 	};
 	
 	var calcPr = function calcPr() {
-	  return _tools4.default.calcPercent(purchase.value, sell.value) + '%';
+	  return _tools4.default.calcPercent(purchase.value, sell.value);
 	};
 	
 	var calcPrice = function calcPrice(evt) {
@@ -7174,7 +7685,21 @@
 	    return false;
 	  }
 	  if (_formTools2.default.validElement(evt.target)) {
-	    percent.innerHTML = calcPr();
+	    percent.value = calcPr();
+	  }
+	  return true;
+	};
+	
+	var calcSl = function calcSl() {
+	  return _tools4.default.calcPrice(purchase.value, percent.value);
+	};
+	
+	var calcSell = function calcSell(evt) {
+	  // if (!evt.target.type === 'text') {
+	  //   return false;
+	  // }
+	  if (_formTools2.default.validElement(evt.target)) {
+	    sell.value = calcSl();
 	  }
 	  return true;
 	};
@@ -7183,7 +7708,7 @@
 	  start: function start(remModal) {
 	    console.log('Card-Edit-START!');
 	    initVar(remModal);
-	    percent.innerHTML = calcPr();
+	    percent.value = calcPr();
 	
 	    inputInitValues = [];
 	    inputInitValues[0] = name.value;
@@ -7194,6 +7719,7 @@
 	    _formTools2.default.work(modal, submitForm);
 	
 	    priceBlock.addEventListener('change', calcPrice);
+	    percent.addEventListener('change', calcSell);
 	  },
 	  stop: function stop() {
 	    _formTools2.default.reset();
@@ -7204,7 +7730,7 @@
 	};
 
 /***/ }),
-/* 46 */
+/* 48 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -7263,7 +7789,7 @@
 	};
 
 /***/ }),
-/* 47 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7301,23 +7827,34 @@
 	      if (!_storage2.default.currentStockId) {
 	        checkedStock = item.id === _storage2.default.data.currentStock ? item.id : checkedStock;
 	      } else {
-	        checkedStock = _storage2.default.currentStockId;
+	        checkedStock = _storage2.default.currentStockId === 'all' ? 1 : _storage2.default.currentStockId;
 	      }
-	      return '\n      <input type="radio" id="stock-' + item.id + '" name="stock" value="email" class="d-none">\n      <label style="padding-left: 34px;" for="stock-' + item.id + '"  class="d-flex justify-content-between align-items-center reference-string" data-stock-id="' + item.id + '" data-stock-name="' + item.name + '" data-stock-t2="' + item.values[2][0] + '">\n        <div class="row w-100 h-100">\n          <div class="col-8">' + item.name + '</div>\n          <div class="col-4 d-flex justify-content-between">\n            <div class="w-100 text-center">' + item.values[3][0] + '</div>\n            <div class="w-100 text-center">' + item.values[2][0] + '</div>\n            <div class="w-100 text-center">' + item.values[4][0] + '</div>\n          </div>\n          </div>\n        </label>';
+	      return '\n\n      <label style="padding-left: 34px;" for="stock-' + item.id + '"  class="d-flex justify-content-between align-items-center reference-string good-card-stock-row" data-stock-id="' + item.id + '" data-stock-name="' + item.name + '" data-stock-t2="' + item.values[2][0] + '">\n        <div class="row w-100 h-20">\n          <div class="col-8">' + item.name + '</div>\n          <div class="col-4 d-flex justify-content-between">\n            <div class="w-100 text-center">' + item.values[3][0] + '</div>\n            <div class="w-100 text-center">' + item.values[2][0] + '</div>\n            <div class="w-100 text-center">' + item.values[4][0] + '</div>\n          </div>\n          </div>\n          <input type="radio" id="stock-' + item.id + '" name="stock" value="email" class="d-none">\n        </label>';
 	    }).join(''));
 	    console.log(allStocks);
 	  }
 	
 	  if (allStocks.length > 1) {
-	    goodsStock.insertAdjacentHTML('beforeend', '\n      <div class="row border">\n        <div class="col-8 border">\u0418\u0442\u043E\u0433\u043E</div>\n        <div class="col-4 text-center">\n          ' + totalCount + '\n        </div>\n      </div>');
+	    goodsStock.insertAdjacentHTML('beforeend', '\n      <div class="row w-100 h-20 " style="padding-left:24px;">\n       <div class="col-8" style="padding-left:14px;"><h4>\u0418\u0442\u043E\u0433\u043E:</h4></div>\n          <div class="col-4 d-flex justify-content-between">\n            <div class="w-100 text-center"> </div>\n            <div class="w-100 text-center">' + totalCount + '</div>\n            <div class="w-100 text-center"> </div>\n          </div>\n      </div>');
 	  }
 	
 	  // переписать на storage
+	  console.log(checkedStock);
 	  if (checkedStock) {
 	    goodsStock.querySelector('#stock-' + checkedStock).checked = true;
 	    _storage2.default.currentStockId = checkedStock;
-	    _storage2.default.currentStockName = goodsStock.querySelector('#stock-' + checkedStock).nextElementSibling.dataset.stockName;
-	    _storage2.default.currentStockQuantityT2 = goodsStock.querySelector('#stock-' + checkedStock).nextElementSibling.dataset.stockT2;
+	
+	    var tmpStock = goodsStock.querySelector('#stock-' + checkedStock);
+	
+	    if (tmpStock.nextElementSibling) {
+	      _storage2.default.currentStockName = tmpStock.nextElementSibling.dataset.stockName;
+	    }
+	
+	    var tmpStock2 = goodsStock.querySelector('#stock-' + checkedStock);
+	
+	    if (tmpStock2.nextElementSibling) {
+	      _storage2.default.currentStockQuantityT2 = tmpStock2.nextElementSibling.dataset.stockT2;
+	    }
 	  } else if (goodsStock.firstChild.id) {
 	    goodsStock.firstChild.checked = true;
 	    _storage2.default.currentStockId = goodsStock.firstChild.id.split('-')[1];
@@ -7331,7 +7868,7 @@
 	};
 
 /***/ }),
-/* 48 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7344,7 +7881,7 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _catalog__goods = __webpack_require__(42);
+	var _catalog__goods = __webpack_require__(44);
 	
 	var _catalog__goods2 = _interopRequireDefault(_catalog__goods);
 	
@@ -7360,7 +7897,7 @@
 	
 	var _reference__keywords2 = _interopRequireDefault(_reference__keywords);
 	
-	var _catalog__goodsEdit = __webpack_require__(45);
+	var _catalog__goodsEdit = __webpack_require__(47);
 	
 	var _catalog__goodsEdit2 = _interopRequireDefault(_catalog__goodsEdit);
 	
@@ -7443,7 +7980,7 @@
 	};
 
 /***/ }),
-/* 49 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7460,15 +7997,15 @@
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _formTools = __webpack_require__(41);
+	var _formTools = __webpack_require__(43);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
-	var _catalog__groups = __webpack_require__(38);
+	var _catalog__groups = __webpack_require__(40);
 	
 	var _catalog__groups2 = _interopRequireDefault(_catalog__groups);
 	
-	var _tools3 = __webpack_require__(46);
+	var _tools3 = __webpack_require__(48);
 	
 	var _tools4 = _interopRequireDefault(_tools3);
 	
@@ -7598,183 +8135,6 @@
 	};
 
 /***/ }),
-/* 50 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _storage = __webpack_require__(1);
-	
-	var _storage2 = _interopRequireDefault(_storage);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var markup = {
-	  getGoodString: function getGoodString(item, index) {
-	
-	    return '\n      <div class="catalog-groups-header" data-good-id="' + item.id + '">\n        <div class="catalog-groups-column">' + (index + 1) + '</div>\n        <div class="catalog-groups-column">' + item.name + '</div>\n        <div class="catalog-groups-column">' + (Number(item.count) ? Number(item.count).toFixed(2) : '') + '</div>\n        <div class="catalog-groups-column"><button type="button" class="btn p-0 bg-white icon-btn icon-btn__go"></button></div>\n      </div>';
-	  },
-	  getGoodTile: function getGoodTile(item, index) {
-	
-	    var getImg = function getImg(imgUrl) {
-	      return imgUrl ? 'https://lopos.bidone.ru/users/600a5357/images/' + imgUrl + '_preview150.jpg' : './img/not-available.png';
-	    };
-	
-	    return '\n    <div class="card goods-tile-card" data-good-id="' + item.id + '">\n      <img class="card-img-top" src="' + getImg(item.img_url) + '" alt="' + item.name + '" title="' + item.name + '">\n      <div class="card-body ' + (Number(item.count) ? 'goods-tile-title' : '') + '">\n        <p class="card-text">' + (Number(item.count) ? Number(item.count).toFixed(2) : '') + '</p>\n      </div>\n    </div>';
-	  },
-	  drawGoodsTable: function drawGoodsTable(goodsData, container, handler) {
-	    var _this = this;
-	
-	    container.innerHTML = '\n      <div class="catalog-groups-header">\n        <div class="catalog-groups-column">\u2116</div>\n        <div class="catalog-groups-column">\u0422\u043E\u0432\u0430\u0440</div>\n        <div class="catalog-groups-column">\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E</div>\n        <div class="catalog-groups-column">\u0420\u0435\u0434.</div>\n      </div>\n    ';
-	    if (goodsData) {
-	      goodsData.forEach(function (good, index) {
-	        container.insertAdjacentHTML('beforeend', _this.getGoodString(good, index));
-	        container.lastChild.addEventListener('click', function () {
-	          _storage2.default.currentGoodId = good.id;
-	          handler(good);
-	        });
-	      });
-	    } else {
-	      container.innerHTML = 'Пусто';
-	    }
-	  },
-	  drawGoodsMetro: function drawGoodsMetro(goodsData, container, handler) {
-	    var _this2 = this;
-	
-	    if (goodsData) {
-	      container.innerHTML = '<div class="goods-tile"></div>';
-	      goodsData.forEach(function (good, index) {
-	        container.firstChild.insertAdjacentHTML('beforeend', _this2.getGoodTile(good, index));
-	        container.firstChild.lastChild.addEventListener('click', function () {
-	          _storage2.default.currentGoodId = good.id;
-	          handler(good);
-	        });
-	      });
-	    } else {
-	      container.innerHTML = 'Пусто';
-	    }
-	  }
-	};
-	
-	// отрисовка списка товаров по данным
-	var drawGoods = function drawGoods(goodsList, container, handler, viewFlag) {
-	  console.log(goodsList);
-	  if (_storage2.default.goodsViewMode === 'string' || viewFlag === 'string') {
-	    markup.drawGoodsTable(goodsList, container, handler);
-	  } else if (_storage2.default.goodsViewMode === 'metro') {
-	    markup.drawGoodsMetro(goodsList, container, handler);
-	  }
-	};
-	
-	exports.default = {
-	  draw: drawGoods
-	};
-
-/***/ }),
-/* 51 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _storage = __webpack_require__(1);
-	
-	var _storage2 = _interopRequireDefault(_storage);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var markup = {
-	  getElement: function getElement(item, index) {
-	    return '\n    <div class="d-flex justify-content-between align-items-center reference-string" data-group-id="' + item.id + '" data-group-index="' + index + '" data-group-level="' + item.level + '" data-group-name="' + item.name + '">\n      <div style="padding-left: 34px;">\n        <span class="reference-row-number">' + (index + 1) + '</span>\n        <span>' + item.name + '</span>\n      </div>\n      <div class="d-flex justify-content-between align-items-center" style="padding-right: 34px;">\n        <span> ' + (item.count ? item.count : '') + ' </span>\n      </div>\n    </div>';
-	  },
-	  getElementExtended: function getElementExtended(item, index) {
-	    return '\n    <div class="catalog-groups-header">\n        <div class="catalog-groups-column">' + (index + 1) + '</div>\n        <div class="catalog-groups-column">' + item.name + '</div>\n        <div class="catalog-groups-column">' + item.markup_group + '%</div>\n        <div class="catalog-groups-column">' + (item.count ? item.count : '') + '</div>\n        <div class="catalog-groups-column">\n          <button type="button" class="btn p-0 icon-btn icon-btn__edit--black"></button>\n        </div>\n    </div>';
-	  },
-	  getElementReports: function getElementReports(item, index) {
-	    return '\n    <div class="d-flex justify-content-between align-items-center reference-string" data-group-id="' + item.id + '">\n      <div style="padding-left: 34px;">\n        <span class="reference-row-number">' + (index + 1) + '</span>\n        <span>' + item.name + '</span>\n      </div>\n      <div class="d-flex justify-content-between align-items-center" style="padding-right: 34px;">\n        <div><input class="form-check-input position-static report-groups-switch" type="checkbox" value="' + item.id + '" checked></div>\n      </div>\n    </div>';
-	  },
-	  drawDataInContainer: function drawDataInContainer(groupsData, container, handler) {
-	    var _this = this;
-	
-	    groupsData.forEach(function (group, index) {
-	      container.insertAdjacentHTML('beforeend', _this.getElement(group, index));
-	      container.lastChild.addEventListener('click', function () {
-	        _storage2.default.currentGroupId = group.id;
-	        _storage2.default.currentGroupName = group.name;
-	        _storage2.default.currentGroupLevel = group.level;
-	        handler();
-	      });
-	    });
-	  },
-	  drawDataInContainerExtended: function drawDataInContainerExtended(groupsData, container, handler) {
-	    var _this2 = this;
-	
-	    groupsData.forEach(function (group, index) {
-	      container.insertAdjacentHTML('beforeend', _this2.getElementExtended(group, index));
-	      container.lastChild.addEventListener('click', function (evt) {
-	        _storage2.default.currentGroupId = group.id;
-	        _storage2.default.currentGroupName = group.name;
-	        _storage2.default.currentGroupLevel = group.level;
-	        _storage2.default.currentGroupMarkup = group.markup_group;
-	        _storage2.default.currentGroupCount = group.count;
-	        handler(evt);
-	      });
-	    });
-	  },
-	  drawDataInContainerReports: function drawDataInContainerReports(groupsData, container) {
-	    var _this3 = this;
-	
-	    groupsData.forEach(function (group, index) {
-	      container.insertAdjacentHTML('beforeend', _this3.getElementReports(group, index));
-	    });
-	  }
-	};
-	
-	// отрисовка списка групп по данным
-	var drawGroups = function drawGroups(groupsList, container, handler) {
-	  container.innerHTML = '';
-	  if (groupsList.length > 0) {
-	    markup.drawDataInContainer(groupsList, container, handler);
-	  } else {
-	    container.innerHTML = 'Списка групп для этого предприятия еще нет';
-	  }
-	};
-	
-	// расширенная отрисовка списка групп для страницы КАТАЛОГ/ГРУППЫ ТОВАРОВ
-	var drawGroupsExtended = function drawGroupsExtended(groupsList, container, handler) {
-	  container.innerHTML = '\n    <div class="catalog-groups-header">\n        <div class="catalog-groups-column">\u2116</div>\n        <div class="catalog-groups-column">\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435</div>\n        <div class="catalog-groups-column">\u041D\u0430\u0446\u0435\u043D\u043A\u0430 \u043D\u0430 \u0433\u0440\u0443\u043F\u043F\u0443</div>\n        <div class="catalog-groups-column">\u041A\u043E\u043B-\u0432\u043E \u0442\u043E\u0432\u0430\u0440\u043E\u0432</div>\n        <div class="catalog-groups-column">\u0420\u0435\u0434.</div>\n    </div>';
-	
-	  if (groupsList.length > 0) {
-	    markup.drawDataInContainerExtended(groupsList, container, handler);
-	  } else {
-	    container.innerHTML = 'Списка групп для этого предприятия еще нет';
-	  }
-	};
-	
-	// отрисовка списка групп по данным
-	var drawGroupsReports = function drawGroupsReports(groupsList, container, handler) {
-	  container.innerHTML = '';
-	  if (groupsList.length > 0) {
-	    markup.drawDataInContainerReports(groupsList, container);
-	  } else {
-	    container.innerHTML = 'Списка групп для этого предприятия еще нет';
-	  }
-	};
-	
-	exports.default = {
-	  draw: drawGroups,
-	  drawCatalog: drawGroupsExtended,
-	  drawReports: drawGroupsReports
-	};
-
-/***/ }),
 /* 52 */
 /***/ (function(module, exports) {
 
@@ -7886,7 +8246,7 @@
 	// ############################## РАЗМЕТКА ##############################
 	var getElement = function getElement(item, index) {
 	
-	  return '\n    <input type="radio" id="reference-' + item.id + '"  data-debit-credit-id="' + item.id + '" data-debit-credit-name="' + item.name + '" class="d-none">\n\n    <label class="reference-header" for="reference-' + item.id + '" data-debit-credit-id="' + item.id + '" data-debit-credit-name="' + item.name + '">\n        <div class="reference-column">' + (index + 1) + '</div>\n        <div class="reference-column">' + item.name + '</div>\n    </label>\n';
+	  return '\n   \n    <label class="reference-header" for="reference-' + item.id + '" data-debit-credit-id="' + item.id + '" data-debit-credit-name="' + item.name + '">\n        <div class="reference-column">' + (index + 1) + '</div>\n        <div class="reference-column">' + item.name + '</div>\n         <input type="radio" id="reference-' + item.id + '"  data-debit-credit-id="' + item.id + '" data-debit-credit-name="' + item.name + '" class="d-none">\n    </label>\n';
 	
 	  /*
 	  return `
@@ -7967,10 +8327,10 @@
 	debitCreditBody.addEventListener('change', function (evt) {
 	  console.log(evt);
 	  if (selectedString) {
-	    selectedString.classList.remove('bg-light');
+	    selectedString.classList.remove('bg-light-selected');
 	  }
 	  selectedString = evt.target.labels ? evt.target.labels[0] : evt.target;
-	  selectedString.classList.add('bg-light');
+	  selectedString.classList.add('bg-light-selected');
 	  _storage2.default.debitCreditId = selectedString.dataset.debitCreditId;
 	  _storage2.default.debitCreditName = selectedString.dataset.debitCreditName;
 	  enableCheckEditButtons();
@@ -8044,7 +8404,7 @@
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _formTools = __webpack_require__(41);
+	var _formTools = __webpack_require__(43);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
@@ -8193,7 +8553,11 @@
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _catalogCards = __webpack_require__(56);
+	var _catalogCardsManufacture = __webpack_require__(56);
+	
+	var _catalogCardsManufacture2 = _interopRequireDefault(_catalogCardsManufacture);
+	
+	var _catalogCards = __webpack_require__(57);
 	
 	var _catalogCards2 = _interopRequireDefault(_catalogCards);
 	
@@ -8217,8 +8581,14 @@
 	var currentGoods = [];
 	// #################### РАЗМЕТКА ДЛЯ ПОМЕЩЕНИЯ ТОВАРОВ В КОЛОНКИ ######################
 	
+	var getMaterialString = function getMaterialString(id, name, good, index, value, classDanger) {
+	
+	  return '\n      <div class="manufacture-header ' + classDanger + '" data-good-id="' + id + '">\n        <div class="manufacture-4-column">' + index + '</div>\n        <div class="manufacture-4-column">' + name + '</div>\n        <div class="manufacture-4-column ' + (good ? good : 'text-muted') + '">' + (good ? good : 'x') + '</div>\n        <div class="manufacture-4-column">' + value + '</div>\n      </div>';
+	};
+	
 	var getGoodString = function getGoodString(id, name, good, index, value, classDanger) {
-	  return '\n  <div class="goods-string ' + classDanger + '" data-good-id="' + id + '">\n    <div>\n      <span class="reference-row-number">' + index + '</span> <span>' + name + '</span>\n    </div>\n    <div>\n      <span>' + (good ? good : 'X') + '</span>\n      <span>' + value + '</span>\n    </div>\n  </div>';
+	
+	  return '\n      <div class="manufacture-header ' + classDanger + '" data-good-id="' + id + '">\n        <div class="manufacture-3-column">' + index + '</div>\n        <div class="manufacture-3-column">' + name + '</div>\n        <div class="manufacture-3-column">' + value + '</div>\n      </div>';
 	};
 	
 	var drawGoodsToColumns = function drawGoodsToColumns() {
@@ -8228,13 +8598,16 @@
 	  goodColumnBody.innerHTML = '';
 	  manufactureCountBtn.removeAttribute('disabled');
 	  currentGoods = [];
+	  materialColumnBody.innerHTML = '\n      <div class="manufacture-header">\n        <div class="manufacture-4-column">\u2116</div>\n        <div class="manufacture-4-column">\u0422\u043E\u0432\u0430\u0440</div>\n        <div class="manufacture-4-column">\u041D\u0430\u043B</div>\n        <div class="manufacture-4-column style="margin-right:3px;">\u041A\u043E\u043B-\u0432\u043E</div>\n      </div>\n    ';
+	
+	  goodColumnBody.innerHTML = '\n      <div class="manufacture-header">\n        <div class="manufacture-3-column">\u2116</div>\n        <div class="manufacture-3-column">\u0422\u043E\u0432\u0430\u0440</div>\n        <div class="manufacture-3-column style="margin-right:3px;">\u041A\u043E\u043B-\u0432\u043E</div>\n      </div>\n    ';
 	  selectedNomenklatureCards.forEach(function (card) {
 	    if (card.content) {
 	      card.content.forEach(function (good) {
 	        currentGoods.push(good);
 	        if (good.value < 0) {
 	          materialNumber++;
-	          materialColumnBody.insertAdjacentHTML('beforeend', getGoodString(good.id, good.name, good.good, materialNumber, good.value * card.k, ''));
+	          materialColumnBody.insertAdjacentHTML('beforeend', getMaterialString(good.id, good.name, good.good, materialNumber, good.value * card.k, ''));
 	        } else {
 	          goodNumber++;
 	          goodColumnBody.insertAdjacentHTML('beforeend', getGoodString(good.id, good.name, '', goodNumber, good.value * card.k, ''));
@@ -8265,13 +8638,14 @@
 	var onSuccessCountLoad = function onSuccessCountLoad(data) {
 	  var materialNumber = 0;
 	  var goodNumber = 0;
-	  materialColumnBody.innerHTML = '';
-	  goodColumnBody.innerHTML = '';
+	  materialColumnBody.innerHTML = '\n      <div class="manufacture-header">\n        <div class="manufacture-4-column">\u2116</div>\n        <div class="manufacture-4-column">\u0422\u043E\u0432\u0430\u0440</div>\n        <div class="manufacture-4-column">\u041D\u0430\u043B</div>\n        <div class="manufacture-4-column">\u041A\u043E\u043B</div>\n      </div>\n    ';
+	
+	  goodColumnBody.innerHTML = '\n      <div class="manufacture-header">\n        <div class="manufacture-3-column">\u2116</div>\n        <div class="manufacture-3-column">\u0422\u043E\u0432\u0430\u0440</div>\n        <div class="manufacture-3-column">\u041A\u043E\u043B</div>\n      </div>\n    ';
 	  for (var i = 0; i < data.data.length; i++) {
 	    if (currentGoods[i].value < 0) {
 	      materialNumber++;
 	      var classDanger = +data.data[i].value + +currentGoods[i].value < 0 ? 'bg-danger' : '';
-	      materialColumnBody.insertAdjacentHTML('beforeend', getGoodString(currentGoods[i].id, currentGoods[i].name, data.data[i].value, materialNumber, currentGoods[i].value, classDanger));
+	      materialColumnBody.insertAdjacentHTML('beforeend', getMaterialString(currentGoods[i].id, currentGoods[i].name, data.data[i].value, materialNumber, currentGoods[i].value, classDanger));
 	    } else {
 	      goodNumber++;
 	      goodColumnBody.insertAdjacentHTML('beforeend', getGoodString(currentGoods[i].id, currentGoods[i].name, data.data[i].value, goodNumber, currentGoods[i].value));
@@ -8322,7 +8696,7 @@
 	        }
 	
 	        manufactureColumnBody.innerHTML = '';
-	        _catalogCards2.default.drawDataInContainer(selectedNomenklatureCards, manufactureColumnBody);
+	        _catalogCardsManufacture2.default.drawDataInContainer(selectedNomenklatureCards, manufactureColumnBody);
 	        drawGoodsToColumns();
 	        manufactureMakeBtn.setAttribute('disabled', 'disabled');
 	        document.querySelector('#universal-modal-micro-valid').innerHTML = '';
@@ -8348,7 +8722,7 @@
 	  });
 	  if (selectedNomenklatureCards.length !== 0) {
 	    manufactureColumnBody.innerHTML = '';
-	    _catalogCards2.default.drawDataInContainer(selectedNomenklatureCards, manufactureColumnBody);
+	    _catalogCardsManufacture2.default.drawDataInContainer(selectedNomenklatureCards, manufactureColumnBody);
 	    manufactureMaterialCheck.classList.add('d-none');
 	    drawGoodsToColumns();
 	  }
@@ -8378,6 +8752,9 @@
 	var onSuccessManufactureLoad = function onSuccessManufactureLoad(manufactureData) {
 	  loadedNomenklatureCards = manufactureData.data.all_nomenclature_cards;
 	  nomenklatureCardModalBody.innerHTML = '';
+	  manufactureColumnBody.innerHTML = '\n      <div class="manufacture-header">\n        <div class="manufacture-3-column">\u2116</div>\n        <div class="manufacture-3-column">\u0422\u043E\u0432\u0430\u0440</div>\n        <div class="manufacture-3-column style="margin-right:3px;">\u041A\u043E\u043B-\u0432\u043E</div>\n      </div>\n    ';
+	  materialColumnBody.innerHTML = '\n      <div class="manufacture-header">\n        <div class="manufacture-4-column">\u2116</div>\n        <div class="manufacture-4-column">\u0422\u043E\u0432\u0430\u0440</div>\n        <div class="manufacture-4-column">\u041D\u0430\u043B</div>\n        <div class="manufacture-4-column">\u041A\u043E\u043B-\u0432\u043E</div>\n      </div>\n    ';
+	  goodColumnBody.innerHTML = '\n      <div class="manufacture-header">\n        <div class="manufacture-3-column">\u2116</div>\n        <div class="manufacture-3-column">\u0422\u043E\u0432\u0430\u0440</div>\n        <div class="manufacture-3-column">\u041A\u043E\u043B-\u0432\u043E</div>\n      </div>\n    ';
 	  _catalogCards2.default.drawDataInContainer(loadedNomenklatureCards, nomenklatureCardModalBody);
 	
 	  manufactureStocks.innerHTML = manufactureData.data.all_stocks.map(function (item) {
@@ -8437,6 +8814,59 @@
 	      </div>
 	    </div>`;
 	    */
+	    return '\n        <div class="manufacture-header" data-card-id="' + item.id + '" data-card-index="' + index + '">\n            <div class="manufacture-3-column">' + (index + 1) + '</div>\n            <div class="manufacture-3-column">' + item.name + '</div>\n            <div class="manufacture-3-column">' + item.k + '</div>\n        </div>';
+	  },
+	  drawDataInContainer: function drawDataInContainer(cardsData, container) {
+	    var _this = this;
+	
+	    container.innerHTML = '\n      <div class="manufacture-header">\n          <div class="manufacture-3-column">\u2116</div>\n          <div class="manufacture-3-column">\u041A\u0430\u0440\u0442\u043E\u0447\u043A\u0430 \u0442\u043E\u0432\u0430\u0440\u0430</div>\n          <div class="manufacture-3-column">\u041A\u043E\u043B-\u0432\u043E</div>\n      </div>\n    ';
+	    if (cardsData.length > 0) {
+	      cardsData.forEach(function (item, index) {
+	        return container.insertAdjacentHTML('beforeend', _this.getElement(item, index));
+	      });
+	    } else {
+	      container.innerHTML = 'Производственных карточек еще не создано';
+	    }
+	  },
+	  getResourceElement: function getResourceElement(item, number) {
+	
+	    return '\n    <div class="manufacture-header" data-card-id="' + item.good_id + '">\n      <div class="manufacture-3-column">' + number + '</div>\n      <div class="manufacture-3-column">' + item.name + '</div>\n      <div class="manufacture-3-column">' + item.value + '</div>\n    </div>\n    ';
+	    /*
+	    return `
+	    <div class="d-flex justify-content-between reference-string" data-card-id="${item.good_id}"">
+	      <div style="padding-left: 34px;">
+	        ${item.name}
+	      </div>
+	      <div style="padding-right: 10px;">
+	        ${item.value}
+	      </div>
+	    </div>`;
+	    */
+	  }
+	};
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = {
+	  getElement: function getElement(item, index) {
+	    /*
+	    return `
+	    <div class="d-flex justify-content-between align-items-center reference-string" data-card-id="${item.id}" data-card-index="${index}"">
+	      <div style="padding-left: 34px;">
+	        <span class="reference-row-number">${index + 1}</span>
+	        <span>${item.name}</span>
+	      </div>
+	      <div class="d-flex justify-content-between align-items-center">${(item.k) ? item.k : ''}
+	      </div>
+	    </div>`;
+	    */
 	    return '\n        <div class="reference-header" data-card-id="' + item.id + '" data-card-index="' + index + '">\n            <div class="reference-column">' + (index + 1) + '</div>\n            <div class="reference-column">' + item.name + '</div>\n        </div>';
 	  },
 	  drawDataInContainer: function drawDataInContainer(cardsData, container) {
@@ -8451,13 +8881,25 @@
 	      container.innerHTML = 'Производственных карточек еще не создано';
 	    }
 	  },
-	  getResourceElement: function getResourceElement(item) {
-	    return '\n    <div class="d-flex justify-content-between reference-string" data-card-id="' + item.good_id + '"">\n      <div style="padding-left: 34px;">\n        ' + item.name + '\n      </div>\n      <div style="padding-right: 10px;">\n        ' + item.value + '\n      </div>\n\n    </div>';
+	  getResourceElement: function getResourceElement(item, number) {
+	
+	    return '\n    <div class="reference-header" data-card-id="' + item.good_id + '">\n      <div class="reference-column">' + number + '</div>\n      <div class="reference-column">' + item.name + '</div>\n      <div class="reference-column">' + item.value + '</div>\n    </div>\n    ';
+	    /*
+	    return `
+	    <div class="d-flex justify-content-between reference-string" data-card-id="${item.good_id}"">
+	      <div style="padding-left: 34px;">
+	        ${item.name}
+	      </div>
+	      <div style="padding-right: 10px;">
+	        ${item.value}
+	      </div>
+	    </div>`;
+	    */
 	  }
 	};
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8500,7 +8942,7 @@
 	// ############################## РАЗМЕТКА ##############################
 	var getElement = function getElement(item, index) {
 	
-	  return '\n  <input type="radio" id="operations-' + item.id + '" name="contact" value="email" class="d-none">\n  <label style="padding-left: 34px;" for="operations-' + item.id + '"  class="d-flex justify-content-between align-items-center reference-string" data-debit-credit-id="' + item.id + '" data-debit-credit-name="' + item.name + '">\n    <div><span class="reference-row-number">' + (index + 1) + '</span> ' + item.name + '</div>\n    <div class="d-flex justify-content-between align-items-center">\n    </div>\n  </label>';
+	  return '\n  \n  <label style="padding-left: 34px;" for="operations-' + item.id + '"  class="d-flex justify-content-between align-items-center reference-string" data-debit-credit-id="' + item.id + '" data-debit-credit-name="' + item.name + '">\n    <div><span class="reference-row-number">' + (index + 1) + '</span> ' + item.name + '</div>\n    <div class="d-flex justify-content-between align-items-center">\n    </div>\n    <input type="radio" id="operations-' + item.id + '" name="contact" value="email" class="d-none">\n  </label>';
 	};
 	
 	var drawDataInContainer = function drawDataInContainer(balanceData, container) {
@@ -8543,10 +8985,10 @@
 	  console.log(evt.target);
 	  // console.log(evt.target.labels[0]);
 	  if (selectedString) {
-	    selectedString.classList.remove('bg-light');
+	    selectedString.classList.remove('bg-light-selected');
 	  }
 	  selectedString = evt.target.labels ? evt.target.labels[0] : evt.target;
-	  selectedString.classList.add('bg-light');
+	  selectedString.classList.add('bg-light-selected');
 	  balanceAmount.removeAttribute('disabled', 'disabled');
 	  balanceSetDescribe.removeAttribute('disabled', 'disabled');
 	  if (balanceAmount.value || balanceSetDescribe.value) {
@@ -8560,10 +9002,10 @@
 	balanceCardMinusBody.addEventListener('change', function (evt) {
 	  console.log(evt);
 	  if (selectedString) {
-	    selectedString.classList.remove('bg-light');
+	    selectedString.classList.remove('bg-light-selected');
 	  }
 	  selectedString = evt.target.labels ? evt.target.labels[0] : evt.target;
-	  selectedString.classList.add('bg-light');
+	  selectedString.classList.add('bg-light-selected');
 	  balanceAmount.removeAttribute('disabled', 'disabled');
 	  balanceSetDescribe.removeAttribute('disabled', 'disabled');
 	  if (balanceAmount.value || balanceSetDescribe.value) {
@@ -8646,7 +9088,7 @@
 	};
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8733,12 +9175,12 @@
 	var markup = {
 	  getElement: function getElement(item, index) {
 	
-	    return '\n    <div class="reference-header" data-user-id="' + item.id + '">\n      <div class="reference-column">\n          <img class="rounded-circle" src="img/user-male-filled-32.png" title="' + item.name + '" style="background-color: #' + item.color + ';" alt="' + item.name + '">\n      </div>\n      <div class="reference-column">\n        <div class="online-user">\n          ' + item.name + '\n        </div>\n      </div>\n      <div class="reference-column"><div class="user-status" style="background-color: #' + (item.status === '0' ? 'dc3545' : '28a745') + '"></div></div>\n    </div>';
+	    return '\n    <div class="reference-header" data-user-id="' + item.id + '">\n      <div class="reference-column-3"> \n       <div style="background-color: #' + item.color + ';   border-radius: 10px 10px 10px 10px;" width="60" >\n          <img  src="img/user-male-filled-32.png" style="margin-left:1px; title="' + item.name + '"  width="24" height="24" alt="' + item.name + '">\n          <span style="margin-right:2px; color:#ffffff;">' + item.id + '</span>\n        </div>\n        \n        </div>\n      <div class="reference-column-3">\n        <div class="online-user">\n          ' + item.name + '\n        </div>\n      </div>\n      <div class="reference-column-3"><div class="user-status" style="background-color: #' + (item.status === '0' ? 'dc3545' : '28a745') + '"></div></div>\n    </div>';
 	  },
 	  drawDataInContainer: function drawDataInContainer(users, container, handler) {
 	    var _this = this;
 	
-	    container.innerHTML = '\n      <div class="reference-header">\n          <div class="reference-column"></div>\n          <div class="reference-column">\u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C</div>\n          <div class="reference-column">\u0421\u0442\u0430\u0442\u0443\u0441</div>\n      </div>\n    ';
+	    container.innerHTML = '\n      <div class="reference-header">\n          <div class="reference-column-3"></div>\n          <div class="reference-column-3">\u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C</div>\n          <div class="reference-column-3">\u0421\u0442\u0430\u0442\u0443\u0441</div>\n      </div>\n    ';
 	    users.forEach(function (user, index) {
 	      container.insertAdjacentHTML('beforeend', _this.getElement(user, index));
 	      container.lastChild.addEventListener('click', function () {
@@ -8927,7 +9369,7 @@
 	var screenNamesStock = Object.keys(permissionsStock);
 	
 	var drawAccessForStock = function drawAccessForStock(accessList) {
-	  return '\n      <div class="user-permissions-string">\n        <span>' + _permissions2.default.permissionEngToRus[accessList[0]] + '</span>\n        <div>\n          <input class="form-check-input position-static user-permissions-switch" type="checkbox" value="' + permissionsStock[accessList[0]] + '" ' + accessList[1] + '>\n        </div>\n      </div>';
+	  return '\n      <tr>\n         <td><span>' + _permissions2.default.permissionEngToRus[accessList[0]] + '</span></td>\n          <td align=center> <input class="form-check-input position-static user-permissions-switch" type="checkbox" value="' + permissionsStock[accessList[0]] + '" ' + accessList[1] + '></td>\n             \n      </tr>';
 	};
 	
 	var getScreens = function getScreens(permissionList, stockName) {
@@ -9002,16 +9444,27 @@
 	      onUserClick();
 	      console.log('screens-->', screens);
 	
-	      userStockPermissions.innerHTML = screens.map(drawAccessForStock).join('');
+	      var preHeaderTableStock = ' <table class="user_table_property"> <tr class="user_table_header"><td>Действие</td><td class="user_table_property_w_40" >Просмотр</td></tr>';
+	      var BodyTableStock = screens.map(drawAccessForStock).join('');
+	      var postFooterTableStock = '</table>';
+	      userStockPermissions.innerHTML = preHeaderTableStock + BodyTableStock + postFooterTableStock;
 	    });
 	  });
 	
-	  userOtherPermissions.innerHTML = Object.keys(permissionsOther).map(function (screen) {
-	    return '\n    <div class="user-permissions-string">\n      <span>' + _permissions2.default.permissionEngToRus[screen] + '</span>\n      <div>\n        <input class="form-check-input position-static user-permissions-switch" type="checkbox" value="' + permissionsOther[screen][0] + '" ' + (permissionList.other.includes(permissionsOther[screen][0].toString()) ? 'checked' : '') + '>\n        <input class="form-check-input position-static user-permissions-switch ' + (permissionsOther[screen][1] === '' ? 'd-none' : '') + '" type="checkbox" value="' + permissionsOther[screen][1] + '" ' + (permissionList.other.includes(permissionsOther[screen][1].toString()) ? 'checked' : '') + '>\n      </div>\n    </div>';
-	  }).join('');
+	  var preHeaderTableStock = ' <table class="user_table_property"> <tr class="user_table_header"><td>Действие</td><td  class="user_table_property_w_40" >Просмотр</td>     </tr>';
+	  var BodyTableStock = getScreens(permissionList, _storage2.default.currentStockId).map(drawAccessForStock).join('');
+	  var postFooterTableStock = '</table>';
+	  userStockPermissions.innerHTML = preHeaderTableStock + BodyTableStock + postFooterTableStock;
 	
-	  userStockPermissions.innerHTML = getScreens(permissionList, _storage2.default.currentStockId).map(drawAccessForStock).join('');
-	  document.querySelector('#stock-' + _storage2.default.currentStockId).classList.add('bg-success');
+	  document.querySelector('#stock-' + _storage2.default.currentStockId).classList.add('bg_backgorund_red');
+	
+	  var preHeaderTableOther = ' <table class="user_table_property"> <tr class="user_table_header"><td>Действие</td><td class="user_table_property_w_40" >Просмотр</td><td class="user_table_property_w_40" >Действие</td>     </tr>';
+	  var BodyTableOther = Object.keys(permissionsOther).map(function (screen) {
+	    return '\n    <tr>\n      <td><span>' + _permissions2.default.permissionEngToRus[screen] + '</span></td>\n      <td><input class="form-check-input position-static user-permissions-switch" type="checkbox" value="' + permissionsOther[screen][0] + '" ' + (permissionList.other.includes(permissionsOther[screen][0].toString()) ? 'checked' : '') + '></td>\n      <td><input class="form-check-input position-static user-permissions-switch ' + (permissionsOther[screen][1] === '' ? 'd-none' : '') + '" type="checkbox" value="' + permissionsOther[screen][1] + '" ' + (permissionList.other.includes(permissionsOther[screen][1].toString()) ? 'checked' : '') + '></td>\n    </tr>';
+	  }).join('');
+	  var postFooterTableOther = '</table>';
+	  userOtherPermissions.innerHTML = preHeaderTableOther + BodyTableOther + postFooterTableOther;
+	  // document.querySelector(`#stock-${auth.currentStockId}`).classList.add('bg_backgorund_red');
 	
 	  if (+_storage2.default.currentUserId === 1) {
 	    userStockList.innerHTML = '';
@@ -9068,7 +9521,7 @@
 	};
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -9085,7 +9538,7 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _universalGroupsList = __webpack_require__(51);
+	var _universalGroupsList = __webpack_require__(37);
 	
 	var _universalGroupsList2 = _interopRequireDefault(_universalGroupsList);
 	
@@ -9095,7 +9548,9 @@
 	var reportsList = document.querySelector('#list-reports-list');
 	var reportsGroupMainSwitch = document.querySelector('#report-groups-main-switch');
 	var reportsGroupMainSwitchTurn = document.querySelector('#report-groups-turn-main-switch');
-	var reportsDashboard = document.querySelector('#reports-dashboard');
+	
+	var reportsDashboardToday = document.querySelector('#reports-dashboard-today');
+	var reportsDashboardAtTheMoment = document.querySelector('#reports-dashboard-at-the-moment');
 	
 	var reportsGoodsLeft = document.querySelector('#report-goods-left');
 	var reportsGoodsLeftModal = document.querySelector('#report-goods-left-modal');
@@ -9124,29 +9579,56 @@
 	var reportProfitFrom = document.querySelector('#report-profit-from');
 	var reportProfitTo = document.querySelector('#report-profit-to');
 	
+	var reportLinkBt = document.querySelector('#report-link-bt');
+	var reportLinkGoogleBt = document.querySelector('#report-link-google-bt');
 	var reportLink = document.querySelector('#report-link');
 	var reportLinkGoogle = document.querySelector('#report-link-google');
 	var reportLinkTurn = document.querySelector('#report-link-turn');
 	var reportLinkTurnGoogle = document.querySelector('#report-link-turn-google');
+	var reportLinkTurnBt = document.querySelector('#report-link-turn-bt');
+	var reportLinkTurnGoogleBt = document.querySelector('#report-link-turn-google-bt');
 	var reportLinkProfit = document.querySelector('#report-link-profit');
 	var reportLinkProfitGoogle = document.querySelector('#report-link-profit-google');
-	
+	var reportLinkProfitBt = document.querySelector('#report-link-profit-bt');
+	var reportLinkProfitGoogleBt = document.querySelector('#report-link-profit-google-bt');
 	var reportsStocks = document.querySelector('#reports-stocks');
 	
 	// ############################## РАЗМЕТКА ДАШБОРДА #############
-	var dashboardTypes = {
-	  money: 'Баланс',
-	  form: 'Закупки',
-	  proceeds: 'Выручка',
-	  profit: 'Кол-во продаж',
-	  purchase: 'Прибыль'
+	
+	var dashboardTypesToday = {
+	  form: 'Чеков:',
+	  proceeds: 'Выручка:',
+	  purchase: 'Закуплено на сумму:'
 	};
 	
-	var getDashboardItem = function getDashboardItem(item) {
+	var dashboardTypesTodayIcons = {
+	  form: 'dashboard_forms.png',
+	  proceeds: 'dashboard_proceeds.png',
+	  purchase: 'dashboard_purchase.png'
+	};
+	
+	var dashboardTypesAtTheMoment = {
+	  goodsInMoney: 'Товаров на сумму:',
+	  money: 'Денежный баланс:'
+	};
+	
+	var dashboardTypesAtTheMomentIcons = {
+	  goodsInMoney: 'dashboard_balance_goods_on_stocks.png',
+	  money: 'dashboard_balance_money.png'
+	};
+	
+	var getDashboardItemToday = function getDashboardItemToday(item) {
 	  console.log(item);
-	  return '\n    <div class="dashboard-item">\n      <div class="dashboard-status"></div>\n      <div>\n        <p>' + dashboardTypes[item[0]] + '</p>\n        <span>' + item[1] + '</span>\n      </div>\n    </div>';
-	};
+	  console.log(item[1]);
 	
+	  return '\n    <div class="dashboard-item-today">\n      <img src="img/' + dashboardTypesTodayIcons[item[0]] + '"  class="dashboard_icon" alt="">\n      <div class="dashboard-item-block_info">\n        <p style=" height: 14px;   margin-bottom: 8px;" >' + dashboardTypesToday[item[0]] + '</p>\n        <div class="dashboard-item-value">' + (item[1] && item[1].includes('.') ? Number(item[1]).toFixed(2) : item[1]) + '</div>\n      </div>\n    </div>';
+	};
+	var getDashboardItemAtTheMoment = function getDashboardItemAtTheMoment(item) {
+	  console.log(item);
+	  console.log(item[1]);
+	
+	  return '\n    <div class="dashboard-item-at-the-moment">\n      <img src="img/' + dashboardTypesAtTheMomentIcons[item[0]] + '"  class="dashboard_icon" alt="">\n      <div class="dashboard-item-block_info">\n        <p style=" height: 14px;   margin-bottom: 8px;">' + dashboardTypesAtTheMoment[item[0]] + '</p>\n        <div class="dashboard-item-value">' + (item[1] && item[1].includes('.') ? Number(item[1]).toFixed(2) : item[1]) + '</div>\n      </div>\n    </div>';
+	};
 	// ############################## ОТЧЕТ / ОСТАТОК ТОВАРА     ##############################
 	
 	var onPDFLoadSuccess = function onPDFLoadSuccess(data) {
@@ -9158,6 +9640,10 @@
 	  // reportLinkGoogle.href = `https://docs.google.com/viewer?url=${data.data}&embedded=false`;
 	  // reportLinkGoogle.innerHTML = `Смотреть ${auth.currentReportType} на Google `;
 	  reportLink.classList.remove('disabled');
+	  reportLinkBt.disabled = false;
+	  reportLinkGoogleBt.disabled = false;
+	  reportLinkBt.style.opacity = 1;
+	  reportLinkGoogleBt.style.opacity = 1;
 	  reportLinkGoogle.classList.remove('disabled');
 	  reportLink.href = data.data;
 	  reportLinkGoogle.href = 'https://docs.google.com/viewer?url=' + data.data + '&embedded=false';
@@ -9196,6 +9682,11 @@
 	reportsGoodsLeftModalPDFBtn.addEventListener('click', function () {
 	  _storage2.default.currentReportType = 'pdf';
 	  reportLink.classList.add('disabled');
+	  reportLinkBt.disabled = true;
+	  reportLinkGoogleBt.disabled = true;
+	  reportLinkBt.style.opacity = 0.2;
+	  reportLinkGoogleBt.style.opacity = 0.2;
+	
 	  reportLinkGoogle.classList.add('disabled');
 	  getReportLink();
 	});
@@ -9203,13 +9694,17 @@
 	reportsGoodsLeftModalExcelBtn.addEventListener('click', function () {
 	  _storage2.default.currentReportType = 'excel';
 	  reportLink.classList.add('disabled');
+	  reportLinkBt.disabled = true;
+	  reportLinkGoogleBt.disabled = true;
+	  reportLinkBt.style.opacity = 0.2;
+	  reportLinkGoogleBt.style.opacity = 0.2;
 	  reportLinkGoogle.classList.add('disabled');
 	  getReportLink();
 	});
 	
-	reportsGroupMainSwitch.addEventListener('change', function (evt) {
+	reportsGroupMainSwitch.addEventListener('click', function (evt) {
 	  document.querySelectorAll('.report-groups-switch').forEach(function (switchElement) {
-	    switchElement.checked = evt.target.checked;
+	    switchElement.checked = !switchElement.checked;
 	  });
 	  console.log(evt.target.checked);
 	});
@@ -9224,6 +9719,11 @@
 	
 	var onReportsGoodsLeftClick = function onReportsGoodsLeftClick() {
 	  reportLink.classList.add('disabled');
+	  reportLinkBt.disabled = true;
+	  reportLinkGoogleBt.disabled = true;
+	  reportLinkBt.style.opacity = 0.2;
+	  reportLinkGoogleBt.style.opacity = 0.2;
+	
 	  reportLinkGoogle.classList.add('disabled');
 	  _xhr2.default.request = {
 	    metod: 'POST',
@@ -9244,6 +9744,11 @@
 	  reportLinkTurn.classList.remove('disabled');
 	  reportLinkTurnGoogle.classList.remove('disabled');
 	  reportLinkTurnGoogle.href = 'https://docs.google.com/viewer?url=' + data.data + '&embedded=false';
+	
+	  reportLinkTurnBt.disabled = false;
+	  reportLinkTurnGoogleBt.disabled = false;
+	  reportLinkTurnBt.style.opacity = 1;
+	  reportLinkTurnGoogleBt.style.opacity = 1;
 	};
 	
 	var getReportLinkTurn = function getReportLinkTurn() {
@@ -9275,6 +9780,11 @@
 	  _storage2.default.currentReportType = 'pdf';
 	  reportLinkTurn.classList.add('disabled');
 	  reportLinkTurnGoogle.classList.add('disabled');
+	
+	  reportLinkTurnBt.disabled = true;
+	  reportLinkGoogleBt.disabled = true;
+	  reportLinkTurnBt.style.opacity = 0.2;
+	  reportLinkGoogleBt.style.opacity = 0.2;
 	  getReportLinkTurn();
 	});
 	
@@ -9282,12 +9792,17 @@
 	  _storage2.default.currentReportType = 'excel';
 	  reportLinkTurn.classList.add('disabled');
 	  reportLinkTurnGoogle.classList.add('disabled');
+	
+	  reportLinkTurnBt.disabled = true;
+	  reportLinkTurnGoogleBt.disabled = true;
+	  reportLinkTurnBt.style.opacity = 0.2;
+	  reportLinkTurnGoogleBt.style.opacity = 0.2;
 	  getReportLinkTurn();
 	});
 	
-	reportsGroupMainSwitchTurn.addEventListener('change', function (evt) {
+	reportsGroupMainSwitchTurn.addEventListener('click', function (evt) {
 	  reportsGoodsTurnModalBody.querySelectorAll('.report-groups-switch').forEach(function (switchElement) {
-	    switchElement.checked = evt.target.checked;
+	    switchElement.checked = !switchElement.checked;
 	  });
 	  console.log(evt.target.checked);
 	});
@@ -9297,6 +9812,11 @@
 	  $(reportsGoodsTurnModal).modal('show');
 	  reportLinkTurn.classList.add('disabled');
 	  reportLinkTurnGoogle.classList.add('disabled');
+	
+	  reportLinkTurnBt.disabled = true;
+	  reportLinkTurnGoogleBt.disabled = true;
+	  reportLinkTurnBt.style.opacity = 0.2;
+	  reportLinkTurnGoogleBt.style.opacity = 0.2;
 	  reportsGoodsTurnModalStock.value = reportsStocks.value;
 	
 	  _universalGroupsList2.default.drawReports(goodData.data, reportsGoodsTurnModalBody, null);
@@ -9320,6 +9840,12 @@
 	var onPDFLoadSuccessProfit = function onPDFLoadSuccessProfit(data) {
 	  reportLinkProfit.classList.remove('disabled');
 	  reportLinkProfitGoogle.classList.remove('disabled');
+	
+	  reportLinkProfitBt.disabled = false;
+	  reportLinkProfitGoogleBt.disabled = false;
+	  reportLinkProfitBt.style.opacity = 1;
+	  reportLinkProfitGoogleBt.style.opacity = 1;
+	
 	  reportLinkProfit.href = data.data;
 	  reportLinkProfitGoogle.href = 'https://docs.google.com/viewer?url=' + data.data + '&embedded=false';
 	};
@@ -9348,6 +9874,11 @@
 	  _storage2.default.currentReportType = 'pdf';
 	  reportLinkProfit.classList.add('disabled');
 	  reportLinkProfitGoogle.classList.add('disabled');
+	  reportLinkProfitBt.disabled = true;
+	  reportLinkProfitGoogleBt.disabled = true;
+	  reportLinkProfitBt.style.opacity = 0.2;
+	  reportLinkProfitGoogleBt.style.opacity = 0.2;
+	
 	  getReportLinkProfit();
 	});
 	
@@ -9355,6 +9886,11 @@
 	  _storage2.default.currentReportType = 'excel';
 	  reportLinkProfit.classList.add('disabled');
 	  reportLinkProfitGoogle.classList.add('disabled');
+	
+	  reportLinkProfitBt.disabled = true;
+	  reportLinkProfitGoogleBt.disabled = true;
+	  reportLinkProfitBt.style.opacity = 0.2;
+	  reportLinkProfitGoogleBt.style.opacity = 0.2;
 	  getReportLinkProfit();
 	});
 	
@@ -9365,6 +9901,10 @@
 	  reportsGoodsProfitModalStock.value = reportsStocks.value;
 	  reportLinkProfit.classList.add('disabled');
 	  reportLinkProfitGoogle.classList.add('disabled');
+	  reportLinkProfitBt.disabled = true;
+	  reportLinkProfitGoogleBt.disabled = true;
+	  reportLinkProfitBt.style.opacity = 0.2;
+	  reportLinkProfitGoogleBt.style.opacity = 0.2;
 	  reportProfitFrom.value = new Date().toISOString().slice(0, 8) + '01';
 	  reportProfitTo.value = new Date().toISOString().slice(0, 10);
 	};
@@ -9386,12 +9926,16 @@
 	
 	var onSuccessReportsLoad = function onSuccessReportsLoad(reportsData) {
 	  console.log(reportsData);
-	  var dashboard = {
-	    money: reportsData.data.balance_money,
-	    form: reportsData.data.today_count_forms,
+	
+	  var dashboardToday = {
+	    purchase: reportsData.data.today_total_purchase,
 	    proceeds: reportsData.data.today_total_proceeds,
-	    profit: reportsData.data.today_total_profit,
-	    purchase: reportsData.data.today_total_purchase
+	    form: reportsData.data.today_count_forms
+	  };
+	
+	  var dashboardAtTheMoment = {
+	    goodsInMoney: reportsData.data.balance_goods_in_money,
+	    money: reportsData.data.balance_money
 	  };
 	
 	  if (_storage2.default.currentStockId === 'all') {
@@ -9417,8 +9961,11 @@
 	    }
 	  }
 	
-	  reportsDashboard.innerHTML = Object.entries(dashboard).map(function (dash) {
-	    return getDashboardItem(dash);
+	  reportsDashboardToday.innerHTML = Object.entries(dashboardToday).map(function (dash) {
+	    return getDashboardItemToday(dash);
+	  }).join('');
+	  reportsDashboardAtTheMoment.innerHTML = Object.entries(dashboardAtTheMoment).map(function (dash) {
+	    return getDashboardItemAtTheMoment(dash);
 	  }).join('');
 	};
 	
@@ -9445,7 +9992,7 @@
 	};
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -9462,7 +10009,7 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _catalogCards = __webpack_require__(56);
+	var _catalogCards = __webpack_require__(57);
 	
 	var _catalogCards2 = _interopRequireDefault(_catalogCards);
 	
@@ -9470,15 +10017,15 @@
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _catalog__cardsAddEdit = __webpack_require__(61);
+	var _catalog__cardsAddEdit = __webpack_require__(62);
 	
 	var _catalog__cardsAddEdit2 = _interopRequireDefault(_catalog__cardsAddEdit);
 	
-	var _catalog__cardsAddResource = __webpack_require__(62);
+	var _catalog__cardsAddResource = __webpack_require__(63);
 	
 	var _catalog__cardsAddResource2 = _interopRequireDefault(_catalog__cardsAddResource);
 	
-	var _universalGoodsList = __webpack_require__(50);
+	var _universalGoodsList = __webpack_require__(36);
 	
 	var _universalGoodsList2 = _interopRequireDefault(_universalGoodsList);
 	
@@ -9486,7 +10033,7 @@
 	
 	var _universalSearch2 = _interopRequireDefault(_universalSearch);
 	
-	var _universalGroupsList = __webpack_require__(51);
+	var _universalGroupsList = __webpack_require__(37);
 	
 	var _universalGroupsList2 = _interopRequireDefault(_universalGroupsList);
 	
@@ -9541,7 +10088,7 @@
 	  cardResourcesGroupModalReturnBtn.classList.remove('invisible');
 	  cardResourcesSearchInput.addEventListener('input', onGoodsSearch);
 	  cardResourcesSearchInput.removeEventListener('input', onGroupsSearch);
-	  _universalGoodsList2.default.draw(data, cardResourcesGroupModalBody, onGoodClick, 'string');
+	  _universalGoodsList2.default.draw(data, cardResourcesGroupModalBody, onGoodClick, 'search');
 	};
 	
 	var onGroupClick = function onGroupClick() {
@@ -9629,13 +10176,16 @@
 	
 	var onSuccessCardResourcesLoad = function onSuccessCardResourcesLoad(cardResourcesData) {
 	  console.log(cardResourcesData);
-	  cardResourcesResources.innerHTML = '';
-	  cardResourcesProduct.innerHTML = '';
+	  var numberResources = 1;
+	  var numberProduct = 1;
+	  cardResourcesResources.innerHTML = '\n    <div class="reference-header">\n        <div class="reference-column">\u2116</div>\n        <div class="reference-column">\u0422\u043E\u0432\u0430\u0440</div>\n        <div class="reference-column">\u041A\u043E\u043B</div>\n    </div>\n  ';
+	  cardResourcesProduct.innerHTML = '\n    <div class="reference-header">\n        <div class="reference-column">\u2116</div>\n        <div class="reference-column">\u0422\u043E\u0432\u0430\u0440</div>\n        <div class="reference-column">\u041A\u043E\u043B</div>\n    </div>\n  ';
 	  cardResourcesOldCost.innerHTML = +cardResourcesData.data.old_cost ? cardResourcesData.data.old_cost : '';
 	  cardResourcesNewPrice.innerHTML = +cardResourcesData.data.new_price ? cardResourcesData.data.new_price : '';
 	  cardName.innerHTML = cardResourcesData.data.name;
 	
 	  if (cardResourcesData.data.resours.length) {
+	
 	    cardResourcesData.data.resours.forEach(function (item) {
 	
 	      var onResourcesGoodClick = function onResourcesGoodClick(good) {
@@ -9649,13 +10199,15 @@
 	      };
 	      console.log(item.value < 0);
 	      if (item.value < 0) {
-	        cardResourcesResources.insertAdjacentHTML('beforeend', _catalogCards2.default.getResourceElement(item));
+	        cardResourcesResources.insertAdjacentHTML('beforeend', _catalogCards2.default.getResourceElement(item, numberResources));
 	        cardResourcesResources.lastChild.addEventListener('click', onResourcesGoodClick);
+	        numberResources++;
 	      } else {
 	        console.log('hi');
 	        console.log(_catalogCards2.default.getResourceElement(item));
-	        cardResourcesProduct.insertAdjacentHTML('beforeend', _catalogCards2.default.getResourceElement(item));
+	        cardResourcesProduct.insertAdjacentHTML('beforeend', _catalogCards2.default.getResourceElement(item, numberProduct));
 	        cardResourcesProduct.lastChild.addEventListener('click', onResourcesGoodClick);
+	        numberProduct++;
 	      }
 	      console.log(cardResourcesProduct);
 	    });
@@ -9791,7 +10343,7 @@
 	};
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -9808,11 +10360,11 @@
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _formTools = __webpack_require__(41);
+	var _formTools = __webpack_require__(43);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
-	var _catalog__cards = __webpack_require__(60);
+	var _catalog__cards = __webpack_require__(61);
 	
 	var _catalog__cards2 = _interopRequireDefault(_catalog__cards);
 	
@@ -9925,7 +10477,7 @@
 	};
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -9942,11 +10494,11 @@
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _formTools = __webpack_require__(41);
+	var _formTools = __webpack_require__(43);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
-	var _catalog__cards = __webpack_require__(60);
+	var _catalog__cards = __webpack_require__(61);
 	
 	var _catalog__cards2 = _interopRequireDefault(_catalog__cards);
 	
@@ -10030,7 +10582,7 @@
 	};
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -10051,11 +10603,11 @@
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _catalog__groups = __webpack_require__(38);
+	var _catalog__groups = __webpack_require__(40);
 	
 	var _catalog__groups2 = _interopRequireDefault(_catalog__groups);
 	
-	var _catalog__goods = __webpack_require__(42);
+	var _catalog__goods = __webpack_require__(44);
 	
 	var _catalog__goods2 = _interopRequireDefault(_catalog__goods);
 	
@@ -10063,15 +10615,15 @@
 	
 	var _universalKeywords2 = _interopRequireDefault(_universalKeywords);
 	
-	var _universalGoodsList = __webpack_require__(50);
+	var _universalGoodsList = __webpack_require__(36);
 	
 	var _universalGoodsList2 = _interopRequireDefault(_universalGoodsList);
 	
-	var _singleValidation = __webpack_require__(64);
+	var _singleValidation = __webpack_require__(65);
 	
 	var _singleValidation2 = _interopRequireDefault(_singleValidation);
 	
-	var _catalog__searchBarcode = __webpack_require__(65);
+	var _catalog__searchBarcode = __webpack_require__(66);
 	
 	var _catalog__searchBarcode2 = _interopRequireDefault(_catalog__searchBarcode);
 	
@@ -10108,9 +10660,9 @@
 	// отрисовка результатов поиска
 	var drawResult = function drawResult(data) {
 	  if (data.length) {
-	    _universalGoodsList2.default.draw(data, listSearchBody, onGoodClick, 'string');
+	    _universalGoodsList2.default.draw(data, listSearchBody, onGoodClick, 'search');
 	  } else {
-	    listSearchBody.innerHTML = '\u041D\u0435 \u0437\u0430\u0432\u0435\u0437\u043B\u0438 \u043F\u043E\u043A\u0430 <b>' + listSearchInput.value + '</b>, \u0445\u043E\u0442\u044F \u0438 \u0436\u0434\u0430\u043B\u0438 \u043D\u0430\u043C\u0435\u0434\u043D\u0438...';
+	    listSearchBody.innerHTML = '<div style="width:100%; text-alight:center;">\u041D\u0435 \u0437\u0430\u0432\u0435\u0437\u043B\u0438 \u043F\u043E\u043A\u0430 <b>' + listSearchInput.value + '</b>, \u0445\u043E\u0442\u044F \u0438 \u0436\u0434\u0430\u043B\u0438 \u043D\u0430\u043C\u0435\u0434\u043D\u0438...</div><div class="docs-empty-container"><img src="../img/empty_state_search.png" alt="\u041D\u0430\u043A\u043B\u0430\u0434\u043D\u044B\u0445 \u043D\u0435 \u043E\u0431\u043D\u0430\u0440\u0443\u0436\u0435\u043D\u043E" class="docs-empty-img">  </div>';
 	  }
 	};
 	
@@ -10136,7 +10688,7 @@
 	  } else if (selectedKeywords === '') {
 	    drawResult(keywordSearch.data);
 	  } else {
-	    listSearchBody.innerHTML = 'Ну скажите хоть что-нибудь...';
+	    listSearchBody.innerHTML = ' Ну скажите хоть что-нибудь... <div class="docs-empty-container"><img src="../img/empty_state_search.png" alt="Накладных не обнаружено" class="docs-empty-img"></div>';
 	  }
 	};
 	
@@ -10146,7 +10698,7 @@
 	  if (fullSearchLoad.status === 271) {
 	    listSearchBody.innerHTML = fullSearchLoad.message;
 	  }
-	  listSearchBody.innerHTML = '';
+	  listSearchBody.innerHTML = '<div class="docs-empty-container"><img src="../img/empty_state_search.png" alt="Накладных не обнаружено" class="docs-empty-img"></div>';
 	};
 	
 	var getFullSearch = function getFullSearch() {
@@ -10258,7 +10810,7 @@
 	};
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -10335,7 +10887,7 @@
 	};
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -10348,7 +10900,7 @@
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _catalog__searchBarcodeValid = __webpack_require__(66);
+	var _catalog__searchBarcodeValid = __webpack_require__(67);
 	
 	var _catalog__searchBarcodeValid2 = _interopRequireDefault(_catalog__searchBarcodeValid);
 	
@@ -10376,7 +10928,7 @@
 	};
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -10393,15 +10945,15 @@
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _formTools = __webpack_require__(41);
+	var _formTools = __webpack_require__(43);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
-	var _catalog__goods = __webpack_require__(42);
+	var _catalog__goods = __webpack_require__(44);
 	
 	var _catalog__goods2 = _interopRequireDefault(_catalog__goods);
 	
-	var _catalog__search = __webpack_require__(63);
+	var _catalog__search = __webpack_require__(64);
 	
 	var _catalog__search2 = _interopRequireDefault(_catalog__search);
 	
@@ -10501,7 +11053,7 @@
 	};
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -10514,31 +11066,31 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _tools = __webpack_require__(46);
+	var _tools = __webpack_require__(48);
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _operationsServerTools = __webpack_require__(68);
+	var _operationsServerTools = __webpack_require__(69);
 	
 	var _operationsServerTools2 = _interopRequireDefault(_operationsServerTools);
 	
-	var _operationsLeftColumn = __webpack_require__(69);
+	var _operationsLeftColumn = __webpack_require__(70);
 	
 	var _operationsLeftColumn2 = _interopRequireDefault(_operationsLeftColumn);
 	
-	var _operationsRightColumn = __webpack_require__(71);
+	var _operationsRightColumn = __webpack_require__(72);
 	
 	var _operationsRightColumn2 = _interopRequireDefault(_operationsRightColumn);
 	
-	var _operationsHeader = __webpack_require__(72);
+	var _operationsHeader = __webpack_require__(73);
 	
 	var _operationsHeader2 = _interopRequireDefault(_operationsHeader);
 	
-	var _operationsGoodAdd = __webpack_require__(73);
+	var _operationsGoodAdd = __webpack_require__(74);
 	
 	var _operationsGoodAdd2 = _interopRequireDefault(_operationsGoodAdd);
 	
-	var _catalog__goods = __webpack_require__(42);
+	var _catalog__goods = __webpack_require__(44);
 	
 	var _catalog__goods2 = _interopRequireDefault(_catalog__goods);
 	
@@ -10644,7 +11196,6 @@
 	    });
 	
 	    if (perm !== 'none') {
-	
 	      setTimeout(function () {
 	        searchBarcodeFormBarcode.focus();
 	      }, 500);
@@ -11263,7 +11814,7 @@
 	};
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11402,7 +11953,7 @@
 	};
 
 /***/ }),
-/* 69 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11415,11 +11966,11 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _universalGroupsList = __webpack_require__(51);
+	var _universalGroupsList = __webpack_require__(37);
 	
 	var _universalGroupsList2 = _interopRequireDefault(_universalGroupsList);
 	
-	var _operation__trade = __webpack_require__(70);
+	var _operation__trade = __webpack_require__(71);
 	
 	var _operation__trade2 = _interopRequireDefault(_operation__trade);
 	
@@ -11436,7 +11987,7 @@
 	
 	var NodeEnum = {
 	  IMG_GROUP: '<img src="img/groups.png" alt="">',
-	  BUT_BACK: '<button id="operation-left-column-return-btn" type="button" class="btn btn-success p-0 icon-btn icon-btn__return"></button>'
+	  BUT_BACK: '<button id="operation-left-column-return-btn" type="button" class="btn btn-danger p-0 pr-3 icon-btn icon-btn__return_modal"></button>'
 	};
 	
 	var getHeader = function getHeader(type, handler) {
@@ -11521,6 +12072,7 @@
 	  table.innerHTML = _operation__trade2.default.leftColumnGoodsHeaderTrade();
 	
 	  var tbody = document.createElement('tbody');
+	  tbody.className = 'modal-view-inventory-body';
 	
 	  goods.forEach(function (good, index) {
 	
@@ -11576,10 +12128,11 @@
 	  leftInventoryColumn.innerHTML = '';
 	
 	  var table = document.createElement('table');
-	  table.className = 'table table-hover';
+	  table.className = 'table  table-condensed';
 	  table.innerHTML = _operation__trade2.default.leftColumnGoodsHeaderInventory();
 	
 	  var tbody = document.createElement('tbody');
+	  tbody.className = 'l-inventory-body';
 	
 	  goods.forEach(function (good, index) {
 	    // let count = (good.count || good.count === 0) ? good.count : '';
@@ -11709,7 +12262,7 @@
 	};
 
 /***/ }),
-/* 70 */
+/* 71 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -11721,16 +12274,16 @@
 	
 	exports.default = {
 	  header: function header(head, img) {
-	    return '\n        <img src="' + img + '" alt="">\n        <h2>' + head + '</h2>\n      ';
+	    return '\n        <img src="' + img + '" alt="">\n        <h3 class="header_first_level_in_modal">' + head + '</h3>\n      ';
 	  },
 	  leftColumnHeader: function leftColumnHeader(head, node) {
-	    return '\n    <div class="catalog-header">\n      <div class="catalog-header-title">\n        ' + node + '\n        <h2>' + head + '</h2>\n      </div>\n    </div>\n    ';
+	    return '\n    <div class="catalog-header">\n      <div class="catalog-header-title">\n        ' + node + '\n        <h3 class="header_second_level_in_modal">' + head + '</h3>\n      </div>\n    </div>\n    ';
 	  },
 	  leftColumnGoodsHeaderTrade: function leftColumnGoodsHeaderTrade() {
-	    return '<thead><tr><th scope="col" class="">#</th><th scope="col" class="w-50">Товар</th><th scope="col">Цена</th><th scope="col">Остаток</th><th scope="col"></th><th scope="col"></th></tr></thead>';
+	    return '<thead class="inventory-header"><tr ><th scope="col" >№</th><th scope="col" class="w-50">Товар</th><th scope="col">Цена</th><th scope="col">Остаток</th><th scope="col"></th><th scope="col"></th></tr></thead>';
 	  },
 	  leftColumnGoodsHeaderInventory: function leftColumnGoodsHeaderInventory() {
-	    return '<thead><tr><th scope="col" class="">#</th><th scope="col" class="w-50">Товар</th><th scope="col">Остаток</th></tr></thead>';
+	    return '<thead class="inventory-header" ><tr><th scope="col" class="inventory-header-row" ><div>№</div></th><th scope="col" height="30"  class="inventory-header-row"><div>Товар</div></th><th scope="col"  class="inventory-header-row" ><div>Остаток</div></th></tr></thead>';
 	  },
 	  leftColumnGoodsRowTrade: function leftColumnGoodsRowTrade(index, name, price, count) {
 	    return '\n      <th scope="row">' + (index + 1) + '</th>\n      <td>' + name + '</td>\n      <td>' + price + '</td>\n      <td>' + count + '</td>\n      <td>\n        <button class="button btn btn-danger mr-1" data-type="add">+1</button>\n      </td>\n      <td>\n        <button class="button btn btn-danger" data-type="card">i</button>\n      </td>\n    ';
@@ -11749,10 +12302,10 @@
 	      markupColor = 'text-danger';
 	    }
 	
-	    return '\n      <th scope="row">' + (index + 1) + '</th>\n      <td>' + name + '</td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">' + count + '</span>\n        <input type="text" class="w-100 d-none" placeholder=' + count + ' name="count" data-oldValue=' + count + ' data-valisettings="operationPurchase" data-valid="count">\n      </td>\n      <td>\n        <span class="w-100" data-click="true">' + price + '</span>\n        <input type="text" class="w-100 d-none" placeholder=' + price + ' name="price" data-oldValue=' + price + ' data-valisettings="operationPurchase" data-valid="price">\n      </td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">\n          ' + sumPurchase + '\n        </span>\n        <input type="text" class="w-100 d-none" placeholder=' + sumPurchase + ' name="sumPurchase" data-oldValue=' + sumPurchase + ' data-valisettings="operationPurchase" data-valid="PurchaseSum">\n      </td>\n      <td data-click="true" class="' + markupColor + '">\n       <span class="w-100" data-click="true">' + currMarkup + '%</span>\n       <input type="text" class="w-100 d-none" placeholder=' + currMarkup + ' name="currMarkup" data-oldValue=' + currMarkup + ' data-valisettings="operationPurchase" data-valid="currMarkup">\n      </td>\n      <td class="text-secondary">' + markupGood + '%</td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">' + priceSell + '</span>\n        <input type="text" class="w-100 d-none" placeholder=' + priceSell + ' name="priceSell" data-oldValue=' + priceSell + ' data-valisettings="operationPurchase" data-valid="sellPrice">\n      </td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">' + sumSale + '</span>\n        <input type="text" class="w-100 d-none" placeholder=' + sumSale + ' name="sumSale" data-oldValue=' + sumSale + ' data-valisettings="operationPurchase" data-valid="sellSum">\n      </td>\n    ';
+	    return '\n      <th scope="row">' + (index + 1) + '</th>\n      <td style="width:100%;" >' + name + '</td>\n      <td data-click="true" style="text-align: right;">\n        <span class="w-100" data-click="true">' + count + '</span>\n        <input type="text"  class="w-100 d-none" placeholder=' + count + ' name="count" data-oldValue=' + count + ' data-valisettings="operationPurchase" data-valid="count">\n      </td>\n         <td>x</td>\n      <td>\n        <span class="w-100" data-click="true">' + price + '</span>\n        <input type="text" class="w-100 d-none" placeholder=' + price + ' name="price" data-oldValue=' + price + ' data-valisettings="operationPurchase" data-valid="price">\n      </td>\n      <td>=</td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">\n          ' + sumPurchase + '\n        </span>\n        <input type="text" class="w-100 d-none" placeholder=' + sumPurchase + ' name="sumPurchase" data-oldValue=' + sumPurchase + ' data-valisettings="operationPurchase" data-valid="PurchaseSum">\n      </td>\n      <td data-click="true" class="' + markupColor + '">\n       <span class="w-100" data-click="true">' + currMarkup + '%</span>\n       <input type="text" class="w-100 d-none" placeholder=' + currMarkup + ' name="currMarkup" data-oldValue=' + currMarkup + ' data-valisettings="operationPurchase" data-valid="currMarkup">\n      </td>\n      <td class="text-secondary">' + markupGood + '%</td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">' + priceSell + '</span>\n        <input type="text" class="w-100 d-none" placeholder=' + priceSell + ' name="priceSell" data-oldValue=' + priceSell + ' data-valisettings="operationPurchase" data-valid="sellPrice">\n      </td>\n      <td data-click="true">\n        <span class="w-100" data-click="true">' + sumSale + '</span>\n        <input type="text" class="w-100 d-none" placeholder=' + sumSale + ' name="sumSale" data-oldValue=' + sumSale + ' data-valisettings="operationPurchase" data-valid="sellSum">\n      </td>\n    ';
 	  },
 	  rightColumnGoodsSale: function rightColumnGoodsSale(index, name, count, price) {
-	    return '\n      <th scope="row">' + (index + 1) + '</th>\n      <td>' + name + '</td>\n      <td>' + count + '</td>\n      <td>' + price + '</td>\n      <td>' + Number(price * count).toFixed(2) + '</td>\n    ';
+	    return '\n      <th scope="row">' + (index + 1) + '</th>\n      <td>' + name + '</td>\n      <td style="text-align: right;">' + count + '</td>\n      <td>x</td>\n      <td>' + price + '</td>\n      <td>=</td>\n      <td>' + Number(price * count).toFixed(2) + '</td>\n    ';
 	  },
 	  rightColumnDiscount: function rightColumnDiscount(name, count, price, discount) {
 	    return '\n      <th scope="row">#</th>\n      <td>' + name + '</td>\n      <td>' + discount + '%</td>\n      <td></td>\n      <td>' + Number(price * count).toFixed(2) + '</td>\n    ';
@@ -11763,7 +12316,7 @@
 	};
 
 /***/ }),
-/* 71 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11772,7 +12325,7 @@
 	  value: true
 	});
 	
-	var _operation__trade = __webpack_require__(70);
+	var _operation__trade = __webpack_require__(71);
 	
 	var _operation__trade2 = _interopRequireDefault(_operation__trade);
 	
@@ -11780,7 +12333,7 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _singleValidation = __webpack_require__(64);
+	var _singleValidation = __webpack_require__(65);
 	
 	var _singleValidation2 = _interopRequireDefault(_singleValidation);
 	
@@ -11878,7 +12431,8 @@
 	    tr.scope = 'row';
 	
 	    if (position.newRow) {
-	      tr.classList.add('table-danger');
+	
+	      tr.classList.add('purchase-last-row');
 	    }
 	
 	    tr.innerHTML = _operation__trade2.default.rightColumnGoodsPurchase(position.id, index, position.name, position.count, position.price, position.sumPurchase, position.markupGood, position.priceSell, position.currMarkup, position.sumSale);
@@ -11933,7 +12487,7 @@
 	    tr.scope = 'row';
 	
 	    if (position.newRow) {
-	      tr.classList.add('table-success');
+	      tr.classList.add('sale-last-row');
 	    }
 	
 	    if (position.discount) {
@@ -12120,7 +12674,7 @@
 	};
 
 /***/ }),
-/* 72 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12203,7 +12757,7 @@
 	};
 
 /***/ }),
-/* 73 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12212,7 +12766,7 @@
 	  value: true
 	});
 	
-	var _formTools = __webpack_require__(41);
+	var _formTools = __webpack_require__(43);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
@@ -12272,7 +12826,7 @@
 	};
 
 /***/ }),
-/* 74 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12285,35 +12839,35 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _tools = __webpack_require__(46);
+	var _tools = __webpack_require__(48);
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _operationsServerTools = __webpack_require__(68);
+	var _operationsServerTools = __webpack_require__(69);
 	
 	var _operationsServerTools2 = _interopRequireDefault(_operationsServerTools);
 	
-	var _operationsLeftColumn = __webpack_require__(69);
+	var _operationsLeftColumn = __webpack_require__(70);
 	
 	var _operationsLeftColumn2 = _interopRequireDefault(_operationsLeftColumn);
 	
-	var _operationsRightColumn = __webpack_require__(71);
+	var _operationsRightColumn = __webpack_require__(72);
 	
 	var _operationsRightColumn2 = _interopRequireDefault(_operationsRightColumn);
 	
-	var _operationsHeader = __webpack_require__(72);
+	var _operationsHeader = __webpack_require__(73);
 	
 	var _operationsHeader2 = _interopRequireDefault(_operationsHeader);
 	
-	var _operationsGoodAdd = __webpack_require__(73);
+	var _operationsGoodAdd = __webpack_require__(74);
 	
 	var _operationsGoodAdd2 = _interopRequireDefault(_operationsGoodAdd);
 	
-	var _operations__tradeDiscount = __webpack_require__(75);
+	var _operations__tradeDiscount = __webpack_require__(76);
 	
 	var _operations__tradeDiscount2 = _interopRequireDefault(_operations__tradeDiscount);
 	
-	var _catalog__goods = __webpack_require__(42);
+	var _catalog__goods = __webpack_require__(44);
 	
 	var _catalog__goods2 = _interopRequireDefault(_catalog__goods);
 	
@@ -12404,8 +12958,9 @@
 	    });
 	
 	    if (perm !== 'none') {
-	
-	      searchBarcodeFormBarcode.focus();
+	      setTimeout(function () {
+	        searchBarcodeFormBarcode.focus();
+	      }, 500);
 	    }
 	  }
 	};
@@ -12747,7 +13302,6 @@
 	
 	var getDataCallback = function getDataCallback(data) {
 	  dataStore = data;
-	  console.dir(dataStore);
 	  _operationsHeader2.default.setStocksList(dataStore.all_stocks);
 	  _operationsRightColumn2.default.setKontragentList(dataStore.all_kontr_agents);
 	  _operationsLeftColumn2.default.drawGroups(dataStore.all_groups, clickGroupsCallback);
@@ -12916,7 +13470,7 @@
 	};
 
 /***/ }),
-/* 75 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12925,7 +13479,7 @@
 	  value: true
 	});
 	
-	var _formTools = __webpack_require__(41);
+	var _formTools = __webpack_require__(43);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
@@ -12975,7 +13529,7 @@
 	};
 
 /***/ }),
-/* 76 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12988,31 +13542,31 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _tools = __webpack_require__(46);
+	var _tools = __webpack_require__(48);
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _operationsServerTools = __webpack_require__(68);
+	var _operationsServerTools = __webpack_require__(69);
 	
 	var _operationsServerTools2 = _interopRequireDefault(_operationsServerTools);
 	
-	var _operationsLeftColumn = __webpack_require__(69);
+	var _operationsLeftColumn = __webpack_require__(70);
 	
 	var _operationsLeftColumn2 = _interopRequireDefault(_operationsLeftColumn);
 	
-	var _operationsRightColumn = __webpack_require__(71);
+	var _operationsRightColumn = __webpack_require__(72);
 	
 	var _operationsRightColumn2 = _interopRequireDefault(_operationsRightColumn);
 	
-	var _operationsHeader = __webpack_require__(72);
+	var _operationsHeader = __webpack_require__(73);
 	
 	var _operationsHeader2 = _interopRequireDefault(_operationsHeader);
 	
-	var _operationsGoodAdd = __webpack_require__(73);
+	var _operationsGoodAdd = __webpack_require__(74);
 	
 	var _operationsGoodAdd2 = _interopRequireDefault(_operationsGoodAdd);
 	
-	var _catalog__goods = __webpack_require__(42);
+	var _catalog__goods = __webpack_require__(44);
 	
 	var _catalog__goods2 = _interopRequireDefault(_catalog__goods);
 	
@@ -13022,7 +13576,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var searchBarcodeForm = document.querySelector('#operation-inventory-search-barcode-form');
+	var searchBarcodeForm = document.querySelector('#operations-inventory-search-barcode-form');
 	var searchBarcodeFormBarcode = document.querySelector('#operations-inventory-search-barcode');
 	
 	var searchForm = document.querySelector('#operation-inventory-search');
@@ -13095,7 +13649,9 @@
 	    });
 	
 	    if (perm !== 'none') {
-	      searchBarcodeFormBarcode.focus();
+	      setTimeout(function () {
+	        searchBarcodeFormBarcode.focus();
+	      }, 500);
 	    }
 	  }
 	};
@@ -13283,7 +13839,6 @@
 	
 	var getDataCallback = function getDataCallback(data) {
 	  dataStore = data;
-	  console.dir(dataStore);
 	  _operationsHeader2.default.setStocksList(dataStore.all_stocks);
 	  // appHeader.setKontragentList(dataStore.all_kontr_agents);
 	  _operationsLeftColumn2.default.drawGroups(dataStore.all_groups, clickGroupsCallback);
@@ -13316,7 +13871,7 @@
 	    _operationsServerTools2.default.getDataFromServer(_storage2.default.data.currentStock, getDataCallback);
 	  });
 	
-	  document.querySelector('#operation-inventory-clear-but').addEventListener('click', function () {
+	  document.querySelector('#operations-inventory-clear-but').addEventListener('click', function () {
 	    _operationsLeftColumn2.default.drawGroups(dataStore.all_groups, clickGroupsCallback, clichButtonBackCallback);
 	    _operationsRightColumn2.default.clear();
 	    inventoryFormSubmit.disabled = true;
@@ -13341,7 +13896,6 @@
 	
 	  inventoryForm.addEventListener('submit', function (evt) {
 	    evt.preventDefault();
-	    console.log('!!!!');
 	    sendInventoryForm();
 	  });
 	
