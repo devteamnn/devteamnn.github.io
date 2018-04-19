@@ -7661,7 +7661,7 @@
 	var submitForm = function submitForm() {
 	  var stor = _storage2.default.data;
 	
-	  var postData = 'token=' + stor.token + '&purchase_price=' + purchase.value + '&selling_price=' + sell.value;
+	  var postData = 'token=' + stor.token + '&purchase_price=' + purchase.value + '&selling_price=' + sell.value + '&markup=' + percent.value;
 	  var urlApp = appUrl2.replace('{{dir}}', stor.directory);
 	  urlApp = urlApp.replace('{{oper}}', stor.operatorId);
 	  urlApp = urlApp.replace('{{busId}}', stor.currentBusiness);
@@ -7681,12 +7681,14 @@
 	};
 	
 	var calcPrice = function calcPrice(evt) {
-	  if (!evt.target.type === 'text') {
+	  // if (!evt.target.type === 'text') {
+	  //   return false;
+	  // }
+	  if (!_formTools2.default.validElement(evt.target)) {
+	    evt.stopPropagation();
 	    return false;
 	  }
-	  if (_formTools2.default.validElement(evt.target)) {
-	    percent.value = calcPr();
-	  }
+	  percent.value = calcPr();
 	  return true;
 	};
 	
@@ -7695,12 +7697,11 @@
 	};
 	
 	var calcSell = function calcSell(evt) {
-	  // if (!evt.target.type === 'text') {
-	  //   return false;
-	  // }
-	  if (_formTools2.default.validElement(evt.target)) {
-	    sell.value = calcSl();
+	  if (!_formTools2.default.validElement(evt.target)) {
+	    evt.stopPropagation();
+	    return false;
 	  }
+	  sell.value = calcSl();
 	  return true;
 	};
 	
@@ -7718,8 +7719,8 @@
 	
 	    _formTools2.default.work(modal, submitForm);
 	
-	    priceBlock.addEventListener('change', calcPrice);
-	    percent.addEventListener('change', calcSell);
+	    priceBlock.addEventListener('input', calcPrice);
+	    percent.addEventListener('input', calcSell);
 	  },
 	  stop: function stop() {
 	    _formTools2.default.reset();
