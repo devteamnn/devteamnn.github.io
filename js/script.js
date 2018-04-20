@@ -2245,8 +2245,6 @@
 	var count = 200;
 	var drawSet = count / 4;
 	
-	// отрисовка порции карточек
-	listLogBody.innerHTML = '\n    <div class="reference-header">\n        <div class="reference-column-3"></div>\n        <div class="reference-column">\u041E\u043F\u0435\u0440\u0430\u0446\u0438\u044F</div>\n        <div class="reference-column">\u0412\u0440\u0435\u043C\u044F</div>\n        <div class="reference-column">\u041F\u0440\u043E\u0441\u043C.</div>\n    </div>\n';
 	var drawCardSet = function drawCardSet() {
 	  logCardNodes.splice(0, drawSet).forEach(_log2.default.addCardToContainer);
 	};
@@ -2260,8 +2258,8 @@
 	
 	// успех загрузки
 	var onSuccessLogLoad = function onSuccessLogLoad(logResponse) {
+	
 	  var loadedLog = logResponse.data;
-	  console.log(loadedLog);
 	
 	  loaderWait.classList.add('d-none');
 	  if (loadedLog.length) {
@@ -2287,10 +2285,12 @@
 	
 	// отправка запроса на новую порцию
 	var getLog = function getLog() {
-	  console.log('get.log');
+	
 	  if (logCardNodes.length === 0) {
+	
 	    loaderWait.classList.remove('d-none');
 	    window.removeEventListener('scroll', onMouseScroll);
+	
 	    _xhr2.default.request = {
 	      metod: 'POST',
 	      url: 'lopos_directory/' + _storage2.default.data.directory + '/update_log/' + Date.now() + '/story',
@@ -2323,9 +2323,17 @@
 	  }
 	};
 	
+	var listLogClickHandler = function listLogClickHandler() {
+	  listLogBody.innerHTML = '\n    <div class="reference-header">\n        <div class="reference-column-3"></div>\n        <div class="reference-column">\u041E\u043F\u0435\u0440\u0430\u0446\u0438\u044F</div>\n        <div class="reference-column">\u0412\u0440\u0435\u043C\u044F</div>\n        <div class="reference-column">\u041F\u0440\u043E\u0441\u043C.</div>\n    </div>';
+	
+	  position = 0;
+	  logCardNodes = [];
+	  getLog();
+	};
+	
 	exports.default = {
 	  start: function start() {
-	    listLog.addEventListener('click', getLog);
+	    listLog.addEventListener('click', listLogClickHandler);
 	  },
 	  stop: function stop() {
 	    _log2.default.cleanContainer();
@@ -2407,19 +2415,16 @@
 	    return '\n    <div class="reference-header" data-link="' + imgName + '" ' + (imgName === 'admission' || imgName === 'sale' ? 'data-naklad=' + item.ha_naklad_id_fk : '') + ' ' + (imgName === 'expenses' || imgName === 'revenue' ? 'data-balance=' + item.ha_balance_act_id_fk : '') + '>\n      <div class="reference-column-3">\n        <div style="background-color: #' + getIconColor + ';   border-radius: 10px 10px 10px 10px;" width="60" >\n          <img  src="img/user-male-filled-32.png" style="margin-left:1px; title="' + item.ha_operator_name + '"  width="24" height="24" alt="' + item.ha_operator_name + '">\n          <span style="margin-right:2px; color:#ffffff;">' + item.ha_operator_id + '</span>\n        </div>\n      </div>\n      <div class="reference-column">\n\n      <div class="online-user">\n        <img class="mr-3" src="img/' + imgName + '.png" width="30" alt="Generic placeholder image">\n        <b>' + cardHeader[0] + '</b>\n        ' + cardHeader[1] + '\n      </div>\n\n\n      </div>\n      <div class="reference-column">\n          <div >' + new Date(+(item.ha_time + '000')).toLocaleString() + '</div>\n      </div>\n      <div class="reference-column">\n          <div>' + (imgName === 'admission' || imgName === 'sale' || imgName === 'expenses' || imgName === 'revenue' ? '<img src="img/icons8-preview.png">' : '') + '</div>\n      </div>\n    </div>';
 	  },
 	  addCardToContainer: function addCardToContainer(cardMarkupItem) {
-	    console.log(cardMarkupItem);
 	    listLogBody.insertAdjacentHTML('beforeend', cardMarkupItem);
 	    if (listLogBody.lastChild.dataset.link === 'admission' || listLogBody.lastChild.dataset.link === 'sale') {
 	      var billId = listLogBody.lastChild.dataset.naklad;
 	      listLogBody.lastChild.addEventListener('click', function () {
-	        console.log(billId);
 	        _storage2.default.currentBillId = billId;
 	        _accounting__allDocs2.default.onBillClick();
 	      });
 	    } else if (listLogBody.lastChild.dataset.link === 'expenses' || listLogBody.lastChild.dataset.link === 'revenue') {
 	      var _billId = listLogBody.lastChild.dataset.balance;
 	      listLogBody.lastChild.addEventListener('click', function () {
-	        console.log(_billId);
 	        _storage2.default.currentBillId = _billId;
 	        _accounting__allDocs2.default.onBalanceActClick();
 	      });
@@ -2499,6 +2504,9 @@
 	var balanceCardComment = document.querySelector('#balance-act-comment');
 	var balanceDeleteBtn = document.querySelector('#balance-act-delete-btn');
 	
+	var downloadPdfLink = document.querySelector('#bill-download-link');
+	var downloadPdfBtn = document.querySelector('#bill-download-btn');
+	
 	// ############################## РАЗМЕТКА ТОВАРОВ #############
 	var getGoodString = function getGoodString(item, index) {
 	  return '\n    <div class="reference-header">\n        <div class="reference-column-7">' + (index + 1) + '</div>\n        <div class="reference-column-7">' + item.good + '</div>\n        <div class="reference-column-7">' + Number(item.count).toFixed(2) + '</div>\n        <div class="reference-column-7">x</div>\n        <div class="reference-column-7">' + Number(item.price).toFixed(2) + '</div>\n        <div class="reference-column-7">=</div>\n        <div class="reference-column-7">' + Number(item.count).toFixed(2) * Number(item.price).toFixed(2) + '</div>\n    </div>';
@@ -2508,7 +2516,11 @@
 	// let billStatus = '';
 	
 	var onSuccessBillGet = function onSuccessBillGet(answer) {
-	  console.log(answer);
+	  var billCardHideHandler = function billCardHideHandler() {
+	    downloadPdfBtn.classList.add('d-none');
+	    $(billCard).unbind('hide.bs.modal', billCardHideHandler);
+	  };
+	
 	  var _answer$data = answer.data,
 	      id = _answer$data.id,
 	      total = _answer$data.total,
@@ -2536,13 +2548,12 @@
 	  } else {
 	    billDeliveryBtn.classList.add('d-none');
 	  }
+	  $(billCard).on('hide.bs.modal', billCardHideHandler);
 	  $(billCard).modal('show');
 	};
 	
 	// ############################## УДАЛЕНИЕ НАКЛАДНОЙ #############
 	var onSuccessBillDelete = function onSuccessBillDelete(answer) {
-	  console.log(answer);
-	
 	  // onListEnterprisesCardReturnBtn();
 	  $(billCard).modal('hide');
 	  getDocs(docsYear.value, docsMonth.value, docsDay.value);
@@ -2573,14 +2584,19 @@
 	
 	// ############################## ФОРМИРОВАНИЕ PDF #############
 	var onSuccessBillMakePdf = function onSuccessBillMakePdf(answer) {
-	  window.open(answer.data);
+	  downloadPdfLink.href = answer.data;
+	  downloadPdfBtn.classList.remove('d-none');
 	};
 	
 	var setRequestToMakePdfBill = function setRequestToMakePdfBill() {
+	  var date = new Date();
+	  var timeZoneOffset = date.getTimezoneOffset();
+	  timeZoneOffset *= 60;
+	
 	  _xhr2.default.request = {
 	    metod: 'POST',
 	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.data.operatorId + '/business/' + _storage2.default.data.currentBusiness + '/naklad/' + _storage2.default.currentBillId + '/export/pdf',
-	    data: 'token=' + _storage2.default.data.token,
+	    data: 'token=' + _storage2.default.data.token + '&timezone=' + timeZoneOffset,
 	    callbackSuccess: onSuccessBillMakePdf
 	  };
 	};
@@ -2591,8 +2607,6 @@
 	
 	// ############################## ЗАВЕРШЕНИЕ ДОСТАВКИ #############
 	var onSuccessBillDelivery = function onSuccessBillDelivery(answer) {
-	  console.log(answer);
-	
 	  $(billCard).modal('hide');
 	  getDocs(docsYear.value, docsMonth.value, docsDay.value);
 	
@@ -2630,8 +2644,6 @@
 	};
 	// ############################## УДАЛЕНИЕ БАЛАНСОВОЙ ОПЕРАЦИИ #############
 	var onSuccessBalanceDelete = function onSuccessBalanceDelete(answer) {
-	  console.log(answer);
-	
 	  $(balanceCard).modal('hide');
 	  getDocs(docsYear.value, docsMonth.value, docsDay.value);
 	
@@ -2660,7 +2672,6 @@
 	});
 	
 	var onSuccessBalanceGet = function onSuccessBalanceGet(answer) {
-	  console.log(answer);
 	  var _answer$data2 = answer.data,
 	      id = _answer$data2.id,
 	      comment = _answer$data2.comment,
@@ -2682,7 +2693,6 @@
 	};
 	
 	var onBalanceActClick = function onBalanceActClick() {
-	  console.log('hi');
 	  _xhr2.default.request = {
 	    metod: 'POST',
 	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.data.operatorId + '/business/' + _storage2.default.data.currentBusiness + '/balance_act/' + _storage2.default.currentBillId + '/info',
@@ -2698,9 +2708,6 @@
 	var prevData = [];
 	
 	var onSuccessLoadMore = function onSuccessLoadMore(billsData) {
-	  console.log(new Date(+billsData).toLocaleString());
-	  console.log(billsData);
-	
 	  // docsBody.innerHTML = '';
 	  if (docsBody.lastChild.tagName === 'BUTTON') {
 	    docsBody.lastChild.remove();
@@ -2726,7 +2733,6 @@
 	};
 	
 	var onClickLoadMore = function onClickLoadMore(evt) {
-	  console.log(lastId);
 	  evt.target.setAttribute('disabled', 'disabled');
 	  _xhr2.default.request = {
 	    metod: 'POST',
@@ -2747,23 +2753,17 @@
 	});
 	
 	var onYearClick = function onYearClick(bill) {
-	  console.log(bill.month_number - 1);
 	  docsMonth.value = bill.month_number - 1;
-	  console.log(docsYear.value, docsMonth.value, docsDay.value);
 	  getDocs(docsYear.value, docsMonth.value, docsDay.value);
 	};
 	
 	var onMonthClick = function onMonthClick(bill) {
-	  console.log(bill.day_number);
-	  console.log(docsYear.value, docsMonth.value, docsDay.value);
 	  drawDates(docsYear.value, docsMonth.value, 'all');
 	  docsDay.value = bill.day_number;
 	  getDocs(docsYear.value, docsMonth.value, docsDay.value);
 	};
 	
 	var onSuccessBillsGet = function onSuccessBillsGet(billsData) {
-	  console.log(billsData);
-	
 	  if (docsMonth.value === 'all') {
 	    docsReturnBtn.setAttribute('disabled', 'disabled');
 	  } else {
@@ -2882,7 +2882,6 @@
 	});
 	
 	var onSuccessStocksLoad = function onSuccessStocksLoad(docsData) {
-	  console.log(docsData);
 	  docsStocks.innerHTML = docsData.data.map(function (item) {
 	    return '<option value="' + item.id + '">' + item.name + '</option>';
 	  }).join('');
@@ -5448,7 +5447,7 @@
 	      return imgUrl ? 'https://lopos.bidone.ru/users/600a5357/images/' + imgUrl + '_preview150.jpg' : './img/not-available.png';
 	    };
 	
-	    return '\n    <div class="card goods-tile-card" data-good-id="' + item.id + '">\n      <img class="card-img-top" src="' + getImg(item.img_url) + '" alt="' + item.name + '" title="' + item.name + '">\n      <div class="card-body ' + (Number(item.count) ? 'goods-tile-title' : '') + '">\n        <p class="card-text">' + (Number(item.count) ? Number(item.count).toFixed(2) : '') + '</p>\n      </div>\n    </div>';
+	    return '\n    <div class="card goods-tile-card" data-good-id="' + item.id + '">\n      <img class="card-img-top" src="' + getImg(item.img_url) + '" alt="' + item.name + '" title="' + item.name + '">\n      <div class="card-body ' + (Number(item.count) ? 'goods-tile-title' : 'd-none') + '">\n        <p class="card-text">' + (Number(item.count) ? Number(item.count).toFixed(2) : '') + '</p>\n      </div>\n    </div>';
 	  },
 	  drawGoodsTable: function drawGoodsTable(goodsData, container, handler) {
 	    var _this = this;
@@ -6340,10 +6339,6 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _tools = __webpack_require__(7);
-	
-	var _tools2 = _interopRequireDefault(_tools);
-	
 	var _formTools = __webpack_require__(43);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
@@ -6355,8 +6350,6 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var appUrl = void 0;
-	var messages = void 0;
-	
 	var form = void 0;
 	var name = void 0;
 	var modal = void 0;
@@ -6365,42 +6358,18 @@
 	  modal = remModal;
 	  form = modal.querySelector('*[data-formName]');
 	  name = form.querySelector('*[data-valid="name"]');
-	
 	  appUrl = window.appSettings[form.dataset.formname].UrlApi;
-	  messages = window.appSettings[form.dataset.formname].messages;
 	};
 	
 	var callbackXhrSuccess = function callbackXhrSuccess(response) {
-	  switch (response.status) {
-	    case 200:
-	      $(modal).modal('hide');
-	      _formTools2.default.reset();
-	      _catalog__groups2.default.redraw();
-	      break;
-	    case 400:
-	      _tools2.default.informationtModal = {
-	        'title': 'Error',
-	        'message': messages.mes400
-	      };
-	      break;
-	    case 271:
-	      _tools2.default.informationtModal = {
-	        'title': 'Error',
-	        'message': response.messages
-	      };
-	      break;
-	  }
+	  $(modal).modal('hide');
+	  _formTools2.default.reset();
+	  _catalog__groups2.default.redraw();
 	};
 	
 	var callbackXhrError = function callbackXhrError(xhr) {
-	
 	  $(modal).modal('hide');
 	  _formTools2.default.reset();
-	
-	  _tools2.default.informationtModal = {
-	    'title': 'ОШИБКА СВЯЗИ',
-	    'message': '\u041E\u0448\u0438\u0431\u043A\u0430 ' + xhr.status + ': ' + xhr.statusText
-	  };
 	};
 	
 	var submitForm = function submitForm() {
@@ -7277,10 +7246,6 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _tools = __webpack_require__(7);
-	
-	var _tools2 = _interopRequireDefault(_tools);
-	
 	var _formTools = __webpack_require__(43);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
@@ -7288,8 +7253,6 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var appUrl = void 0;
-	var messages = void 0;
-	
 	var form = void 0;
 	var price = void 0;
 	var amount = void 0;
@@ -7300,45 +7263,16 @@
 	  form = modal.querySelector('*[data-formName]');
 	  price = form.querySelector('*[data-valid="price"]');
 	  amount = form.querySelector('*[data-valid="amount"]');
-	
 	  appUrl = window.appSettings[form.dataset.formname].UrlApi;
-	  messages = window.appSettings[form.dataset.formname].messages;
 	};
 	
 	var callbackXhrSuccess = function callbackXhrSuccess(response) {
-	  switch (response.status) {
-	    case 270:
-	      $(modal).modal('hide');
-	      _tools2.default.informationtModal = {
-	        'title': 'MESSAGE: ',
-	        'message': response.message,
-	        'isMess': true
-	      };
-	      break;
-	    case 400:
-	      _tools2.default.informationtModal = {
-	        'title': 'ERROR: ',
-	        'message': messages.mes400
-	      };
-	      break;
-	    case 271:
-	      _tools2.default.informationtModal = {
-	        'title': 'ERROR: ',
-	        'message': response.messages
-	      };
-	      break;
-	  }
+	  $(modal).modal('hide');
 	};
 	
 	var callbackXhrError = function callbackXhrError(xhr) {
-	
 	  $(modal).modal('hide');
 	  _formTools2.default.reset();
-	
-	  _tools2.default.informationtModal = {
-	    'title': 'ОШИБКА СВЯЗИ',
-	    'message': '\u041E\u0448\u0438\u0431\u043A\u0430 ' + xhr.status + ': ' + xhr.statusText
-	  };
 	};
 	
 	var submitForm = function submitForm() {
@@ -7385,10 +7319,6 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _tools = __webpack_require__(7);
-	
-	var _tools2 = _interopRequireDefault(_tools);
-	
 	var _formTools = __webpack_require__(43);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
@@ -7396,8 +7326,6 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var appUrl = void 0;
-	var messages = void 0;
-	
 	var form = void 0;
 	var amount = void 0;
 	var modal = void 0;
@@ -7406,40 +7334,16 @@
 	  modal = remModal;
 	  form = modal.querySelector('*[data-formName]');
 	  amount = form.querySelector('*[data-valid="amount"]');
-	
 	  appUrl = window.appSettings[form.dataset.formname].UrlApi;
-	  messages = window.appSettings[form.dataset.formname].messages;
 	};
 	
 	var callbackXhrSuccess = function callbackXhrSuccess(response) {
-	  switch (response.status) {
-	    case 200:
-	      $(modal).modal('hide');
-	      break;
-	    case 400:
-	      _tools2.default.informationtModal = {
-	        'title': 'Error',
-	        'message': messages.mes400
-	      };
-	      break;
-	    case 271:
-	      _tools2.default.informationtModal = {
-	        'title': 'Error',
-	        'message': response.messages
-	      };
-	      break;
-	  }
+	  $(modal).modal('hide');
 	};
 	
 	var callbackXhrError = function callbackXhrError(xhr) {
-	
 	  $(modal).modal('hide');
 	  _formTools2.default.reset();
-	
-	  _tools2.default.informationtModal = {
-	    'title': 'ОШИБКА СВЯЗИ',
-	    'message': '\u041E\u0448\u0438\u0431\u043A\u0430 ' + xhr.status + ': ' + xhr.statusText
-	  };
 	};
 	
 	var submitForm = function submitForm() {
@@ -7506,10 +7410,6 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var modal = void 0;
-	// import catalogGroups from './catalog__groups.js';
-	
-	// import catalogGroupsGoods from './catalog__groups-goods.js';
-	
 	var appUrl1 = void 0;
 	var appUrl2 = void 0;
 	var appUrl3 = void 0;
@@ -7524,7 +7424,6 @@
 	var percent = void 0;
 	var barcode = void 0;
 	var priceBlock = void 0;
-	
 	var inputInitValues = void 0;
 	
 	var initVar = function initVar(remModal) {
@@ -7595,7 +7494,6 @@
 	  } else {
 	    $('#goods-card').modal('hide');
 	    _formTools2.default.reset();
-	    // catalogGroups.getGoodsForGroup();
 	    _catalog__goods2.default.redraw();
 	  }
 	};
@@ -7611,7 +7509,6 @@
 	      } else {
 	        $('#goods-card').modal('hide');
 	        _formTools2.default.reset();
-	        // catalogGroups.getGoodsForGroup();
 	        _catalog__goods2.default.redraw();
 	      }
 	      break;
@@ -7640,7 +7537,6 @@
 	
 	      $('#goods-card').modal('hide');
 	      _formTools2.default.reset();
-	      // catalogGroups.getGoodsForGroup();
 	      _catalog__goods2.default.redraw();
 	      break;
 	    case 400:
@@ -7681,9 +7577,6 @@
 	};
 	
 	var calcPrice = function calcPrice(evt) {
-	  // if (!evt.target.type === 'text') {
-	  //   return false;
-	  // }
 	  if (!_formTools2.default.validElement(evt.target)) {
 	    evt.stopPropagation();
 	    return false;
@@ -7707,7 +7600,6 @@
 	
 	exports.default = {
 	  start: function start(remModal) {
-	    console.log('Card-Edit-START!');
 	    initVar(remModal);
 	    percent.value = calcPr();
 	
@@ -7994,10 +7886,6 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _tools = __webpack_require__(7);
-	
-	var _tools2 = _interopRequireDefault(_tools);
-	
 	var _formTools = __webpack_require__(43);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
@@ -8006,15 +7894,13 @@
 	
 	var _catalog__groups2 = _interopRequireDefault(_catalog__groups);
 	
-	var _tools3 = __webpack_require__(48);
+	var _tools = __webpack_require__(48);
 	
-	var _tools4 = _interopRequireDefault(_tools3);
+	var _tools2 = _interopRequireDefault(_tools);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var appUrl = void 0;
-	var messages = void 0;
-	
 	var form = void 0;
 	var name = void 0;
 	var modal = void 0;
@@ -8034,48 +7920,19 @@
 	  percent = form.querySelector('*[data-valid="percent"]');
 	  price = form.querySelector('*[data-valid="price"]');
 	  barcode = form.querySelector('*[data-valid="barcode"]');
-	
 	  priceBlock = form.querySelector('#group-goods-price');
-	
 	  appUrl = window.appSettings[form.dataset.formname].UrlApi;
-	  messages = window.appSettings[form.dataset.formname].messages;
 	};
 	
 	var callbackXhrSuccess = function callbackXhrSuccess(response) {
-	  switch (response.status) {
-	    case 200:
-	      $(modal).modal('hide');
-	      _formTools2.default.reset();
-	      _catalog__groups2.default.getGoodsForGroup();
-	      break;
-	    case 400:
-	      $(modal).modal('hide');
-	      _formTools2.default.reset();
-	      _tools2.default.informationtModal = {
-	        'title': 'Error',
-	        'message': messages.mes400
-	      };
-	      break;
-	    case 271:
-	      $(modal).modal('hide');
-	      _formTools2.default.reset();
-	      _tools2.default.informationtModal = {
-	        'title': 'Error',
-	        'message': response.messages
-	      };
-	      break;
-	  }
+	  $(modal).modal('hide');
+	  _formTools2.default.reset();
+	  _catalog__groups2.default.getGoodsForGroup();
 	};
 	
 	var callbackXhrError = function callbackXhrError(xhr) {
-	
 	  $(modal).modal('hide');
 	  _formTools2.default.reset();
-	
-	  _tools2.default.informationtModal = {
-	    'title': 'ОШИБКА СВЯЗИ',
-	    'message': '\u041E\u0448\u0438\u0431\u043A\u0430 ' + xhr.status + ': ' + xhr.statusText
-	  };
 	};
 	
 	var submitForm = function submitForm() {
@@ -8104,19 +7961,19 @@
 	
 	    switch (evt.target.dataset.valid) {
 	      case 'percent':
-	        price.value = _tools4.default.calcPrice(purchase.value, percent.value);
+	        price.value = _tools2.default.calcPrice(purchase.value, percent.value);
 	        break;
 	      case 'purchase':
 	        if (price.value === '') {
 	          price.value = purchase.value;
 	        }
-	        percent.value = _tools4.default.calcPercent(purchase.value, price.value);
+	        percent.value = _tools2.default.calcPercent(purchase.value, price.value);
 	        break;
 	      case 'price':
 	        if (purchase.value === '') {
 	          purchase.value = price.value;
 	        }
-	        percent.value = _tools4.default.calcPercent(purchase.value, price.value);
+	        percent.value = _tools2.default.calcPercent(purchase.value, price.value);
 	        break;
 	    }
 	  }
@@ -8401,10 +8258,6 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _tools = __webpack_require__(7);
-	
-	var _tools2 = _interopRequireDefault(_tools);
-	
 	var _formTools = __webpack_require__(43);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
@@ -8415,10 +8268,6 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	// let appUrlAdd;
-	// let appUrlEdit;
-	var messages = void 0;
-	
 	var form = void 0;
 	var field1 = void 0;
 	var modal = void 0;
@@ -8426,63 +8275,24 @@
 	var initVar = function initVar(remModal) {
 	  modal = remModal;
 	  form = modal.querySelector('*[data-formName]');
-	
 	  form.dataset.formname = 'nomenclatureAddEdit';
 	  field1 = form.querySelector('*[data-valid="field1"]');
-	
-	  // appUrlAdd = window.appSettings[form.dataset.formname].UrlApiAdd;
-	  // appUrlEdit = window.appSettings[form.dataset.formname].UrlApiEdit;
-	  messages = window.appSettings[form.dataset.formname].messages;
 	};
 	
 	var callbackXhrSuccess = function callbackXhrSuccess(response) {
-	  switch (response.status) {
-	    case 200:
-	      $(modal).modal('hide');
-	      _formTools2.default.reset();
-	      _reference__debitCredit2.default.redraw();
-	      /*
-	      if (dataStorage.currentCardName === '') {
-	        catalogCard.redrawList();
-	      } else {
-	        catalogCard.redrawCard();
-	      }
-	      */
-	      break;
-	    case 400:
-	      _tools2.default.informationtModal = {
-	        'title': 'Error',
-	        'message': messages.mes400
-	      };
-	      break;
-	    case 271:
-	      _tools2.default.informationtModal = {
-	        'title': 'Error',
-	        'message': response.messages
-	      };
-	      break;
-	  }
+	  $(modal).modal('hide');
+	  _formTools2.default.reset();
+	  _reference__debitCredit2.default.redraw();
 	};
 	
 	var callbackXhrError = function callbackXhrError(xhr) {
-	
 	  $(modal).modal('hide');
 	  _formTools2.default.reset();
-	
-	  _tools2.default.informationtModal = {
-	    'title': 'ОШИБКА СВЯЗИ',
-	    'message': '\u041E\u0448\u0438\u0431\u043A\u0430 ' + xhr.status + ': ' + xhr.statusText
-	  };
 	};
 	
 	var submitFormAdd = function submitFormAdd() {
 	  var stor = _storage2.default.data;
 	
-	  /*
-	  let urlApp = appUrlAdd.replace('{{dir}}', stor.directory);
-	  urlApp = urlApp.replace('{{oper}}', stor.operatorId);
-	  urlApp = urlApp.replace('{{busId}}', stor.currentBusiness);
-	  */
 	  var postData = 'name=' + field1.value + '&token=' + stor.token;
 	  var urlApp = 'lopos_directory/' + stor.directory + '/operator/1/business/' + stor.currentBusiness + '/reason/' + _storage2.default.debitCreditType;
 	  _formTools2.default.submit({
@@ -8497,12 +8307,6 @@
 	var submitFormEdit = function submitFormEdit() {
 	  var stor = _storage2.default.data;
 	
-	  /*
-	  let urlApp = appUrlEdit.replace('{{dir}}', stor.directory);
-	  urlApp = urlApp.replace('{{oper}}', stor.operatorId);
-	  urlApp = urlApp.replace('{{busId}}', stor.currentBusiness);
-	  urlApp = urlApp.replace('{{NCid}}', dataStorage.currentCardId);
-	  */
 	  var postData = 'name=' + field1.value + '&token=' + stor.token;
 	  var urlApp = 'lopos_directory/' + stor.directory + '/operator/1/business/' + stor.currentBusiness + '/reason/' + _storage2.default.debitCreditId;
 	  _formTools2.default.submit({
@@ -9653,7 +9457,6 @@
 	};
 	
 	var getReportLink = function getReportLink() {
-	  console.log('stock-->', _storage2.default.currentStockId);
 	
 	  var params = [];
 	  var listOfGroups = [];
@@ -9670,12 +9473,14 @@
 	    }
 	  });
 	
-	  console.log('parameters-->', params);
-	  console.log('listOfGroups-->', listOfGroups);
+	  var date = new Date();
+	  var timeZoneOffset = date.getTimezoneOffset();
+	  timeZoneOffset *= 60;
+	
 	  _xhr2.default.request = {
 	    metod: 'POST',
 	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.data.operatorId + '/business/' + _storage2.default.data.currentBusiness + '/report/remains/export/' + _storage2.default.currentReportType,
-	    data: 'token=' + _storage2.default.data.token + '&parameters=[' + params + ']&list_of_groups=[' + listOfGroups + ']' + (_storage2.default.currentStockId === 'all' ? '' : '&stock=' + _storage2.default.currentStockId),
+	    data: 'token=' + _storage2.default.data.token + '&parameters=[' + params + ']&list_of_groups=[' + listOfGroups + ']' + (_storage2.default.currentStockId === 'all' ? '' : '&stock=' + _storage2.default.currentStockId) + '&timezone=' + timeZoneOffset,
 	    callbackSuccess: onPDFLoadSuccess
 	  };
 	};
@@ -9769,10 +9574,14 @@
 	    }
 	  });
 	
+	  var date = new Date();
+	  var timeZoneOffset = date.getTimezoneOffset();
+	  timeZoneOffset *= 60;
+	
 	  _xhr2.default.request = {
 	    metod: 'POST',
 	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.data.operatorId + '/business/' + _storage2.default.data.currentBusiness + '/report/turnover/export/' + _storage2.default.currentReportType,
-	    data: 'token=' + _storage2.default.data.token + '&parameters=[' + params + ']&list_of_groups=[' + listOfGroups + '&time_start=' + Date.parse(reportTurnFrom.value) / 1000 + '&time_end=' + Date.parse(reportTurnTo.value) / 1000 + (_storage2.default.currentStockId === 'all' ? '' : '&stock=' + _storage2.default.currentStockId),
+	    data: 'token=' + _storage2.default.data.token + '&parameters=[' + params + ']&list_of_groups=[' + listOfGroups + '&time_start=' + Date.parse(reportTurnFrom.value) / 1000 + '&time_end=' + Date.parse(reportTurnTo.value) / 1000 + (_storage2.default.currentStockId === 'all' ? '' : '&stock=' + _storage2.default.currentStockId) + '&timezone=' + timeZoneOffset,
 	    callbackSuccess: onPDFLoadSuccessTurn
 	  };
 	};
@@ -9861,12 +9670,14 @@
 	    }
 	  });
 	
-	  console.log('parameters-->', params);
+	  var date = new Date();
+	  var timeZoneOffset = date.getTimezoneOffset();
+	  timeZoneOffset *= 60;
 	
 	  _xhr2.default.request = {
 	    metod: 'POST',
 	    url: 'lopos_directory/' + _storage2.default.data.directory + '/operator/' + _storage2.default.data.operatorId + '/business/' + _storage2.default.data.currentBusiness + '/report/profit/export/' + _storage2.default.currentReportType,
-	    data: 'token=' + _storage2.default.data.token + '&parameters=[' + params + ']&ime_start=' + Date.parse(reportProfitFrom.value) / 1000 + '&time_end=' + Date.parse(reportProfitTo.value) / 1000 + (_storage2.default.currentStockId === 'all' ? '' : '&stock=' + _storage2.default.currentStockId),
+	    data: 'token=' + _storage2.default.data.token + '&parameters=[' + params + ']&ime_start=' + Date.parse(reportProfitFrom.value) / 1000 + '&time_end=' + Date.parse(reportProfitTo.value) / 1000 + (_storage2.default.currentStockId === 'all' ? '' : '&stock=' + _storage2.default.currentStockId) + '&timezone=' + timeZoneOffset,
 	    callbackSuccess: onPDFLoadSuccessProfit
 	  };
 	};
@@ -10357,10 +10168,6 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _tools = __webpack_require__(7);
-	
-	var _tools2 = _interopRequireDefault(_tools);
-	
 	var _formTools = __webpack_require__(43);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
@@ -10373,7 +10180,6 @@
 	
 	var appUrlAdd = void 0;
 	var appUrlEdit = void 0;
-	var messages = void 0;
 	
 	var form = void 0;
 	var field1 = void 0;
@@ -10388,44 +10194,22 @@
 	
 	  appUrlAdd = window.appSettings[form.dataset.formname].UrlApiAdd;
 	  appUrlEdit = window.appSettings[form.dataset.formname].UrlApiEdit;
-	  messages = window.appSettings[form.dataset.formname].messages;
 	};
 	
 	var callbackXhrSuccess = function callbackXhrSuccess(response) {
-	  switch (response.status) {
-	    case 200:
-	      $(modal).modal('hide');
-	      _formTools2.default.reset();
-	      if (_storage2.default.currentCardName === '') {
-	        _catalog__cards2.default.redrawList();
-	      } else {
-	        _catalog__cards2.default.redrawCard();
-	      }
-	      break;
-	    case 400:
-	      _tools2.default.informationtModal = {
-	        'title': 'Error',
-	        'message': messages.mes400
-	      };
-	      break;
-	    case 271:
-	      _tools2.default.informationtModal = {
-	        'title': 'Error',
-	        'message': response.messages
-	      };
-	      break;
+	  $(modal).modal('hide');
+	
+	  _formTools2.default.reset();
+	  if (_storage2.default.currentCardName === '') {
+	    _catalog__cards2.default.redrawList();
+	  } else {
+	    _catalog__cards2.default.redrawCard();
 	  }
 	};
 	
 	var callbackXhrError = function callbackXhrError(xhr) {
-	
 	  $(modal).modal('hide');
 	  _formTools2.default.reset();
-	
-	  _tools2.default.informationtModal = {
-	    'title': 'ОШИБКА СВЯЗИ',
-	    'message': '\u041E\u0448\u0438\u0431\u043A\u0430 ' + xhr.status + ': ' + xhr.statusText
-	  };
 	};
 	
 	var submitFormAdd = function submitFormAdd() {
@@ -10491,10 +10275,6 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _tools = __webpack_require__(7);
-	
-	var _tools2 = _interopRequireDefault(_tools);
-	
 	var _formTools = __webpack_require__(43);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
@@ -10506,8 +10286,6 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var appUrl = void 0;
-	var messages = void 0;
-	
 	var form = void 0;
 	var quantity = void 0;
 	var modal = void 0;
@@ -10516,42 +10294,18 @@
 	  modal = remModal;
 	  form = modal.querySelector('*[data-formName]');
 	  quantity = form.querySelector('*[data-valid="quantity"]');
-	
 	  appUrl = window.appSettings[form.dataset.formname].UrlApi;
-	  messages = window.appSettings[form.dataset.formname].message;
 	};
 	
 	var callbackXhrSuccess = function callbackXhrSuccess(response) {
-	  switch (response.status) {
-	    case 200:
-	      $(modal).modal('hide');
-	      _formTools2.default.reset();
-	      _catalog__cards2.default.redrawCard();
-	      break;
-	    case 400:
-	      _tools2.default.informationtModal = {
-	        'title': 'Error',
-	        'message': messages.mes400
-	      };
-	      break;
-	    case 271:
-	      _tools2.default.informationtModal = {
-	        'title': 'Error',
-	        'message': response.messages
-	      };
-	      break;
-	  }
+	  $(modal).modal('hide');
+	  _formTools2.default.reset();
+	  _catalog__cards2.default.redrawCard();
 	};
 	
 	var callbackXhrError = function callbackXhrError(xhr) {
-	
 	  $(modal).modal('hide');
 	  _formTools2.default.reset();
-	
-	  _tools2.default.informationtModal = {
-	    'title': 'ОШИБКА СВЯЗИ',
-	    'message': '\u041E\u0448\u0438\u0431\u043A\u0430 ' + xhr.status + ': ' + xhr.statusText
-	  };
 	};
 	
 	var submitForm = function submitForm() {
@@ -10942,10 +10696,6 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _tools = __webpack_require__(7);
-	
-	var _tools2 = _interopRequireDefault(_tools);
-	
 	var _formTools = __webpack_require__(43);
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
@@ -10961,8 +10711,6 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var appUrl = void 0;
-	var messages = void 0;
-	
 	var form = void 0;
 	var field1 = void 0;
 	var modal = void 0;
@@ -10975,55 +10723,26 @@
 	  field1 = form.querySelector('*[data-valid="field1"]');
 	
 	  appUrl = window.appSettings[form.dataset.formname].UrlApi;
-	  messages = window.appSettings[form.dataset.formname].messages;
 	};
 	
 	var callbackXhrSuccess = function callbackXhrSuccess(response) {
-	  switch (response.status) {
-	    case 200:
-	      $(modal).modal('hide');
-	      _formTools2.default.reset();
+	  $(modal).modal('hide');
+	  _formTools2.default.reset();
 	
-	      // чОрное колдовство с автооткрытием карточки при одном найденном варианте
-	      if (response.data.length === 1) {
-	        $(modal).on('hidden.bs.modal', function (e) {
-	          _storage2.default.currentGoodId = response.data[0].id;
-	          _catalog__goods2.default.fill();
-	          response.data = 0;
-	        });
-	      } else if (response.data.length > 1) {
-	        _catalog__search2.default.drawResult(response.data);
-	      }
-	
-	      break;
-	    case 400:
-	      $(modal).modal('hide');
-	      _formTools2.default.reset();
-	      _tools2.default.informationtModal = {
-	        'title': 'Error',
-	        'message': messages.mes400
-	      };
-	      break;
-	    case 271:
-	      $(modal).modal('hide');
-	      _formTools2.default.reset();
-	      _tools2.default.informationtModal = {
-	        'title': 'Error',
-	        'message': response.message
-	      };
-	      break;
+	  if (response.data.length === 1) {
+	    $(modal).on('hidden.bs.modal', function (e) {
+	      _storage2.default.currentGoodId = response.data[0].id;
+	      _catalog__goods2.default.fill();
+	      response.data = 0;
+	    });
+	  } else if (response.data.length > 1) {
+	    _catalog__search2.default.drawResult(response.data);
 	  }
 	};
 	
 	var callbackXhrError = function callbackXhrError(xhr) {
-	
 	  $(modal).modal('hide');
 	  _formTools2.default.reset();
-	
-	  _tools2.default.informationtModal = {
-	    'title': 'ОШИБКА СВЯЗИ',
-	    'message': '\u041E\u0448\u0438\u0431\u043A\u0430 ' + xhr.status + ': ' + xhr.statusText
-	  };
 	};
 	
 	var submitFormAdd = function submitFormAdd() {
@@ -11941,8 +11660,6 @@
 	    'data': xhrData,
 	    'callbackSuccess': getDataXhrCallbackSuccess
 	  };
-	
-	  console.dir(xhrResp);
 	
 	  _xhr2.default.request = xhrResp;
 	};
