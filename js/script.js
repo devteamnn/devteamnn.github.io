@@ -122,11 +122,11 @@
 	
 	var _operations__manufacture2 = _interopRequireDefault(_operations__manufacture);
 	
-	var _operations__balance = __webpack_require__(58);
+	var _operations__balance = __webpack_require__(59);
 	
 	var _operations__balance2 = _interopRequireDefault(_operations__balance);
 	
-	var _online__users = __webpack_require__(59);
+	var _online__users = __webpack_require__(60);
 	
 	var _online__users2 = _interopRequireDefault(_online__users);
 	
@@ -134,27 +134,27 @@
 	
 	var _accounting__allDocs2 = _interopRequireDefault(_accounting__allDocs);
 	
-	var _accounting__reports = __webpack_require__(60);
+	var _accounting__reports = __webpack_require__(61);
 	
 	var _accounting__reports2 = _interopRequireDefault(_accounting__reports);
 	
-	var _catalog__cards = __webpack_require__(61);
+	var _catalog__cards = __webpack_require__(62);
 	
 	var _catalog__cards2 = _interopRequireDefault(_catalog__cards);
 	
-	var _catalog__search = __webpack_require__(64);
+	var _catalog__search = __webpack_require__(65);
 	
 	var _catalog__search2 = _interopRequireDefault(_catalog__search);
 	
-	var _operations__purchase = __webpack_require__(68);
+	var _operations__purchase = __webpack_require__(69);
 	
 	var _operations__purchase2 = _interopRequireDefault(_operations__purchase);
 	
-	var _operations__sale = __webpack_require__(75);
+	var _operations__sale = __webpack_require__(76);
 	
 	var _operations__sale2 = _interopRequireDefault(_operations__sale);
 	
-	var _operations__inventory = __webpack_require__(77);
+	var _operations__inventory = __webpack_require__(78);
 	
 	var _operations__inventory2 = _interopRequireDefault(_operations__inventory);
 	
@@ -1409,6 +1409,7 @@
 	    xhr.addEventListener('timeout', xhrTimeoutHandler);
 	
 	    xhr.timeout = window.appSettings.xhrSettings.timeout;
+	
 	    xhr.open(parameters.metod, window.appSettings.xhrSettings.urlApi + parameters.url, true);
 	    xhr.send(parameters.data);
 	    // };
@@ -1512,14 +1513,19 @@
 	  set runUniversalModalMicro(setup) {
 	    var requestHandler = function requestHandler(evt) {
 	      evt.preventDefault();
-	      setup.submitCallback(modalUniversalAddName.value);
+	      modalUniversalMicroForm.removeEventListener('submit', requestHandler);
 	      modalUniversalAddForm.removeEventListener('submit', requestHandler);
+	      setup.submitCallback(modalUniversalMicroName.value);
+	    };
+	
+	    var showHandler = function showHandler() {
+	      $(modalUniversalMicro).trigger('focus');
+	      $(modalUniversalMicro).unbind('shown', showHandler);
 	    };
 	
 	    $(modalUniversalMicro).modal('show');
-	    $(modalUniversalMicro).on('shown.bs.modal', function () {
-	      $(modalUniversalMicro).trigger('focus');
-	    });
+	    $(modalUniversalMicro).on('shown.bs.modal', showHandler);
+	
 	    modalUniversalMicroLabel.innerHTML = setup.title;
 	    modalUniversalMicroNameLabel.innerHTML = setup.inputLabel;
 	    modalUniversalMicroName.setAttribute('placeholder', setup.inputPlaceholder);
@@ -8350,10 +8356,6 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _universalValidityMicro = __webpack_require__(52);
-	
-	var _universalValidityMicro2 = _interopRequireDefault(_universalValidityMicro);
-	
 	var _tools = __webpack_require__(7);
 	
 	var _tools2 = _interopRequireDefault(_tools);
@@ -8365,6 +8367,10 @@
 	var _catalogCards = __webpack_require__(57);
 	
 	var _catalogCards2 = _interopRequireDefault(_catalogCards);
+	
+	var _operations__manufactureEditQuantity = __webpack_require__(58);
+	
+	var _operations__manufactureEditQuantity2 = _interopRequireDefault(_operations__manufactureEditQuantity);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -8381,9 +8387,30 @@
 	var nomenklatureCardModal = document.querySelector('#select-nomenklature-card');
 	var nomenklatureCardModalBody = document.querySelector('#select-nomenklature-card-body');
 	
+	var manufactureAmountModal = document.querySelector('#manufacture-amount-edit');
+	
 	var loadedNomenklatureCards = '';
 	var selectedNomenklatureCards = '';
 	var currentGoods = [];
+	var currentStringElement = '';
+	
+	var delCard = function delCard(cards) {
+	  var newRows = [];
+	
+	  cards.forEach(function (el) {
+	    if (!el.del) {
+	      newRows.push(el);
+	    }
+	  });
+	
+	  return newRows.slice();
+	};
+	
+	var drawCard = function drawCard() {
+	  manufactureColumnBody.innerHTML = '';
+	  _catalogCardsManufacture2.default.drawDataInContainer(selectedNomenklatureCards, manufactureColumnBody);
+	  drawGoodsToColumns();
+	};
 	// #################### РАЗМЕТКА ДЛЯ ПОМЕЩЕНИЯ ТОВАРОВ В КОЛОНКИ ######################
 	
 	var getMaterialString = function getMaterialString(id, name, good, index, value, classDanger) {
@@ -8479,62 +8506,109 @@
 	
 	// #################### ОБРАБАТЫВАЕМ КЛИКИ ПО СПИСКУ В ПЕРВОЙ КОЛОНКЕ ######################
 	
-	var onManufactureColumnBodyClick = function onManufactureColumnBodyClick(evt) {
-	  var currentStringElement = evt.target;
-	  while (!currentStringElement.dataset.cardId) {
-	    currentStringElement = currentStringElement.parentNode;
+	var submitCallback = function submitCallback(numCardCnt) {
+	
+	  if (numCardCnt === '0') {
+	
+	    selectedNomenklatureCards.forEach(function (card) {
+	
+	      if (card.id === currentStringElement.dataset.cardId) {
+	        card.del = true;
+	        nomenklatureCardModalBody.querySelector('*[data-card-id="' + card.id + '"]').classList.remove('manufacture-nomenklature-card--muted');
+	      } else {
+	        card.del = false;
+	      }
+	    });
+	
+	    selectedNomenklatureCards = delCard(selectedNomenklatureCards);
+	  } else {
+	    selectedNomenklatureCards.forEach(function (card) {
+	      if (card.id === currentStringElement.dataset.cardId) {
+	        card.k = numCardCnt;
+	      }
+	    });
 	  }
 	
-	  _tools2.default.runUniversalModalMicro = {
-	    title: 'Укажите коэффициент',
-	    inputLabel: 'Коэффициент',
-	    inputPlaceholder: 'введите коэффициент',
-	    submitBtnName: 'Изменить',
-	    submitCallback: function submitCallback() {
-	      // if (/^\-?\d+$/.test(document.querySelector('#universal-modal-micro-name').value)) {
-	      if (_universalValidityMicro2.default.check([document.querySelector('#universal-modal-micro-name')], ['universal-modal-micro-name'])) {
-	        if (+document.querySelector('#universal-modal-micro-name').value === 0) {
-	          selectedNomenklatureCards.splice([currentStringElement.dataset.cardIndex], 1);
-	          document.querySelectorAll('.manufacture-nomenklature-card--muted')[currentStringElement.dataset.cardIndex].classList.remove('manufacture-nomenklature-card--muted');
-	        } else {
-	          selectedNomenklatureCards[currentStringElement.dataset.cardIndex].k = document.querySelector('#universal-modal-micro-name').value;
-	        }
+	  drawCard();
+	  manufactureMakeBtn.setAttribute('disabled', 'disabled');
+	  document.querySelector('#universal-modal-micro-valid').innerHTML = '';
+	  $('#universal-modal-micro').modal('hide');
+	};
 	
-	        manufactureColumnBody.innerHTML = '';
-	        _catalogCardsManufacture2.default.drawDataInContainer(selectedNomenklatureCards, manufactureColumnBody);
-	        drawGoodsToColumns();
-	        manufactureMakeBtn.setAttribute('disabled', 'disabled');
-	        document.querySelector('#universal-modal-micro-valid').innerHTML = '';
-	        $('#universal-modal-micro').modal('hide');
+	var onManufactureColumnBodyClick = function onManufactureColumnBodyClick(evt) {
+	
+	  if (selectedNomenklatureCards.length !== 0) {
+	    currentStringElement = evt.target;
+	
+	    while (!currentStringElement.dataset.cardId) {
+	      if (currentStringElement.parentNode) {
+	        currentStringElement = currentStringElement.parentNode;
 	      }
-	      /*
-	      } else {
-	        document.querySelector('#universal-modal-micro-valid').innerHTML = 'Целое число';
-	      }
-	      */
 	    }
-	  };
+	
+	    _operations__manufactureEditQuantity2.default.start(manufactureAmountModal, submitCallback);
+	
+	    // manufactureAmountModal
+	
+	    // toolsMarkup.runUniversalModalMicro = {
+	    //   title: 'Укажите коэффициент',
+	    //   inputLabel: 'Коэффициент',
+	    //   inputPlaceholder: 'введите коэффициент',
+	    //   submitBtnName: 'Изменить',
+	    //   submitCallback
+	    // };
+	  }
 	};
 	
 	manufactureColumnBody.addEventListener('click', onManufactureColumnBodyClick);
 	
 	// #################### ОБРАБАТЫВАЕМ КЛИКИ ПО СПИСКУ КАРТОЧКЕ В МОДАЛЬНОМ ОКНЕ #############
 	$(nomenklatureCardModal).on('hidden.bs.modal', function () {
-	  selectedNomenklatureCards = [].map.call(document.querySelectorAll('.manufacture-nomenklature-card--muted'), function (item) {
-	    return Object.assign(loadedNomenklatureCards[item.dataset.cardIndex], {
-	      k: 1
+	
+	  if (!selectedNomenklatureCards.length) {
+	    selectedNomenklatureCards = [].map.call(document.querySelectorAll('.manufacture-nomenklature-card--muted'), function (item) {
+	      return Object.assign(loadedNomenklatureCards[item.dataset.cardIndex], {
+	        k: 1
+	      });
 	    });
-	  });
-	  if (selectedNomenklatureCards.length !== 0) {
-	    manufactureColumnBody.innerHTML = '';
-	    _catalogCardsManufacture2.default.drawDataInContainer(selectedNomenklatureCards, manufactureColumnBody);
-	    manufactureMaterialCheck.classList.add('d-none');
-	    drawGoodsToColumns();
+	  } else {
+	    selectedNomenklatureCards.forEach(function (item) {
+	      item.del = true;
+	    });
+	    var selectCards = document.querySelectorAll('.manufacture-nomenklature-card--muted');
+	
+	    if (selectCards.length !== 0) {
+	      selectCards.forEach(function (item) {
+	        var newCard = true;
+	
+	        for (var i = 0; i < selectedNomenklatureCards.length; i++) {
+	          if (selectedNomenklatureCards[i].id === item.dataset['cardId']) {
+	            selectedNomenklatureCards[i].del = false;
+	            newCard = false;
+	            break;
+	          }
+	        }
+	
+	        if (newCard) {
+	          selectedNomenklatureCards.push(Object.assign(loadedNomenklatureCards[item.dataset.cardIndex], {
+	            k: 1,
+	            del: false
+	          }));
+	        }
+	      });
+	
+	      selectedNomenklatureCards = delCard(selectedNomenklatureCards);
+	    } else {
+	      selectedNomenklatureCards = [];
+	    }
 	  }
+	
+	  drawCard();
+	  manufactureMaterialCheck.classList.add('d-none');
 	});
 	
 	var onListCardBodyClick = function onListCardBodyClick(evt) {
-	  var currentStringElement = evt.target;
+	  currentStringElement = evt.target;
 	  while (!currentStringElement.dataset.cardId) {
 	    currentStringElement = currentStringElement.parentNode;
 	  }
@@ -8569,6 +8643,7 @@
 	};
 	
 	var getManufacture = function getManufacture() {
+	  selectedNomenklatureCards = '';
 	
 	  manufactureColumnBody.innerHTML = '';
 	  materialColumnBody.innerHTML = '';
@@ -8584,7 +8659,6 @@
 	};
 	
 	$('#universal-modal-micro').on('shown.bs.modal', function () {
-	  console.log('hi');
 	  $('#universal-modal-micro-name').trigger('focus');
 	});
 	
@@ -8608,17 +8682,6 @@
 	});
 	exports.default = {
 	  getElement: function getElement(item, index) {
-	    /*
-	    return `
-	    <div class="d-flex justify-content-between align-items-center reference-string" data-card-id="${item.id}" data-card-index="${index}"">
-	      <div style="padding-left: 34px;">
-	        <span class="reference-row-number">${index + 1}</span>
-	        <span>${item.name}</span>
-	      </div>
-	      <div class="d-flex justify-content-between align-items-center">${(item.k) ? item.k : ''}
-	      </div>
-	    </div>`;
-	    */
 	    return '\n        <div class="manufacture-header" data-card-id="' + item.id + '" data-card-index="' + index + '">\n            <div class="manufacture-3-column">' + (index + 1) + '</div>\n            <div class="manufacture-3-column">' + item.name + '</div>\n            <div class="manufacture-3-column">' + item.k + '</div>\n        </div>';
 	  },
 	  drawDataInContainer: function drawDataInContainer(cardsData, container) {
@@ -8629,24 +8692,10 @@
 	      cardsData.forEach(function (item, index) {
 	        return container.insertAdjacentHTML('beforeend', _this.getElement(item, index));
 	      });
-	    } else {
-	      container.innerHTML = 'Производственных карточек еще не создано';
 	    }
 	  },
 	  getResourceElement: function getResourceElement(item, number) {
-	
 	    return '\n    <div class="manufacture-header" data-card-id="' + item.good_id + '">\n      <div class="manufacture-3-column">' + number + '</div>\n      <div class="manufacture-3-column">' + item.name + '</div>\n      <div class="manufacture-3-column">' + item.value + '</div>\n    </div>\n    ';
-	    /*
-	    return `
-	    <div class="d-flex justify-content-between reference-string" data-card-id="${item.good_id}"">
-	      <div style="padding-left: 34px;">
-	        ${item.name}
-	      </div>
-	      <div style="padding-right: 10px;">
-	        ${item.value}
-	      </div>
-	    </div>`;
-	    */
 	  }
 	};
 
@@ -8705,6 +8754,56 @@
 
 /***/ }),
 /* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _formTools = __webpack_require__(43);
+	
+	var _formTools2 = _interopRequireDefault(_formTools);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var form = void 0;
+	var amount = void 0;
+	var modal = void 0;
+	var callback = void 0;
+	
+	var initVar = function initVar(remModal, remCallback) {
+	  modal = remModal;
+	  callback = remCallback;
+	  form = modal.querySelector('*[data-formName]');
+	  amount = form.querySelector('*[data-valid="amount"]');
+	};
+	
+	var submitForm = function submitForm() {
+	  var val = amount.value;
+	  $(modal).modal('hide');
+	  _formTools2.default.reset();
+	  callback(val);
+	};
+	
+	exports.default = {
+	  start: function start(remModal, remCallback) {
+	    initVar(remModal, remCallback);
+	    _formTools2.default.work(modal, submitForm);
+	    $(remModal).modal('show');
+	
+	    setTimeout(function () {
+	      amount.focus();
+	    }, 500);
+	  },
+	  stop: function stop() {
+	    _formTools2.default.reset();
+	  }
+	};
+
+/***/ }),
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8893,7 +8992,7 @@
 	};
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -9326,7 +9425,7 @@
 	};
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -9804,7 +9903,7 @@
 	};
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -9829,11 +9928,11 @@
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _catalog__cardsAddEdit = __webpack_require__(62);
+	var _catalog__cardsAddEdit = __webpack_require__(63);
 	
 	var _catalog__cardsAddEdit2 = _interopRequireDefault(_catalog__cardsAddEdit);
 	
-	var _catalog__cardsAddResource = __webpack_require__(63);
+	var _catalog__cardsAddResource = __webpack_require__(64);
 	
 	var _catalog__cardsAddResource2 = _interopRequireDefault(_catalog__cardsAddResource);
 	
@@ -10155,7 +10254,7 @@
 	};
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -10172,7 +10271,7 @@
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
-	var _catalog__cards = __webpack_require__(61);
+	var _catalog__cards = __webpack_require__(62);
 	
 	var _catalog__cards2 = _interopRequireDefault(_catalog__cards);
 	
@@ -10262,7 +10361,7 @@
 	};
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -10279,7 +10378,7 @@
 	
 	var _formTools2 = _interopRequireDefault(_formTools);
 	
-	var _catalog__cards = __webpack_require__(61);
+	var _catalog__cards = __webpack_require__(62);
 	
 	var _catalog__cards2 = _interopRequireDefault(_catalog__cards);
 	
@@ -10337,7 +10436,7 @@
 	};
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -10374,11 +10473,11 @@
 	
 	var _universalGoodsList2 = _interopRequireDefault(_universalGoodsList);
 	
-	var _singleValidation = __webpack_require__(65);
+	var _singleValidation = __webpack_require__(66);
 	
 	var _singleValidation2 = _interopRequireDefault(_singleValidation);
 	
-	var _catalog__searchBarcode = __webpack_require__(66);
+	var _catalog__searchBarcode = __webpack_require__(67);
 	
 	var _catalog__searchBarcode2 = _interopRequireDefault(_catalog__searchBarcode);
 	
@@ -10565,7 +10664,7 @@
 	};
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -10642,7 +10741,7 @@
 	};
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -10655,7 +10754,7 @@
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _catalog__searchBarcodeValid = __webpack_require__(67);
+	var _catalog__searchBarcodeValid = __webpack_require__(68);
 	
 	var _catalog__searchBarcodeValid2 = _interopRequireDefault(_catalog__searchBarcodeValid);
 	
@@ -10683,7 +10782,7 @@
 	};
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -10704,7 +10803,7 @@
 	
 	var _catalog__goods2 = _interopRequireDefault(_catalog__goods);
 	
-	var _catalog__search = __webpack_require__(64);
+	var _catalog__search = __webpack_require__(65);
 	
 	var _catalog__search2 = _interopRequireDefault(_catalog__search);
 	
@@ -10773,7 +10872,7 @@
 	};
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -10790,23 +10889,23 @@
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _operationsServerTools = __webpack_require__(69);
+	var _operationsServerTools = __webpack_require__(70);
 	
 	var _operationsServerTools2 = _interopRequireDefault(_operationsServerTools);
 	
-	var _operationsLeftColumn = __webpack_require__(70);
+	var _operationsLeftColumn = __webpack_require__(71);
 	
 	var _operationsLeftColumn2 = _interopRequireDefault(_operationsLeftColumn);
 	
-	var _operationsRightColumn = __webpack_require__(72);
+	var _operationsRightColumn = __webpack_require__(73);
 	
 	var _operationsRightColumn2 = _interopRequireDefault(_operationsRightColumn);
 	
-	var _operationsHeader = __webpack_require__(73);
+	var _operationsHeader = __webpack_require__(74);
 	
 	var _operationsHeader2 = _interopRequireDefault(_operationsHeader);
 	
-	var _operationsGoodAdd = __webpack_require__(74);
+	var _operationsGoodAdd = __webpack_require__(75);
 	
 	var _operationsGoodAdd2 = _interopRequireDefault(_operationsGoodAdd);
 	
@@ -11534,7 +11633,7 @@
 	};
 
 /***/ }),
-/* 69 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11671,7 +11770,7 @@
 	};
 
 /***/ }),
-/* 70 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11688,7 +11787,7 @@
 	
 	var _universalGroupsList2 = _interopRequireDefault(_universalGroupsList);
 	
-	var _operation__trade = __webpack_require__(71);
+	var _operation__trade = __webpack_require__(72);
 	
 	var _operation__trade2 = _interopRequireDefault(_operation__trade);
 	
@@ -11980,7 +12079,7 @@
 	};
 
 /***/ }),
-/* 71 */
+/* 72 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -12034,7 +12133,7 @@
 	};
 
 /***/ }),
-/* 72 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12043,7 +12142,7 @@
 	  value: true
 	});
 	
-	var _operation__trade = __webpack_require__(71);
+	var _operation__trade = __webpack_require__(72);
 	
 	var _operation__trade2 = _interopRequireDefault(_operation__trade);
 	
@@ -12051,7 +12150,7 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _singleValidation = __webpack_require__(65);
+	var _singleValidation = __webpack_require__(66);
 	
 	var _singleValidation2 = _interopRequireDefault(_singleValidation);
 	
@@ -12392,7 +12491,7 @@
 	};
 
 /***/ }),
-/* 73 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12475,7 +12574,7 @@
 	};
 
 /***/ }),
-/* 74 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12544,7 +12643,7 @@
 	};
 
 /***/ }),
-/* 75 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12561,27 +12660,27 @@
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _operationsServerTools = __webpack_require__(69);
+	var _operationsServerTools = __webpack_require__(70);
 	
 	var _operationsServerTools2 = _interopRequireDefault(_operationsServerTools);
 	
-	var _operationsLeftColumn = __webpack_require__(70);
+	var _operationsLeftColumn = __webpack_require__(71);
 	
 	var _operationsLeftColumn2 = _interopRequireDefault(_operationsLeftColumn);
 	
-	var _operationsRightColumn = __webpack_require__(72);
+	var _operationsRightColumn = __webpack_require__(73);
 	
 	var _operationsRightColumn2 = _interopRequireDefault(_operationsRightColumn);
 	
-	var _operationsHeader = __webpack_require__(73);
+	var _operationsHeader = __webpack_require__(74);
 	
 	var _operationsHeader2 = _interopRequireDefault(_operationsHeader);
 	
-	var _operationsGoodAdd = __webpack_require__(74);
+	var _operationsGoodAdd = __webpack_require__(75);
 	
 	var _operationsGoodAdd2 = _interopRequireDefault(_operationsGoodAdd);
 	
-	var _operations__tradeDiscount = __webpack_require__(76);
+	var _operations__tradeDiscount = __webpack_require__(77);
 	
 	var _operations__tradeDiscount2 = _interopRequireDefault(_operations__tradeDiscount);
 	
@@ -13188,7 +13287,7 @@
 	};
 
 /***/ }),
-/* 76 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13247,7 +13346,7 @@
 	};
 
 /***/ }),
-/* 77 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13264,23 +13363,23 @@
 	
 	var _tools2 = _interopRequireDefault(_tools);
 	
-	var _operationsServerTools = __webpack_require__(69);
+	var _operationsServerTools = __webpack_require__(70);
 	
 	var _operationsServerTools2 = _interopRequireDefault(_operationsServerTools);
 	
-	var _operationsLeftColumn = __webpack_require__(70);
+	var _operationsLeftColumn = __webpack_require__(71);
 	
 	var _operationsLeftColumn2 = _interopRequireDefault(_operationsLeftColumn);
 	
-	var _operationsRightColumn = __webpack_require__(72);
+	var _operationsRightColumn = __webpack_require__(73);
 	
 	var _operationsRightColumn2 = _interopRequireDefault(_operationsRightColumn);
 	
-	var _operationsHeader = __webpack_require__(73);
+	var _operationsHeader = __webpack_require__(74);
 	
 	var _operationsHeader2 = _interopRequireDefault(_operationsHeader);
 	
-	var _operationsGoodAdd = __webpack_require__(74);
+	var _operationsGoodAdd = __webpack_require__(75);
 	
 	var _operationsGoodAdd2 = _interopRequireDefault(_operationsGoodAdd);
 	
