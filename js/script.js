@@ -8356,10 +8356,6 @@
 	
 	var _storage2 = _interopRequireDefault(_storage);
 	
-	var _tools = __webpack_require__(7);
-	
-	var _tools2 = _interopRequireDefault(_tools);
-	
 	var _catalogCardsManufacture = __webpack_require__(56);
 	
 	var _catalogCardsManufacture2 = _interopRequireDefault(_catalogCardsManufacture);
@@ -8436,13 +8432,16 @@
 	  selectedNomenklatureCards.forEach(function (card) {
 	    if (card.content) {
 	      card.content.forEach(function (good) {
-	        currentGoods.push(good);
+	        currentGoods.push(Object.assign({}, good));
+	        // currentGoods[currentGoods.length - 1].k = card.k;
+	        currentGoods[currentGoods.length - 1].value *= card.k;
+	
 	        if (good.value < 0) {
 	          materialNumber++;
-	          materialColumnBody.insertAdjacentHTML('beforeend', getMaterialString(good.id, good.name, good.good, materialNumber, good.value * card.k, ''));
+	          materialColumnBody.insertAdjacentHTML('beforeend', getMaterialString(currentGoods[currentGoods.length - 1].id, currentGoods[currentGoods.length - 1].name, currentGoods[currentGoods.length - 1].good, materialNumber, currentGoods[currentGoods.length - 1].value, ''));
 	        } else {
 	          goodNumber++;
-	          goodColumnBody.insertAdjacentHTML('beforeend', getGoodString(good.id, good.name, '', goodNumber, good.value * card.k, ''));
+	          goodColumnBody.insertAdjacentHTML('beforeend', getGoodString(currentGoods[currentGoods.length - 1].id, currentGoods[currentGoods.length - 1].name, '', goodNumber, currentGoods[currentGoods.length - 1].value, ''));
 	        }
 	      });
 	    }
@@ -8474,6 +8473,8 @@
 	
 	  goodColumnBody.innerHTML = '\n      <div class="manufacture-header">\n        <div class="manufacture-3-column">\u2116</div>\n        <div class="manufacture-3-column">\u0422\u043E\u0432\u0430\u0440</div>\n        <div class="manufacture-3-column">\u041A\u043E\u043B</div>\n      </div>\n    ';
 	  for (var i = 0; i < data.data.length; i++) {
+	    // currentGoods[i].value *= currentGoods[i].k;
+	
 	    if (currentGoods[i].value < 0) {
 	      materialNumber++;
 	      var classDanger = +data.data[i].value + +currentGoods[i].value < 0 ? 'bg-danger' : '';
@@ -8509,9 +8510,7 @@
 	var submitCallback = function submitCallback(numCardCnt) {
 	
 	  if (numCardCnt === '0') {
-	
 	    selectedNomenklatureCards.forEach(function (card) {
-	
 	      if (card.id === currentStringElement.dataset.cardId) {
 	        card.del = true;
 	        nomenklatureCardModalBody.querySelector('*[data-card-id="' + card.id + '"]').classList.remove('manufacture-nomenklature-card--muted');
@@ -8531,8 +8530,8 @@
 	
 	  drawCard();
 	  manufactureMakeBtn.setAttribute('disabled', 'disabled');
-	  document.querySelector('#universal-modal-micro-valid').innerHTML = '';
-	  $('#universal-modal-micro').modal('hide');
+	  manufactureMaterialCheck.classList.add('d-none');
+	  // $('#universal-modal-micro').modal('hide');
 	};
 	
 	var onManufactureColumnBodyClick = function onManufactureColumnBodyClick(evt) {
@@ -8545,18 +8544,7 @@
 	        currentStringElement = currentStringElement.parentNode;
 	      }
 	    }
-	
 	    _operations__manufactureEditQuantity2.default.start(manufactureAmountModal, submitCallback);
-	
-	    // manufactureAmountModal
-	
-	    // toolsMarkup.runUniversalModalMicro = {
-	    //   title: 'Укажите коэффициент',
-	    //   inputLabel: 'Коэффициент',
-	    //   inputPlaceholder: 'введите коэффициент',
-	    //   submitBtnName: 'Изменить',
-	    //   submitCallback
-	    // };
 	  }
 	};
 	
@@ -8658,9 +8646,9 @@
 	  };
 	};
 	
-	$('#universal-modal-micro').on('shown.bs.modal', function () {
-	  $('#universal-modal-micro-name').trigger('focus');
-	});
+	// $('#universal-modal-micro').on('shown.bs.modal', function () {
+	//   $('#universal-modal-micro-name').trigger('focus');
+	// });
 	
 	exports.default = {
 	  start: function start() {
