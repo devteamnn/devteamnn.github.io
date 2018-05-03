@@ -1194,23 +1194,16 @@
 	  _form_login2.default.addCaptchaCount();
 	  _main_login_window2.default.hideProgress('loginButtonSubmit', 'loginProgress');
 	
-	  if (response.status === 200) {
-	    if (response.data.status === '0') {
+	  if (response.data.status === '0') {
 	
-	      _tools2.default.informationtModal = {
-	        'title': 'ОШИБКА: ',
-	        'message': window.appSettings.messages.responseStatus.res0
-	      };
-	    } else {
-	      _storage2.default.data = response.data;
-	      _storage2.default.permissions = response.data.list_of_permissions;
-	      document.dispatchEvent(new Event('loginSuccess'));
-	    }
-	  } else {
 	    _tools2.default.informationtModal = {
 	      'title': 'ОШИБКА: ',
-	      'message': response.message
+	      'message': window.appSettings.messages.responseStatus.res0
 	    };
+	  } else {
+	    _storage2.default.data = response.data;
+	    _storage2.default.permissions = response.data.list_of_permissions;
+	    document.dispatchEvent(new Event('loginSuccess'));
 	  }
 	};
 	
@@ -1735,25 +1728,16 @@
 	var callbackXhrSuccess = function callbackXhrSuccess(response) {
 	
 	  _main_login_window2.default.hideProgress('registerButtonSubmit', 'registerProgress');
-	  switch (response.status) {
-	
-	    case 200:
-	      _tools2.default.informationtModal = {
-	        'title': 'MESSAGE: ',
-	        'message': response.message,
-	        'isMess': true
-	      };
-	      _main_login_window2.default.confirmEmail();
-	      break;
-	    case 400:
-	      _main_login_window2.default.setAlert(response.message, 'error');
-	      break;
-	  }
+	  _tools2.default.informationtModal = {
+	    'title': 'MESSAGE: ',
+	    'message': response.message,
+	    'isMess': true
+	  };
+	  _main_login_window2.default.confirmEmail();
 	};
 	
 	var callbackXhrError = function callbackXhrError(response) {
 	  _main_login_window2.default.hideProgress('registerButtonSubmit', 'registerProgress');
-	  _main_login_window2.default.setAlert(window.appSettings.messages.xhrError, 'error');
 	};
 	
 	var validateName = function validateName(name) {
@@ -1970,33 +1954,20 @@
 	var callbackXhrSuccess = function callbackXhrSuccess(response) {
 	  _main_login_window2.default.hideProgress('emailConfirmButtonSubmit', 'confirmProgress');
 	
-	  if (response.status === 200) {
-	    if (response.data.status === '0') {
-	
-	      _tools2.default.informationtModal = {
-	        'title': 'ОШИБКА: ',
-	        'message': window.appSettings.messages.responseStatus.res0
-	      };
-	    } else {
-	      _storage2.default.data = response.data;
-	      document.dispatchEvent(new Event('loginSuccess'));
-	    }
-	  } else {
+	  if (response.data.status === '0') {
 	
 	    _tools2.default.informationtModal = {
 	      'title': 'ОШИБКА: ',
-	      'message': response.message
+	      'message': window.appSettings.messages.responseStatus.res0
 	    };
+	  } else {
+	    _storage2.default.data = response.data;
+	    document.dispatchEvent(new Event('loginSuccess'));
 	  }
 	};
 	
 	var callbackXhrError = function callbackXhrError(response) {
 	  _main_login_window2.default.hideProgress('emailConfirmButtonSubmit', 'confirmProgress');
-	
-	  _tools2.default.informationtModal = {
-	    'title': 'ОШИБКА: ',
-	    'message': window.appSettings.messages.xhrError
-	  };
 	};
 	
 	var validateForm = function validateForm(kod) {
@@ -2171,11 +2142,6 @@
 	
 	var callbackXhrError = function callbackXhrError(response) {
 	  _main_login_window2.default.hideProgress('forgotButtonSubmit', 'forgotProgress');
-	
-	  _tools2.default.informationtModal = {
-	    'title': 'ОШИБКА: ',
-	    'message': window.appSettings.messages.xhrError
-	  };
 	};
 	
 	var validateForm = function validateForm(email) {
@@ -8433,7 +8399,6 @@
 	    if (card.content) {
 	      card.content.forEach(function (good) {
 	        currentGoods.push(Object.assign({}, good));
-	        // currentGoods[currentGoods.length - 1].k = card.k;
 	        currentGoods[currentGoods.length - 1].value *= card.k;
 	
 	        if (good.value < 0) {
@@ -8473,8 +8438,6 @@
 	
 	  goodColumnBody.innerHTML = '\n      <div class="manufacture-header">\n        <div class="manufacture-3-column">\u2116</div>\n        <div class="manufacture-3-column">\u0422\u043E\u0432\u0430\u0440</div>\n        <div class="manufacture-3-column">\u041A\u043E\u043B</div>\n      </div>\n    ';
 	  for (var i = 0; i < data.data.length; i++) {
-	    // currentGoods[i].value *= currentGoods[i].k;
-	
 	    if (currentGoods[i].value < 0) {
 	      materialNumber++;
 	      var classDanger = +data.data[i].value + +currentGoods[i].value < 0 ? 'bg-danger' : '';
@@ -8531,7 +8494,6 @@
 	  drawCard();
 	  manufactureMakeBtn.setAttribute('disabled', 'disabled');
 	  manufactureMaterialCheck.classList.add('d-none');
-	  // $('#universal-modal-micro').modal('hide');
 	};
 	
 	var onManufactureColumnBodyClick = function onManufactureColumnBodyClick(evt) {
@@ -8645,10 +8607,6 @@
 	    callbackSuccess: onSuccessManufactureLoad
 	  };
 	};
-	
-	// $('#universal-modal-micro').on('shown.bs.modal', function () {
-	//   $('#universal-modal-micro-name').trigger('focus');
-	// });
 	
 	exports.default = {
 	  start: function start() {
