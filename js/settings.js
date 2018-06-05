@@ -1,7 +1,7 @@
 // 2D12
 window.appSettings = {
   // SiteKey для капчи
-  'reCaptchaSiteKey': '6Lct5j8UAAAAAJkVidQhkOxmBhI9uj28IQ5-Ltp9',
+  'reCaptchaSiteKey': '6LcCLV0UAAAAAPqe7U4q-Y9fDtKnjeTn8ifJQdXQ',
 
   'xhrSettings': {
   // Адрес ApiDesigber, интервал ожидания ответа, кодировка
